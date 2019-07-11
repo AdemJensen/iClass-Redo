@@ -22,8 +22,8 @@ public class LoginFrame extends IFrame {
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.EXIT_ON_CLOSE
         );
-        this.addComponents();
         this.setLocation(300, 200);
+        this.setResizable(false);
     }
 
     @Override
@@ -68,10 +68,17 @@ public class LoginFrame extends IFrame {
 
     @Override
     public void addListeners() {
+
+        submitButton.addActionListener(e -> {
+            submitButton.setText("登录中...");
+
+        });
+
         resetButton.addActionListener(e -> {
             usernameField.setText("");
             passwordField.setText("");
         });
+
 
 
     }
