@@ -1,7 +1,10 @@
 package top.chorg.window.auth;
 
+import top.chorg.window.foundation.form.IFormButtonPanel;
 import top.chorg.window.foundation.IFrame;
 import top.chorg.window.foundation.IPanel;
+import top.chorg.window.foundation.form.IPasswordFieldPanel;
+import top.chorg.window.foundation.form.ITextFieldPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,11 +12,11 @@ import java.awt.*;
 
 public class LoginFrame extends IFrame {
 
-    IPanel usernameBase, passwordBase, buttonBase;
-    JLabel usernameLabel, passwordLabel;
-    JTextField usernameField;
-    JPasswordField passwordField;
-    JButton registerButton, forgotPasswordButton, resetButton, submitButton;
+    IPanel usernamePanelBase, passwordPanelBase;
+    IFormButtonPanel buttonPanel;
+    ITextFieldPanel usernamePanel;
+    IPasswordFieldPanel passwordPanel;
+    JButton registerButton, forgotPasswordButton;
 
     public LoginFrame() {
         super(
@@ -28,58 +31,69 @@ public class LoginFrame extends IFrame {
 
     @Override
     public void addComponents() {
-        usernameBase = new IPanel(      // Area = 340 * 80
+        usernamePanelBase = new IPanel(
                 340, 50,
                 new EmptyBorder(15, 20, 0, 20),
-                new FlowLayout(FlowLayout.LEFT)
-        );
-        usernameLabel = new JLabel("用户名");
-        usernameLabel.setPreferredSize(new Dimension(40, 25));
-        usernameField = new JTextField();
-        usernameField.setPreferredSize(new Dimension(140, 25));
-        registerButton = new JButton("注册用户");
-        usernameBase.addComp(usernameLabel, usernameField, registerButton);
-
-
-        passwordBase = new IPanel(      // Area = 340 * 80
-                340, 40,
-                new EmptyBorder(0, 20, 0, 20),
-                new FlowLayout(FlowLayout.LEFT)
-        );
-        passwordLabel = new JLabel("密码");
-        passwordLabel.setPreferredSize(new Dimension(40, 25));
-        passwordField = new JPasswordField();
-        passwordField.setPreferredSize(new Dimension(140, 25));
-        forgotPasswordButton = new JButton("忘记密码");
-        passwordBase.addComp(passwordLabel, passwordField, forgotPasswordButton);
-
-        buttonBase = new IPanel(
-                340, 30,
-                null,
                 new FlowLayout(FlowLayout.CENTER)
         );
-        submitButton = new JButton("登录");
-        resetButton = new JButton("重置");
-        buttonBase.addComp(submitButton, resetButton);
+        usernamePanel = new ITextFieldPanel(      // Area = 340 * 80
+                190, 30,
+                null,
+                40, 140,
+                "用户名",
+                ""
+        );
+        registerButton = new JButton("注册用户");
+        usernamePanelBase.addComp(usernamePanel, registerButton);
 
-        this.addComp(usernameBase, passwordBase, buttonBase);
+
+        passwordPanelBase = new IPanel(
+                340, 40,
+                new EmptyBorder(0, 20, 0, 20),
+                new FlowLayout(FlowLayout.CENTER)
+        );
+        passwordPanel = new IPasswordFieldPanel(      // Area = 340 * 80
+                190, 30,
+                null,
+                40, 140,
+                "密码",
+                ""
+        );
+        forgotPasswordButton = new JButton("忘记密码");
+        passwordPanelBase.addComp(passwordPanel, forgotPasswordButton);
+
+        buttonPanel = new IFormButtonPanel(
+                340, 30,
+                null,
+                "登录", "重置"
+        );
+
+        this.addComp(usernamePanelBase, passwordPanelBase, buttonPanel);
 
     }
 
     @Override
     public void addListeners() {
 
-        submitButton.addActionListener(e -> {
-            submitButton.setText("登录中...");
+        buttonPanel.addActionListeners(
+                e -> {
+                    buttonPanel.buttonSet[0].setText("登录中...");
 
+                },
+                e -> {
+                    usernamePanel.val("");
+                    passwordPanel.val("");
+                }
+        );
+
+        registerButton.addActionListener(e -> {
+            new registerFrame().showWindow();
+            this.dispose();
         });
 
-        resetButton.addActionListener(e -> {
-            usernameField.setText("");
-            passwordField.setText("");
+        forgotPasswordButton.addActionListener(e -> {
+            new forgotPasswordFrame().showWindow();
+            this.dispose();
         });
-
-
-
     }
 }
