@@ -84,12 +84,15 @@ public class INoticeFrameTest {
                 "注意",
                 "密码字段需要满足要求：\n长度不能少于8个字符\n长度不能多于16个字符\n只能包含英文字母和数字",
                 40,
-                "好的"
+                "好的", "不好"
         );
         a.addActionListeners(
                 e -> {
                     a.dispose();
                     System.exit(0);
+                },
+                e -> {
+                    a.setText("滚");
                 }
         );
         a.showWindow();

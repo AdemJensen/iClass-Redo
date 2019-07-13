@@ -43,14 +43,16 @@ public class INoticeFrame extends IFrame {
         this.setLocation(370, 240);
     }
 
+    public INoticeFrame(String title, String content, String...buttonText) {
+        this(title, content, 40, buttonText);
+    }
+
     public void setText(String str) {
         this.origin = str;
         this.processText();
+        this.textPanel.removeAll();
         assignProcessedData();
-        this.removeAll();
-        this.addComp(labels);
-        this.addComp(buttonPanel);
-        this.repaint();
+        this.refreshFrameSize();
     }
 
     public void addActionListeners(ActionListener...listeners) {
