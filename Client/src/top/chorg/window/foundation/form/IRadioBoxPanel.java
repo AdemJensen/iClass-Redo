@@ -42,7 +42,7 @@ public class IRadioBoxPanel extends IPanel {
 
     public void val(int val) {
         group.clearSelection();
-        buttonSet[val].setSelected(true);
+        if (val >= 0) buttonSet[val].setSelected(true);
     }
 
 }

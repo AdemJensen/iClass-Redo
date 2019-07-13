@@ -87,12 +87,12 @@ public class LoginFrame extends IFrame {
         );
 
         registerButton.addActionListener(e -> {
-            new registerFrame().showWindow();
+            new RegisterFrame().showWindow();
             this.dispose();
         });
 
         forgotPasswordButton.addActionListener(e -> {
-            new forgotPasswordFrame().showWindow();
+            new ForgotPasswordFrame().showWindow();
             this.dispose();
         });
     }

@@ -5,7 +5,7 @@ import top.chorg.window.foundation.INoticeFrame;
 public class INoticeFrameTest {
     public static void main(String[] args) {
 
-        fieldTest3();
+        longTest();
 
     }
 
@@ -14,7 +14,7 @@ public class INoticeFrameTest {
                 "Test",
                 "This is a test.\n" +
                         "This is a fucking test by the hahahahahadrftyguhjlkhgfdrtyughijknbvgcfgdrftyguhijlknmb vcfdxswedr5t6yiuop[lhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhhhhhhhhhhhhhahahhhhhahahhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahahahahahhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahahahahahhhhhhhahahahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahhahahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahhahahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahhahahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhhhhahahhahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhahahahahhhhhahahhahahhhhhhhhhhhhhhhhhhhhhhhhhhh",
-                40,
+                70, true,
                 "OK", "Cancel"
         ).showWindow();
     }

@@ -15,21 +15,26 @@ public class INoticeFrame extends IFrame {
     private String[] processedText;
     private IPanel textPanel;
     private IFormButtonPanel buttonPanel;
+    private JScrollPane scrollPane;
+    private boolean scrollable;
 
     private JLabel[] labels;
 
     public INoticeFrame(
-            String title, String content, int lineLength,
+            String title, String content, int lineLength, boolean scrollable,
             String...buttonText
     ) {
         super(1, 1, title, new FlowLayout(FlowLayout.CENTER), JFrame.DISPOSE_ON_CLOSE);
         this.lineLength = lineLength;
         this.origin = content;
+        this.scrollable = scrollable;
         this.textPanel = new IPanel(
                 1, 1,
                 new EmptyBorder(5, 20, 0, 20),
                 new FlowLayout(FlowLayout.LEFT)
         );
+        this.scrollPane = new JScrollPane(textPanel);
+        this.scrollPane.setBorder(null);
         this.processText();
         this.assignProcessedData();
         this.refreshFrameSize();
@@ -38,9 +43,20 @@ public class INoticeFrame extends IFrame {
                 new EmptyBorder(5, 20, 0, 20),
                 buttonText
         );
-        this.addComp(textPanel);
-        this.addComp(buttonPanel);
+        if (scrollable) {
+            this.addComp(scrollPane, buttonPanel);
+        } else {
+            this.addComp(textPanel, buttonPanel);
+        }
+
         this.setLocation(370, 240);
+    }
+
+    public INoticeFrame(
+            String title, String content, int lineLength,
+            String...buttonText
+    ) {
+        this(title, content, lineLength, false, buttonText);
     }
 
     public INoticeFrame(String title, String content, String...buttonText) {
@@ -64,10 +80,15 @@ public class INoticeFrame extends IFrame {
         int textPanelHeight = (int) (labels[0].getFont().getSize() * 1.3 + 5) * labels.length + 20;
 
         this.textPanel.setPreferredSize(new Dimension(textPanelWidth, textPanelHeight));
-
-        width = textPanelWidth + 70;
+        this.scrollPane.setPreferredSize(new Dimension(
+                textPanelWidth + 30,
+                Math.min(textPanelHeight, 360)
+        ));
+        width = textPanelWidth + 30;
         height = textPanelHeight + 75;
+        if (scrollable) height = Math.min(height, 360 + 75);
         this.setSize(new Dimension(width, height));
+
     }
 
     private void assignProcessedData() {
@@ -75,7 +96,7 @@ public class INoticeFrame extends IFrame {
         for (int i = 0; i < labels.length; i++) {
             labels[i] = new JLabel(processedText[i]);
             labels[i].setPreferredSize(new Dimension(
-                    Math.max(lineLength * (labels[i].getFont().getSize() / 2 + 2), 260) + 2,
+                    Math.max(lineLength * (labels[i].getFont().getSize() / 2 + 2), 260) + 10,
                     (int) (labels[i].getFont().getSize() * 1.3)
             ));
         }
@@ -84,7 +105,7 @@ public class INoticeFrame extends IFrame {
 
     private void processText() {
         double curLen = 0;
-        double lineLength = this.lineLength;
+        double lineLength = this.lineLength - 2;
         ArrayList<String> resTemp = new ArrayList<>();
         StringBuilder curResTemp = new StringBuilder();
         String chinese = "[\u4e00-\u9fa5]";     // 判断汉字的正则表达式
@@ -97,6 +118,13 @@ public class INoticeFrame extends IFrame {
                 resTemp.add(curResTemp.toString());
                 curResTemp = new StringBuilder();
                 curLen = 0;
+            } else if (origin.charAt(i) == '\t') {
+                curLen += 3.4;
+                curResTemp.append(origin.charAt(i));
+            } else if (origin.charAt(i) > 31 && origin.charAt(i) < 48 ||
+                    origin.charAt(i) > 57 && origin.charAt(i) < 63) {
+                curLen += 0.5;
+                curResTemp.append(origin.charAt(i));
             } else if (origin.charAt(i) == 'i' || origin.charAt(i) == 'j' || origin.charAt(i) == 'l') {
                 curLen += 0.5;
                 curResTemp.append(origin.charAt(i));

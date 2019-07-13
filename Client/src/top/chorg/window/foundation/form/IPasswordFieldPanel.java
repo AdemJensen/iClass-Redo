@@ -26,12 +26,12 @@ public class IPasswordFieldPanel extends IPanel {
     }
 
     public String val() {
-        return passwordField.getText();
+        return new String(passwordField.getPassword());
     }
 
     public String val(String val) {
         passwordField.setText(val);
-        return passwordField.getText();
+        return this.val();
     }
     
 }
