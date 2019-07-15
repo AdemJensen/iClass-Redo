@@ -36,6 +36,15 @@ public class ILinkedButton extends JButton {
         setButtonBehavior();
     }
 
+    private void resetAttr(Color foreground, Font font, Cursor cursor) {
+        this.setBorder(null);
+        this.setFont(font);
+        this.setForeground(foreground);
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.getTopLevelAncestor().setCursor(cursor);
+        this.setOpaque(false);
+    }
+
     private void setButtonBehavior() {
         HashMap<TextAttribute,Object> hm = new HashMap<>();
         hm.put(TextAttribute.FAMILY, ILinkedButton.this.getFont().getFamily()); //字体名称
@@ -51,20 +60,32 @@ public class ILinkedButton extends JButton {
         this.setForeground(mouseExitedColor);
         this.setFont(mouseExitedFont);
         this.setBackground(new Color(0, 0, 0, 0));
+        this.setOpaque(false);
         this.addMouseListener(new MouseAdapter() {
 
             @Override
+            public void mouseClicked(MouseEvent e) {
+                ILinkedButton.this.resetAttr(mouseEnteredColor, mouseEnteredFont, new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ILinkedButton.this.resetAttr(mouseEnteredColor, mouseEnteredFont, new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                ILinkedButton.this.resetAttr(mouseEnteredColor, mouseEnteredFont, new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
             public void mouseEntered(MouseEvent e) {
-                ILinkedButton.this.setForeground(mouseEnteredColor);
-                ILinkedButton.this.setFont(mouseEnteredFont);
-                ILinkedButton.this.getTopLevelAncestor().setCursor(new Cursor(Cursor.HAND_CURSOR));
+                ILinkedButton.this.resetAttr(mouseEnteredColor, mouseEnteredFont, new Cursor(Cursor.HAND_CURSOR));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ILinkedButton.this.setForeground(mouseExitedColor);
-                ILinkedButton.this.setFont(mouseExitedFont);
-                ILinkedButton.this.getTopLevelAncestor().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                ILinkedButton.this.resetAttr(mouseExitedColor, mouseExitedFont, new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
     }

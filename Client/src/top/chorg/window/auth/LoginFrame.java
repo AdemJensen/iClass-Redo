@@ -92,7 +92,7 @@ public class LoginFrame extends IFrame {
         });
 
         forgotPasswordButton.addActionListener(e -> {
-            new ForgotPasswordFrame().showWindow();
+            //new ForgotPasswordFrame().showWindow();
             this.dispose();
         });
     }
