@@ -1,6 +1,7 @@
 package top.chorg.window.auth;
 
 import top.chorg.window.foundation.*;
+import top.chorg.window.foundation.button.ILinkedButton;
 import top.chorg.window.foundation.form.IFormButtonPanel;
 import top.chorg.window.foundation.form.IPasswordFieldPanel;
 import top.chorg.window.foundation.form.IRadioBoxPanel;

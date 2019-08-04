@@ -26,3 +26,8 @@ hs_err_pid*
 
 # ignore workspace files.
 workspace.xml
+inspectionProfiles/Project_Default.xml
+misc.xml
+modules.xml
+vcs.xml
+/.idea/inspectionProfiles/Project_Default.xml

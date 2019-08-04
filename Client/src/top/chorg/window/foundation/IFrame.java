@@ -2,8 +2,12 @@ package top.chorg.window.foundation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IFrame extends JFrame {
+
+    public int DEBUG_X, DEBUG_Y;
 
     public IFrame(int width, int height, String title, LayoutManager layout, int constant) {
         this.setSize(new Dimension(width, height));
@@ -12,6 +16,21 @@ public class IFrame extends JFrame {
         this.setLayout(layout);
         this.setDefaultCloseOperation(constant);
         this.addComponents();
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.printf("Mouse down: x = %d, y = %d\n", e.getX(), e.getY());
+                DEBUG_X = e.getX();
+                DEBUG_Y = e.getY();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.printf("Mouse up: x = %d, y = %d\n", e.getX(), e.getY());
+                System.out.printf("Selected Area: width = %d, height = %d\n", e.getX() - DEBUG_X, e.getY() - DEBUG_Y);
+            }
+        });
         this.addListeners();
     }
 
@@ -45,4 +64,15 @@ public class IFrame extends JFrame {
         this.setVisible(false);
     }
 
+    @Override
+    public void repaint() {
+        super.repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        System.out.printf("%s: x = %d, y = %d\n", this.hashCode(), getX(), getY());
+        System.out.printf("%s: width = %d, height = %d\n", this.hashCode(), getWidth(), getHeight());
+        super.paint(g);
+    }
 }

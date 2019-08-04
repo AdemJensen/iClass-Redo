@@ -62,7 +62,6 @@ public class IImageIcon extends ImageIcon {
         this.setImage(output.getScaledInstance(w, h, Image.SCALE_SMOOTH));
     }
 
-
     public static BufferedImage toBufferedImage(Image image) {
         if (image instanceof BufferedImage) {
             return (BufferedImage)image;
@@ -88,5 +87,9 @@ public class IImageIcon extends ImageIcon {
         g.dispose();
 
         return bimage;
+    }
+
+    public boolean isValid() {
+        return getIconHeight() > 0 && getIconWidth() > 0;
     }
 }

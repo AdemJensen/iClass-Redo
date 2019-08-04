@@ -1,4 +1,4 @@
-package top.chorg.window.foundation;
+package top.chorg.window.foundation.button;
 
 import javax.swing.*;
 import java.awt.*;

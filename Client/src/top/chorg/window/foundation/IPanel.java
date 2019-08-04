@@ -11,6 +11,12 @@ public class IPanel extends JPanel {
         this.setLayout(layout);
     }
 
+    @Override
+    public void setBackground(Color bg) {
+        this.setOpaque(true);
+        super.setBackground(bg);
+    }
+
     public IPanel(int width, int height, Border border) {
         this(width, height, border, null);
     }

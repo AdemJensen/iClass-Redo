@@ -19,4 +19,13 @@ public class Variable {
         return builder.toString();
     }
 
+    public static String temp(String...relativePath) {
+        StringBuilder builder = new StringBuilder("temp");
+        for (String path : relativePath) {
+            builder.append(File.separator);
+            builder.append(path);
+        }
+        return builder.toString();
+    }
+
 }
