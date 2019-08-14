@@ -9,7 +9,8 @@ import java.awt.*;
 public class IndexFrame extends IFrame {
 
     IndexUpperPanel upperPanel;
-    IPanel masterPanel, userListPanel;
+    IPanel masterPanel;
+    JScrollPane userListPanel;
 
     public IndexFrame(UserInfo selfInfo) {
         super(
@@ -28,11 +29,9 @@ public class IndexFrame extends IFrame {
                 new BorderLayout()
         );
 
-        this.userListPanel = new IPanel(
-                300, 50,
-                null
-        );
+        this.userListPanel = new IndexChatList();
         userListPanel.setBackground(new Color(100, 200, 40));
+
         masterPanel.add(userListPanel, BorderLayout.WEST);
 
         this.addComp(upperPanel, masterPanel);
