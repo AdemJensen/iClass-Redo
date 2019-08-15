@@ -10,7 +10,11 @@ public class IndexGroupSidePanel extends IPanel {
     public IndexGroupSideList groupSideList;
 
     public IndexGroupSidePanel() {
-        super(260, 585, null, new FlowLayout(FlowLayout.CENTER));
+        super(270, 600, null);
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        layout.setVgap(0);
+        layout.setHgap(0);
+        this.setLayout(layout);
         announcePanel = new IndexGroupSideAnnouncePanel();
         groupSideList = new IndexGroupSideList();
         this.addComp(announcePanel, groupSideList);

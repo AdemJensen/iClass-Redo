@@ -12,7 +12,7 @@ import static top.chorg.kernel.Variable.resource;
 public class IndexGroupSideList extends JScrollPane {
 
     public IPanel master;
-    public int width = 240, height = 5;
+    public int width = 260, height = 5;
 
     public IndexGroupSideList() {
         master = new IPanel(
@@ -20,7 +20,7 @@ public class IndexGroupSideList extends JScrollPane {
                 null,
                 new FlowLayout(FlowLayout.LEFT)
         );
-        this.setPreferredSize(new Dimension(250, 390));
+        this.setPreferredSize(new Dimension(270, 400));
         this.setBorder(null);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

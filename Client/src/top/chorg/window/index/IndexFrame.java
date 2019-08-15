@@ -3,18 +3,18 @@ package top.chorg.window.index;
 import top.chorg.kernel.api.UserInfo;
 import top.chorg.window.foundation.*;
 import top.chorg.window.index.chatList.IndexChatList;
+import top.chorg.window.index.chatPanel.IndexChatPanel;
 import top.chorg.window.index.groupSidePanel.IndexGroupSidePanel;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static top.chorg.kernel.Variable.gson;
 
 public class IndexFrame extends IFrame {
 
     public IndexUpperPanel upperPanel;
     public IPanel masterPanel;
     public IndexChatList chatList;
+    public IndexChatPanel chatPanel;
     public IndexGroupSidePanel sidePanel;
     public boolean switcher = false;
 
@@ -22,24 +22,29 @@ public class IndexFrame extends IFrame {
         super(
                 1100, 680,
                 "iClass",
-                new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        layout.setVgap(0);
+        layout.setHgap(0);
+        this.setLayout(layout);
         this.setLocation(150, 100);
         this.setResizable(false);
 
         this.upperPanel = new IndexUpperPanel(selfInfo);
 
         this.masterPanel = new IPanel(
-                1090, 585,
+                1100, 600,
                 null,
                 new BorderLayout()
         );
 
         this.chatList = new IndexChatList();
+        this.chatPanel = new IndexChatPanel();
         this.sidePanel = new IndexGroupSidePanel();
 
         masterPanel.add(chatList, BorderLayout.WEST);
+        masterPanel.add(chatPanel, BorderLayout.CENTER);
         masterPanel.add(sidePanel, BorderLayout.EAST);
 
         //Test code

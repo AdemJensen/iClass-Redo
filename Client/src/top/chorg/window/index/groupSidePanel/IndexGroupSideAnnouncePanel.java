@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class IndexGroupSideAnnouncePanel extends IPanel {
     public IndexGroupSideAnnouncePanel() {
-        super(250, 180);
+        super(270, 200);
         this.setBackground(new Color(0x2D62AD));    // Test
     }
 }

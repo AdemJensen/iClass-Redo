@@ -20,7 +20,7 @@ public class IndexUpperPanel extends IPanel {
     IImageIcon avatarIcon;
 
     public IndexUpperPanel(UserInfo selfInfo) {
-        super(1090, 60,
+        super(1100, 60,
                 null,
                 new FlowLayout(FlowLayout.CENTER)
         );
@@ -34,7 +34,7 @@ public class IndexUpperPanel extends IPanel {
         this.userInfoPanel.setBackground(new Color(230, 230, 230));
         this.userInfoPanel.addMouseListener(new IClickableAdapter(this.userInfoPanel));
 
-        this.upperLocatorPanel1 = new IPanel(720, 45);
+        this.upperLocatorPanel1 = new IPanel(730, 45);
         this.upperLocatorPanel1.setBackground(new Color(230, 230, 230));
         this.refreshSelfAvatar(selfInfo);
 
