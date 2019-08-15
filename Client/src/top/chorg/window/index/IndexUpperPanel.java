@@ -7,20 +7,20 @@ import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import static top.chorg.kernel.Variable.resource;
 
 public class IndexUpperPanel extends IPanel {
 
-    IPanel  userInfoPanel, upperLocatorPanel1;
+    IPanel userInfoPanel, upperLocatorPanel1;
     JLabel avatarLabel, userNameLabel;
     IImageButton settingsButton;
     IImageIcon avatarIcon;
 
     public IndexUpperPanel(UserInfo selfInfo) {
-        super(
-                890, 60,
+        super(1090, 60,
                 null,
                 new FlowLayout(FlowLayout.CENTER)
         );
@@ -34,14 +34,15 @@ public class IndexUpperPanel extends IPanel {
         this.userInfoPanel.setBackground(new Color(230, 230, 230));
         this.userInfoPanel.addMouseListener(new IClickableAdapter(this.userInfoPanel));
 
-        this.upperLocatorPanel1 = new IPanel(500, 45);
+        this.upperLocatorPanel1 = new IPanel(720, 45);
         this.upperLocatorPanel1.setBackground(new Color(230, 230, 230));
         this.refreshSelfAvatar(selfInfo);
 
         userNameLabel = new JLabel(selfInfo.getUserNameDisplay());
-        userNameLabel.setPreferredSize(new Dimension(200, 40));
+        userNameLabel.setPreferredSize(new Dimension(245, 40));
+        userNameLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-        settingsButton = new IImageButton(25, 25, resource("settingsIcon.png"));
+        settingsButton = new IImageButton(50, 50, resource("settingsIcon.png"));
 
         userInfoPanel.addComp(avatarLabel, userNameLabel);
         this.addComp(userInfoPanel, upperLocatorPanel1, settingsButton);
@@ -53,6 +54,6 @@ public class IndexUpperPanel extends IPanel {
         this.avatarIcon.setSize(40, 40);
         this.avatarIcon.setRadius(40);
         this.avatarLabel = new JLabel(avatarIcon);
-        this.avatarLabel.setPreferredSize(new Dimension(45, 45));
+        this.avatarLabel.setPreferredSize(new Dimension(40, 40));
     }
 }

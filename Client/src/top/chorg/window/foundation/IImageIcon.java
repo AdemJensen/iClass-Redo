@@ -62,6 +62,49 @@ public class IImageIcon extends ImageIcon {
         this.setImage(output.getScaledInstance(w, h, Image.SCALE_SMOOTH));
     }
 
+    public void gray() {
+        BufferedImage image = toBufferedImage(this.getImage());
+
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+        BufferedImage grayImage = new BufferedImage(w, h, image.getType());
+        //BufferedImage grayImage = new BufferedImage(width, height,  BufferedImage.TYPE_BYTE_GRAY);
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                int color = image.getRGB(i, j);
+                final int r = (color >> 16) & 0xff;
+                final int g = (color >> 8) & 0xff;
+                final int b = color & 0xff;
+                int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);//加权法灰度化
+                //System.out.println("像素坐标：" + " x=" + i + "   y=" + j + "   灰度值=" + gray);
+                grayImage.setRGB(i, j, colorToRGB(0, gray, gray, gray));
+            }
+        }
+        this.setImage(grayImage.getScaledInstance(w, h, Image.SCALE_SMOOTH));
+    }
+
+    public static int colorToRGB(int alpha, int red, int green, int blue) {
+        int newPixel = 0;
+        newPixel += alpha;
+        newPixel = newPixel << 8;
+        newPixel += red;
+        newPixel = newPixel << 8;
+        newPixel += green;
+        newPixel = newPixel << 8;
+        newPixel += blue;
+        return newPixel;
+    }
+
+    public static void transferImage(BufferedImage input, BufferedImage output) {
+        for (int i= 0 ; i < input.getWidth() ; i++){
+            for (int j = 0 ; j < input.getHeight(); j++){
+                int rgb = input.getRGB(i, j);
+                input.setRGB(i, j, rgb);
+            }
+        }
+    }
+
     public static BufferedImage toBufferedImage(Image image) {
         if (image instanceof BufferedImage) {
             return (BufferedImage)image;

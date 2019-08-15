@@ -1,10 +1,11 @@
-package top.chorg.window.index;
+package top.chorg.window.index.chatList;
 
 import top.chorg.window.foundation.IClickablePanel;
 import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Date;
 
@@ -15,7 +16,7 @@ import static top.chorg.kernel.Variable.getTimeDurText;
  */
 public abstract class IndexChatLabel extends IClickablePanel {
 
-    public int width, height;
+    public int width, height, labelHeight;
     public IPanel infoPanel;
     public JLabel avatarLabel, nameLabel, timeLabel, msgLabel, numberLabel;
     public IImageIcon avatarIcon;
@@ -34,6 +35,11 @@ public abstract class IndexChatLabel extends IClickablePanel {
                      String talkerName, Date msgTime, String lastMsg, int msgAmount) {
         this.width = width;
         this.height = height;
+        this.labelHeight = (height - 15) / 2;
+        FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
+        layout.setVgap(0);
+        layout.setHgap(0);
+        this.setLayout(layout);
         this.assignAvatar(avatar);
         this.assignInfoPanel(talkerName, msgTime, lastMsg, msgAmount);
         this.addComp(avatarLabel, infoPanel);
@@ -44,36 +50,34 @@ public abstract class IndexChatLabel extends IClickablePanel {
         this.avatarIcon.setSize(height - 10, height - 10);
         this.avatarIcon.setRadius(height - 10);
         this.avatarLabel = new JLabel(avatarIcon);
-        this.avatarLabel.setPreferredSize(new Dimension(height - 5, height - 5));
+        this.avatarLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        this.avatarLabel.setPreferredSize(new Dimension(height, height));
     }
 
     public void assignInfoPanel(String talkerName, Date msgTime, String lastMsg, int msgAmount) {
         this.infoPanel = new IPanel(
-                width - height - 5, height - 10,
+                width - height, height,
                 null, new FlowLayout(FlowLayout.LEFT)
         );
         infoPanel.setOpaque(false);
+
         this.nameLabel = new JLabel(talkerName);
-        this.nameLabel.setPreferredSize(new Dimension(
-                (int) ((width - height) * 0.8 - 5), height / 2 - 10)
-        );
-        this.timeLabel = new JLabel(getTimeDurText(msgTime));
-        this.timeLabel.setPreferredSize(new Dimension(
-                (int) ((width - height) * 0.2 - 10), height / 2 - 10)
-        );
+        this.nameLabel.setPreferredSize(new Dimension(width - height - 15 - 46, labelHeight));
+
+        this.timeLabel = new JLabel(getTimeDurText(msgTime), JLabel.CENTER);
+        this.timeLabel.setPreferredSize(new Dimension(46, labelHeight));
         this.timeLabel.setForeground(new Color(0x919191));
+
         this.msgLabel = new JLabel(lastMsg);
-        this.msgLabel.setPreferredSize(new Dimension(
-                (int) ((width - height) * 0.85 - 5), height / 2 - 10)
-        );
+        this.msgLabel.setPreferredSize(new Dimension(width - height - 21 - 30, labelHeight));
         this.msgLabel.setForeground(new Color(0x919191));
+
         this.numberLabel = new JLabel(msgAmount > 99 ? "99+" : String.valueOf(msgAmount), JLabel.CENTER);
-        this.numberLabel.setPreferredSize(new Dimension(
-                (int) ((width - height) * 0.15 - 10), height / 2 - 10)
-        );
+        this.numberLabel.setPreferredSize(new Dimension(30, labelHeight));
         this.numberLabel.setOpaque(true);
         this.numberLabel.setBackground(new Color(0xE82A21));
         this.numberLabel.setForeground(new Color(0xFFFFFF));
+
         this.infoPanel.addComp(nameLabel, timeLabel, msgLabel);
         if (msgAmount > 0) this.infoPanel.addComp(numberLabel);
     }

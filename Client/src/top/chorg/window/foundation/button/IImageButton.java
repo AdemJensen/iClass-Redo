@@ -4,14 +4,18 @@ import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.IImageIcon;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class IImageButton extends JButton {
 
+    IImageIcon icon;
+    int width, height;
+
     public IImageButton(int width, int height, String dir) {
         super();
-        IImageIcon icon = new IImageIcon(dir);
-        icon.setSize(width - 5, height - 5);
+        icon = new IImageIcon(dir);
+        icon.setSize(width, height);
         setModel(new DefaultButtonModel());
         init(null, icon);
         this.setPreferredSize(new Dimension(width, height));

@@ -1,4 +1,4 @@
-package top.chorg.window.index;
+package top.chorg.window.index.chatList;
 
 import top.chorg.kernel.api.UserInfo;
 import top.chorg.window.foundation.IPanel;
@@ -9,7 +9,7 @@ import java.awt.*;
 public class IndexChatList extends JScrollPane {
 
     public IPanel master;
-    public int width = 260, height = 0;
+    public int width = 260, height = 5;
 
     public IndexChatList() {
         master = new IPanel(
@@ -17,10 +17,11 @@ public class IndexChatList extends JScrollPane {
                 null,
                 new FlowLayout(FlowLayout.LEFT)
         );
+        this.setBorder(null);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         //master.add();
         this.addItem(new UserIndexChatLabel(width - 20, 45, new UserInfo(
-                "TUN", "TRN", "233333333333", "test@test.com", "12345678901", 2, 1
+                "TUN1", "TRN", "233333333333", "test@test.com", "12345678901", 2, 1
         )));
         this.addItem(new UserIndexChatLabel(240, 45, new UserInfo(
                 "TUN", "TRN", "233333333333", "test@test.com", "12345678901", 22, 1
@@ -167,7 +168,7 @@ public class IndexChatList extends JScrollPane {
                 "TUN", "TRN", "233333333333", "test@test.com", "12345678901", 2, 1
         )));
         this.addItem(new UserIndexChatLabel(240, 45, new UserInfo(
-                "TUN", "TRN", "233333333333", "test@test.com", "12345678901", 22, 1
+                "TUN45", "TRN", "233333333333", "test@test.com", "12345678901", 22, 1
         )));
 
         this.setViewportView(master);
@@ -186,7 +187,10 @@ public class IndexChatList extends JScrollPane {
 
     public void addItem(IndexChatLabel comp, int index) {
         master.add(comp);
-        height += 50;
+        // height += 50;
+
+        height += comp.getPreferredSize().height;
+        // System.out.println("PREFER:" + comp.getPreferredSize().height);
         master.setPreferredSize(new Dimension(width, height));
     }
 
