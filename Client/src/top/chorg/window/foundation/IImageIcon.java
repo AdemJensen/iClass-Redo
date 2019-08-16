@@ -42,6 +42,11 @@ public class IImageIcon extends ImageIcon {
 
     public IImageIcon() { super(); }
 
+    public IImageIcon(ImageIcon imageIcon) {
+        super();
+        loadImage(imageIcon.getImage());
+    }
+
     public void setSize(int width, int height) {
         this.setImage(this.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
