@@ -1,7 +1,5 @@
 package top.chorg.window.foundation;
 
-import top.chorg.kernel.api.ContentElementInfo;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static top.chorg.kernel.Variable.*;
+import static top.chorg.support.FontUtils.transferAttr;
 
 public class ITextEditor extends IPanel {
 
@@ -28,6 +27,11 @@ public class ITextEditor extends IPanel {
     private IColorChooserButton color;
     private INumberArea sizePanel;
     private JCheckBox isItalic, isBold, isUnderline;
+
+    public ITextPane getTextPane() {
+        return textPane;
+    }
+
     private ITextPane textPane;
     private boolean toolPanelVisibility = false;
 
@@ -48,22 +52,28 @@ public class ITextEditor extends IPanel {
         prepareTextPane();
         prepareToolPanel();
 
-        try {
-            textPane.getStyledDocument().insertString(0, "Yaqwertyuioplkjhgfdsa", defaultStyle);
-            textPane.insertIcon(5, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.getStyledDocument().insertString(15, "apkalyse", defaultStyle);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(gson.toJson(new ContentElementInfo(textPane.getStyledDocument().getCharacterElement(0))));
-        System.out.println(textPane.getStyledDocument().getCharacterElement(4).getName());
-        System.out.println(textPane.getStyledDocument().getCharacterElement(5).getName());
+//        try {
+//            textPane.getStyledDocument().insertString(0, "Yaqwertyuioplkjhgfdsa", defaultStyle);
+//            textPane.insertIcon(5, new IImageIcon(resource("loadFailed.png")));
+//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+//            textPane.getStyledDocument().insertString(15, "apkalyse", defaultStyle);
+//        } catch (BadLocationException e) {
+//            e.printStackTrace();
+//        }
+//        textPane.setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0}," +
+//                "\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false," +
+//                "\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":5,\\\"content\\\":\\\"Yaqwe\\\"}\"," +
+//                "\"icon\",\"0\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\" +
+//                "\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":fal" +
+//                "se,\\\"isUnderline\\\":false,\\\"startOff\\\":6,\\\"len\\\":1,\\\"content\\\":\\\"Y\\\"}\",\"ic" +
+//                "on\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"content\",\"{\\\"colo" +
+//                "r\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"si" +
+//                "ze\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startO" +
+//                "ff\\\":12,\\\"len\\\":23,\\\"content\\\":\\\"Yaqwe r     tyuapkalyse\\\"}\"]\n");
 
         this.add(scrollPane);
     }
@@ -71,7 +81,6 @@ public class ITextEditor extends IPanel {
     private void prepareTextPane() {
         textPane = new ITextPane(width - 20, height);
         textPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        //textPane.set
         scrollPane = new JScrollPane(textPane);
         scrollPane.setPreferredSize(new Dimension(width, height));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -189,30 +198,6 @@ public class ITextEditor extends IPanel {
                 (String) fontPanel.getSelectedItem(), Integer.parseInt(sizePanel.getText()),
                 isBold.isSelected(), isItalic.isSelected(), isUnderline.isSelected()
         );
-    }
-
-    private Style transferAttr(AttributeSet set) {
-        return transferAttr(
-                StyleConstants.getForeground(set),
-                StyleConstants.getFontFamily(set),
-                StyleConstants.getFontSize(set),
-                StyleConstants.isBold(set),
-                StyleConstants.isItalic(set),
-                StyleConstants.isUnderline(set)
-        );
-    }
-
-    private Style transferAttr(
-            Color color, String family, int size, boolean isBold, boolean isItalic, boolean isUnderline
-    ) {
-        Style temp = styleContext.addStyle(null, defaultStyle);
-        StyleConstants.setForeground(temp, color);
-        StyleConstants.setFontFamily(temp, family);
-        StyleConstants.setFontSize(temp, size);
-        StyleConstants.setBold(temp, isBold);
-        StyleConstants.setItalic(temp, isItalic);
-        StyleConstants.setUnderline(temp, isUnderline);
-        return temp;
     }
 
     private void setToolPanelValue(AttributeSet set) {

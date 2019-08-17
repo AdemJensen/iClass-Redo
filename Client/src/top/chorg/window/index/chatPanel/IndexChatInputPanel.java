@@ -6,9 +6,10 @@ import top.chorg.window.foundation.button.IImageButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static top.chorg.kernel.Variable.resource;
-
 
 public class IndexChatInputPanel extends IPanel {
 
@@ -44,6 +45,15 @@ public class IndexChatInputPanel extends IPanel {
 
         editor = new ITextEditor(570, 104, null);
         editor.setToolPanelVisibility(true);
+        editor.getTextPane().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                System.out.println(e.toString());
+                if(e.getExtendedKeyCode() == 0x0) {
+                    System.out.println(editor.getTextPane().getCompiledText());
+                }
+            }
+        });
 
         this.addComp(toolPanel, editor);
 

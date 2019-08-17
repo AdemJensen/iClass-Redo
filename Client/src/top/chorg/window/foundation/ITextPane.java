@@ -1,5 +1,6 @@
 package top.chorg.window.foundation;
 
+import top.chorg.kernel.api.ContentElementInfo;
 import top.chorg.support.FileUtils;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import static top.chorg.kernel.Variable.temp;
+import static top.chorg.kernel.Variable.*;
 
 public class ITextPane extends JTextPane {
 
@@ -49,7 +50,11 @@ public class ITextPane extends JTextPane {
         }
     }
 
-    public String[] getImageHashList() {
+    /**
+     * 准备要上传的图片，将它们复制到temp目录中，并返回对应图片的Hash值
+     * @return 图片的Hash值数组
+     */
+    public String[] prepareUploadImage() {
         refreshImageListCache();
         String[] result = new String[images.size()];
         for (int i = 0; i < result.length; i++) {
@@ -70,28 +75,72 @@ public class ITextPane extends JTextPane {
     }
 
     public String getCompiledText() {
-        String[] fileHashList = getImageHashList();
-        var msg = new StringBuilder();
-        var k = 0;
-        for (int i = 0; i < getStyledDocument().getLength(); i++) {
-            Element ele = getStyledDocument().getCharacterElement(i);
-            if (ele.getName().equals("icon")) {
-                msg.append("<[img:").append(fileHashList[i]).append("]>");
-            } else {
 
-                try {
-                    var ch = getStyledDocument().getText(i, 1);
-                    // 转义
-                    if (ch.equals("<") || ch.equals(">") || ch.equals(File.separator)) {
-                        msg.append(File.separator);
-                    }
-                    msg.append(ch);
-                } catch (BadLocationException e1) {
-                    e1.printStackTrace();
-                }
+        String[] fileHashList = prepareUploadImage();
+
+        ArrayList<String> arr = new ArrayList<>();
+        var k = 0;
+        for (
+                int i = 0;
+                i < getStyledDocument().getLength();
+                i = getStyledDocument().getCharacterElement(i).getEndOffset()
+        ) {
+            Element ele = getStyledDocument().getCharacterElement(i);
+            switch (ele.getName()) {
+                case "icon":
+                    arr.add("icon");
+                    arr.add(fileHashList[k++]);
+                    break;
+                case "content":
+                    arr.add("content");
+                    arr.add(gson.toJson(new ContentElementInfo(ele)));
+                    break;
+                default:
+                    System.out.println("WARNING: Unidentified element type(getCompiledText).");
             }
         }
-        return msg.toString();
+        String[] str = new String[arr.size()];
+        return gson.toJson(arr.toArray(str));
+    }
+
+    /**
+     * 设置解压并显示传输格式的内容
+     * 使用该方法以前需要确保该消息中的图片已存在于temp目录中
+     * @param text 被压缩的消息信息
+     */
+    public void setCompiledText(String text) {
+        String[] list = gson.fromJson(text, String[].class);
+        String type = null;
+        int caretPos = 0;
+        for (String str : list) {
+            if (type == null) {
+                type = str;
+            } else {
+                try {
+                    switch (type) {
+                        case "content":
+                            ContentElementInfo info = gson.fromJson(str, ContentElementInfo.class);
+                            this.getStyledDocument().insertString(caretPos, info.content, info.getContentAttribute());
+                            caretPos += info.len;
+                            break;
+                        case "icon":
+                            IImageIcon icon = new IImageIcon(temp("img@" + str + ".png"));
+                            if (!icon.isValid()) {
+                                icon = new IImageIcon(resource("loadFailed.png"));
+                                System.out.println("WARNING: Image load fail(ITextPane.setCompiledText).");
+                            }
+                            this.insertIcon(caretPos, icon);
+                            caretPos++;
+                            break;
+                        default:
+                            System.out.println("WARNING: Unidentified element type(ITextPane.setCompiledText).");
+                    }
+                } catch (BadLocationException e) {
+                    System.out.println("WARNING: Wrong caret position(ITextPane.setCompiledText).");
+                }
+                type = null;
+            }
+        }
     }
 
     public void insertIcon(int position, IImageIcon icon) {

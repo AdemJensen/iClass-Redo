@@ -1,9 +1,8 @@
 package top.chorg.kernel.api;
 
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Element;
-import javax.swing.text.StyleConstants;
+import top.chorg.support.FontUtils;
+
+import javax.swing.text.*;
 import java.awt.*;
 
 public class ContentElementInfo {
@@ -33,4 +32,9 @@ public class ContentElementInfo {
             this.content = "";
         }
     }
+
+    public Style getContentAttribute() {
+        return FontUtils.transferAttr(color, family, size, isBold, isItalic, isUnderline);
+    }
+
 }
