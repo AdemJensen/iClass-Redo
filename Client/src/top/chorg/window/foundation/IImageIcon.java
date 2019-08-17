@@ -1,19 +1,50 @@
 package top.chorg.window.foundation;
 
+import top.chorg.support.FileUtils;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 public class IImageIcon extends ImageIcon {
 
+    private String fileName;
+    private Image original;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public boolean saveImage(String path) {
+        if (fileName != null) {
+            return FileUtils.copyFile(fileName, path);
+        } else {
+            if (original == null) original = this.getImage();
+            BufferedImage bufferedImage = toBufferedImage(this.getImage());
+            File destination = new File(path);
+            if (!destination.mkdirs()) return false;
+            try {
+                ImageIO.write(bufferedImage, "png", destination);
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public IImageIcon(String filename, String description) {
         super(filename, description);
+        this.fileName = filename;
     }
 
     public IImageIcon(String filename) {
         super(filename);
+        this.fileName = filename;
     }
 
     public IImageIcon(URL location, String description) {
@@ -135,6 +166,19 @@ public class IImageIcon extends ImageIcon {
         g.dispose();
 
         return bimage;
+    }
+
+    public void setMaximumSize(int width, int height) {
+        BufferedImage image = toBufferedImage(this.getImage());
+        int w = image.getWidth();
+        int h = image.getHeight();
+        if (w > width) {
+            h = (width / w) * h;
+        }
+        if (h > height) {
+            w = (height / h) * w;
+        }
+        this.setSize(w, h);
     }
 
     public boolean isValid() {

@@ -1,4 +1,4 @@
-package top.chorg.support.validator;
+package top.chorg.support;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

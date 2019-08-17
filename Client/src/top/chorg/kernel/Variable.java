@@ -3,6 +3,8 @@ package top.chorg.kernel;
 import com.google.gson.Gson;
 import top.chorg.kernel.network.NetDispatcher;
 
+import javax.swing.text.Style;
+import javax.swing.text.StyleContext;
 import java.io.File;
 import java.util.Date;
 
@@ -10,6 +12,8 @@ public class Variable {
 
     public static Gson gson = new Gson();
     public static NetDispatcher netDispatcher = new NetDispatcher();
+    public static StyleContext styleContext = new StyleContext();
+    public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
 
     public static String resource(String...relativePath) {
         StringBuilder builder = new StringBuilder("resource");

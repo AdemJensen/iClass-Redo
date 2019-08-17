@@ -2,7 +2,7 @@ package top.chorg.kernel.foundation;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.internal.Primitives;
-import top.chorg.support.validator.MD5;
+import top.chorg.support.MD5;
 
 import static top.chorg.kernel.Variable.*;
 
