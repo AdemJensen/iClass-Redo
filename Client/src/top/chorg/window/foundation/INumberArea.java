@@ -59,7 +59,6 @@ public class INumberArea extends JTextArea {
             @Override
             public void focusGained(FocusEvent e) {
                 stashArea = getText();
-                System.out.println("DONE");
             }
 
             @Override
@@ -82,7 +81,6 @@ public class INumberArea extends JTextArea {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                System.out.println(e.toString());
                 if (e.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
                     if (focusTransferTarget == null) transferFocus();
                     else focusTransferTarget.requestFocus();

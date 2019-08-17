@@ -7,15 +7,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static top.chorg.kernel.Variable.*;
-import static top.chorg.support.FontUtils.transferAttr;
 
 public class ITextEditor extends IPanel {
 
@@ -36,6 +33,7 @@ public class ITextEditor extends IPanel {
     private boolean toolPanelVisibility = false;
 
     private Style lastStyle;
+    private int startCache, endCache;
 
     private List<ImageIcon> images = new ArrayList<>();
 
@@ -52,28 +50,30 @@ public class ITextEditor extends IPanel {
         prepareTextPane();
         prepareToolPanel();
 
-//        try {
-//            textPane.getStyledDocument().insertString(0, "Yaqwertyuioplkjhgfdsa", defaultStyle);
-//            textPane.insertIcon(5, new IImageIcon(resource("loadFailed.png")));
-//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-//            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-//            textPane.getStyledDocument().insertString(15, "apkalyse", defaultStyle);
-//        } catch (BadLocationException e) {
-//            e.printStackTrace();
-//        }
-//        textPane.setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0}," +
-//                "\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false," +
-//                "\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":5,\\\"content\\\":\\\"Yaqwe\\\"}\"," +
-//                "\"icon\",\"0\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\" +
-//                "\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":fal" +
-//                "se,\\\"isUnderline\\\":false,\\\"startOff\\\":6,\\\"len\\\":1,\\\"content\\\":\\\"Y\\\"}\",\"ic" +
-//                "on\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"content\",\"{\\\"colo" +
-//                "r\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"si" +
-//                "ze\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startO" +
-//                "ff\\\":12,\\\"len\\\":23,\\\"content\\\":\\\"Yaqwe r     tyuapkalyse\\\"}\"]\n");
+/*
+        try {
+            textPane.getStyledDocument().insertString(0, "Yarmulke's", defaultStyle);
+            textPane.insertIcon(5, new IImageIcon(resource("loadFailed.png")));
+            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
+            textPane.getStyledDocument().insertString(15, "alkalise", defaultStyle);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+        textPane.setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falasha\\\":0.0}," +
+                "\\\"family\\\":\\\"Lucia Grade\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false," +
+                "\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":5,\\\"content\\\":\\\"Yahweh\\\"}\"," +
+                "\"icon\",\"0\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falasha\\\":0.0},\\" +
+                "\"family\\\":\\\"Lucia Grade\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":fal" +
+                "se,\\\"isUnderline\\\":false,\\\"startOff\\\":6,\\\"len\\\":1,\\\"content\\\":\\\"Y\\\"}\",\"ic" +
+                "on\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"icon\",\"0\",\"content\",\"{\\\"colo" +
+                "r\\\":{\\\"value\\\":-16777216,\\\"falasha\\\":0.0},\\\"family\\\":\\\"Lucia Grade\\\",\\\"si" +
+                "ze\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startO" +
+                "ff\\\":12,\\\"len\\\":23,\\\"content\\\":\\\"Yahweh r     tantalise\\\"}\"]\n");
+*/
 
         this.add(scrollPane);
     }
@@ -113,7 +113,14 @@ public class ITextEditor extends IPanel {
         textPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                setToolPanelValue(getSelectionAttribute());
+                refreshToolPaneValue();
+            }
+        });
+
+        textPane.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                refreshToolPaneValue();
             }
         });
     }
@@ -121,14 +128,19 @@ public class ITextEditor extends IPanel {
     private void prepareToolPanel() {
         toolPanel = new IPanel(width, 30, null, new FlowLayout(FlowLayout.LEFT));
 
-        color = new IColorChooserButton(20, 20, Color.BLACK, e -> reassignFontInfo());
+        color = new IColorChooserButton(20, 20, Color.BLACK,
+                e -> assignFontInfo("color", color.getSelectedColor())
+        );
 
         JLabel fontLabel = new JLabel("字体", JLabel.RIGHT);
         fontLabel.setBorder(new EmptyBorder(0, 8, 0, 0));
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         fontPanel = new JComboBox<>(env.getAvailableFontFamilyNames());
         fontPanel.setPreferredSize(new Dimension(180, 20));
-        fontPanel.addItemListener(e -> reassignFontInfo());
+        fontPanel.addItemListener(e -> {
+            if (Objects.equals(fontPanel.getSelectedItem(), "多重值")) return;
+            assignFontInfo("family", fontPanel.getSelectedItem());
+        });
 
         JLabel sizeLabel = new JLabel("字号", JLabel.RIGHT);
         sizeLabel.setBorder(new EmptyBorder(0, 8, 0, 0));
@@ -138,31 +150,66 @@ public class ITextEditor extends IPanel {
         sizePanel.setFocusTransferTarget(textPane);
         sizePanel.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) { }
+            public void focusGained(FocusEvent e) {
+                startCache = textPane.getSelectionStart();
+                endCache = textPane.getSelectionEnd();
+            }
 
             @Override
             public void focusLost(FocusEvent e) {
-                reassignFontInfo();
+                if (sizePanel.getText().equals("多重值")) return;
+                if (startCache > -1) {
+                    Style temp = styleContext.addStyle(null, defaultStyle);
+                    StyleConstants.setFontSize(temp, sizePanel.getNumber());
+                    textPane.getStyledDocument().setCharacterAttributes(
+                            startCache, endCache - startCache, temp, false
+                    );
+                    startCache = -1;
+                    endCache = -1;
+                } else {
+                    assignFontInfo("size", sizePanel.getNumber());
+                }
             }
         });
 
         isItalic = new JCheckBox("斜体");
         isItalic.setBorder(new EmptyBorder(0, 8, 0, 0));
-        isItalic.addActionListener(e -> reassignFontInfo());
+        isItalic.addActionListener(e -> assignFontInfo("italic", isItalic.isSelected()));
         isBold = new JCheckBox("粗体");
-        isBold.addActionListener(e -> reassignFontInfo());
+        isBold.addActionListener(e -> assignFontInfo("bold", isBold.isSelected()));
         isUnderline = new JCheckBox("下划线");
-        isUnderline.addActionListener(e -> reassignFontInfo());
+        isUnderline.addActionListener(e -> assignFontInfo("underline", isUnderline.isSelected()));
 
         toolPanel.addComp(color, fontLabel, fontPanel, sizeLabel, sizePanel, isItalic, isBold, isUnderline);
-        setToolPanelValue(defaultStyle);
+        assignToolPaneValue(defaultStyle);
     }
 
-    private void reassignFontInfo() {
+    private void assignFontInfo(String item, Object value) {
         int start = textPane.getSelectionStart();
         int end = textPane.getSelectionEnd();
+        Style temp = styleContext.addStyle(null, defaultStyle);
+        switch (item) {
+            case "color":
+                StyleConstants.setForeground(temp, (Color) value);
+                break;
+            case "family":
+                StyleConstants.setFontFamily(temp, (String) value);
+                break;
+            case "size":
+                StyleConstants.setFontSize(temp, (int) value);
+                break;
+            case "bold":
+                StyleConstants.setBold(temp, (boolean) value);
+                break;
+            case "italic":
+                StyleConstants.setItalic(temp, (boolean) value);
+                break;
+            case "underline":
+                StyleConstants.setUnderline(temp, (boolean) value);
+                break;
+        }
         textPane.getStyledDocument().setCharacterAttributes(
-                start, end - start, readFontInfo(), false
+                start, end - start, temp, false
         );
     }
 
@@ -170,8 +217,7 @@ public class ITextEditor extends IPanel {
         if (visibility) {
             this.removeAll();
             scrollPane.setPreferredSize(new Dimension(width, height - 30));
-            AttributeSet selectionAttribute = getSelectionAttribute();
-            setToolPanelValue(selectionAttribute == null ? defaultStyle : selectionAttribute);
+            refreshToolPaneValue();
             this.addComp(toolPanel, scrollPane);
         } else {
             this.removeAll();
@@ -185,35 +231,73 @@ public class ITextEditor extends IPanel {
         return toolPanelVisibility;
     }
 
-    private AttributeSet getSelectionAttribute() {
+    private void refreshToolPaneValue() {
         int start = textPane.getSelectionStart();
         int end = textPane.getSelectionEnd();
         Element element = textPane.getStyledDocument().getCharacterElement(start);
-        return element.getAttributes();
+        if (end <= element.getEndOffset()) {
+            assignToolPaneValue(element.getAttributes());
+        }
+
+        color.setSelectedColor(StyleConstants.getForeground(element.getAttributes()));
+        Style result = styleContext.addStyle(null, defaultStyle);
+        int currentPos = start;
+        boolean isFontFamilyConfused = false;
+        boolean isConfused = false;
+        AttributeSet starterStyle = element.getAttributes();
+        while(currentPos < end) {
+            Element curEle = textPane.getStyledDocument().getCharacterElement(currentPos);
+            if (!StyleConstants.getFontFamily(curEle.getAttributes()).equals(
+                    StyleConstants.getFontFamily(element.getAttributes()))) {
+                if (!isFontFamilyConfused) {
+                    isFontFamilyConfused = true;
+                    isConfused = true;
+                    fontPanel.addItem("多重值");
+                    fontPanel.setSelectedItem("多重值");
+                    StyleConstants.setFontFamily(result, "多重值");
+                }
+            }
+            if (StyleConstants.getFontSize(curEle.getAttributes()) !=
+                    StyleConstants.getFontSize(element.getAttributes())) {
+                sizePanel.setText("多重值");
+                isConfused = true;
+            }
+            if (StyleConstants.isBold(curEle.getAttributes()) !=
+                    StyleConstants.isBold(element.getAttributes())) {
+                isBold.setSelected(false);
+                isConfused = true;
+            }
+            if (StyleConstants.isItalic(curEle.getAttributes()) !=
+                    StyleConstants.isItalic(element.getAttributes())) {
+                isItalic.setSelected(false);
+                isConfused = true;
+            }
+            if (StyleConstants.isUnderline(curEle.getAttributes()) !=
+                    StyleConstants.isUnderline(element.getAttributes())) {
+                isUnderline.setSelected(false);
+                isConfused = true;
+            }
+            currentPos = curEle.getEndOffset();
+        }
+        if (!isConfused) assignToolPaneValue(starterStyle);
+        if (!isFontFamilyConfused) fontPanel.removeItem("多重值");
+        this.toolPanel.revalidate();
+        this.toolPanel.repaint();
     }
 
-    private Style readFontInfo() {
-        return transferAttr(
-                color.getSelectedColor(),
-                (String) fontPanel.getSelectedItem(), Integer.parseInt(sizePanel.getText()),
-                isBold.isSelected(), isItalic.isSelected(), isUnderline.isSelected()
-        );
-    }
-
-    private void setToolPanelValue(AttributeSet set) {
+    private void assignToolPaneValue(AttributeSet set) {
         color.setSelectedColor(StyleConstants.getForeground(set));
 
         String family = StyleConstants.getFontFamily(set);
-        if (family.equals("...")) fontPanel.addItem("...");
         fontPanel.setSelectedItem(family);
 
         int size = StyleConstants.getFontSize(set);
-        if (size < 0) sizePanel.setText("");
-        else sizePanel.setText(String.valueOf(size));
+        sizePanel.setText(String.valueOf(size));
 
         isBold.setSelected(StyleConstants.isBold(set));
         isItalic.setSelected(StyleConstants.isItalic(set));
         isUnderline.setSelected(StyleConstants.isUnderline(set));
+
     }
 
 }

@@ -44,13 +44,15 @@ public class IndexChatInputPanel extends IPanel {
         toolPanel.addComp(fontButton, imageButton, whiteBoardButton, fileButton);
 
         editor = new ITextEditor(570, 104, null);
-        editor.setToolPanelVisibility(true);
         editor.getTextPane().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                System.out.println(e.toString());
                 if(e.getExtendedKeyCode() == 0x0) {
                     System.out.println(editor.getTextPane().getCompiledText());
+                    // TODO: send
+                    editor.getTextPane().setText("");
+                    editor.revalidate();
+                    editor.repaint();
                 }
             }
         });
