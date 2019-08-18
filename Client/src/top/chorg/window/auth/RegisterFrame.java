@@ -7,6 +7,7 @@ import top.chorg.window.foundation.form.IPasswordFieldPanel;
 import top.chorg.window.foundation.form.IRadioBoxPanel;
 import top.chorg.window.foundation.form.ITextFieldPanel;
 import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
+import top.chorg.window.foundation.notice.INoticeFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -39,7 +40,7 @@ public class RegisterFrame extends IFrame {
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
-        this.setLocation(300, 200);
+        this.setLocationCenter(420, 430);
     }
 
     @Override
@@ -185,7 +186,7 @@ public class RegisterFrame extends IFrame {
             }
             INoticeFrame agreementNoticeFrame = new INoticeFrame(
                     "软件许可协议 - iClass",
-                    content.toString(), 80, true, "确认"
+                    content.toString(), true, "确认"
             );
             agreementNoticeFrame.addActionListeners(f -> {
                 agreementNoticeFrame.dispose();

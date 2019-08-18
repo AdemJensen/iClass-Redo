@@ -1,7 +1,5 @@
 package top.chorg.window.foundation.notice;
 
-import top.chorg.window.foundation.INoticeFrame;
-
 import java.awt.event.ActionListener;
 
 public class IInformationFrame extends INoticeFrame {

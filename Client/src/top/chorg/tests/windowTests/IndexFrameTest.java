@@ -1,11 +1,11 @@
 package top.chorg.tests.windowTests;
 
 import top.chorg.kernel.api.UserInfo;
-import top.chorg.window.index.IndexFrame;
+import top.chorg.window.index.MasterFrame;
 
 public class IndexFrameTest {
     public static void main(String[] args) {
-        new IndexFrame(new UserInfo(
+        new MasterFrame(new UserInfo(
                 "Test user",
                 "Test name",
                 "123456789012",

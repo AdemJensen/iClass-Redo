@@ -14,6 +14,8 @@ public class EditProfileFrame extends RegisterFrame {
         this.remove(footerPanel);
         usernamePanel.textField.setEditable(false);
         usernamePanel.textField.setBackground(new Color(0, 0, 0, 0));
+
+        this.setLocationCenter(420, 400);
     }
 
     public void assignData() {  // TODO: 获取用户的信息

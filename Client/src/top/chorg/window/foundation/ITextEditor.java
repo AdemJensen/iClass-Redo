@@ -37,6 +37,20 @@ public class ITextEditor extends IPanel {
 
     private List<ImageIcon> images = new ArrayList<>();
 
+    public void setPreferredSize(Dimension size) {
+        super.setPreferredSize(size);
+        width = size.width;
+        height = size.height;
+        if (toolPanel != null) toolPanel.setPreferredSize(new Dimension(width, 30));
+        if (toolPanelVisibility) {
+            if (textPane != null) textPane.setPreferredSize(new Dimension(width - 20, height - 30));
+            if (scrollPane != null) scrollPane.setPreferredSize(new Dimension(width, height - 30));
+        } else {
+            if (textPane != null) textPane.setPreferredSize(new Dimension(width - 20, height));
+            if (scrollPane != null) scrollPane.setPreferredSize(new Dimension(width, height));
+        }
+    }
+
     public ITextEditor(int width, int height, Border border) {
         super(width, height, border);
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER);

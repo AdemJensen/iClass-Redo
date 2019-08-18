@@ -17,8 +17,14 @@ public class IndexChatInputPanel extends IPanel {
     IPanel toolPanel;
     ITextEditor editor;
 
-    public IndexChatInputPanel() {
-        super(570, 140);
+    public void resetWidth(int width) {
+        this.setPreferredSize(new Dimension(width, 420));
+        toolPanel.setPreferredSize(new Dimension(width, 35));
+        editor.setPreferredSize(new Dimension(width, 104));
+    }
+
+    public IndexChatInputPanel(int width) {
+        super(width, 140);
         this.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(0xF5F5F5)));
         this.setBackground(Color.GREEN);
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
@@ -26,7 +32,7 @@ public class IndexChatInputPanel extends IPanel {
         layout.setHgap(0);
         this.setLayout(layout);
 
-        toolPanel = new IPanel(570, 35, null, new FlowLayout(FlowLayout.LEFT));
+        toolPanel = new IPanel(width, 35, null, new FlowLayout(FlowLayout.LEFT));
         toolPanel.setBackground(Color.WHITE);
 
         fontButton = new IImageButton(25, 25, resource("fontIcon.png"));
@@ -43,7 +49,7 @@ public class IndexChatInputPanel extends IPanel {
 
         toolPanel.addComp(fontButton, imageButton, whiteBoardButton, fileButton);
 
-        editor = new ITextEditor(570, 104, null);
+        editor = new ITextEditor(width, 104, null);
         editor.getTextPane().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

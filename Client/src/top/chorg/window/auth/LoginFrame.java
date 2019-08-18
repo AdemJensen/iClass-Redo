@@ -25,7 +25,7 @@ public class LoginFrame extends IFrame {
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.EXIT_ON_CLOSE
         );
-        this.setLocation(300, 200);
+        this.setLocationCenter(340, 180);
         this.setResizable(false);
     }
 

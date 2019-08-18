@@ -75,4 +75,16 @@ public class IFrame extends JFrame {
         System.out.printf("%s: width = %d, height = %d\n", this.hashCode(), getWidth(), getHeight());
         super.paint(g);
     }
+
+    /**
+     * 根据给定的窗口尺寸将窗口移动到屏幕中心位置
+     * @param width 本窗口宽度
+     * @param height 本窗口高度
+     */
+    public void setLocationCenter(int width, int height) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int sw = (int) screenSize.getWidth();
+        int sh = (int) screenSize.getHeight();
+        this.setLocation(sw / 2 - width / 2, sh / 2 - height / 2);
+    }
 }

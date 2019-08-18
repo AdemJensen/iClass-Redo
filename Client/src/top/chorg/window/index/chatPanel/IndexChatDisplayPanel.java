@@ -6,8 +6,13 @@ import java.awt.*;
 
 
 public class IndexChatDisplayPanel extends IPanel {
-    public IndexChatDisplayPanel() {
-        super(570, 420);
+    public IndexChatDisplayPanel(int width) {
+        super(width, 420);
         this.setBackground(Color.WHITE);
     }
+
+    public void resetWidth(int width) {
+        this.setPreferredSize(new Dimension(width, 420));
+    }
+
 }

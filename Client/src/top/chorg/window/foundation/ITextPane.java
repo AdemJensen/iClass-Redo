@@ -16,23 +16,35 @@ public class ITextPane extends JTextPane {
 
     private ArrayList<IImageIcon> images = new ArrayList<>();
 
-    public int getPreferredWidth() {
+    public int getTargetWidth() {
+        if (width == 0) return getPreferredSize().width;
         return width;
     }
 
-    public int getPreferredHeight() {
+    public int getTargetHeight() {
+        if (height == 0) return getPreferredSize().height;
         return height;
     }
 
     private int width, height;
 
-    public ITextPane(int width, int height) {
+    public void setPreferredSize(Dimension size) {
+        this.width = size.width;
+        this.height = size.height;
+        super.setPreferredSize(size);
+    }
+
+    public ITextPane() {
         super();
+        this.setEditorKit(new WarpEditorKit());
+    }
+
+    public ITextPane(int width, int height) {
+        this();
         this.setPreferredSize(new Dimension(width, height));
         this.setSize(new Dimension(width, height));
         this.width = width;
         this.height = height;
-        this.setEditorKit(new WarpEditorKit());
     }
 
     public void refreshImageListCache() {
@@ -47,6 +59,47 @@ public class ITextPane extends JTextPane {
                     images.add(icon);
                 }
             }
+        }
+    }
+
+    /**
+     * 用于计算组件应该有的实际高度。
+     * @param width 期望的宽度
+     * @param document 当前文档内容
+     * @return 高度
+     */
+    private int calcContentHeight(int width, StyledDocument document) {
+        var testPane = new ITextPane();
+        testPane.setSize(width, Short.MAX_VALUE);
+        testPane.setStyledDocument(document);
+        return testPane.getPreferredSize().height;
+    }
+
+    /**
+     * 根据内容设置最大宽度，需要在内容确定时才能使用
+     * @param maximumWidth 需要的最大宽度
+     */
+    public void trimWidth(int maximumWidth) {
+        int curWidth = this.getPreferredSize().width;
+        if (curWidth < maximumWidth) return;
+
+        var testPane = new ITextPane();
+        testPane.setStyledDocument(this.getStyledDocument());
+        int pw = testPane.getPreferredSize().width;
+        if (pw < maximumWidth) {
+            int targetHeight = calcContentHeight(pw, this.getStyledDocument());
+            this.setPreferredSize(new Dimension(pw, targetHeight));
+        } else {
+            int targetHeight = calcContentHeight(maximumWidth, this.getStyledDocument());
+            this.setPreferredSize(new Dimension(maximumWidth, targetHeight));
+        }
+    }
+
+    public void limitWidth(int minimumWidth) {
+        int pw = this.getPreferredSize().width;
+        if (pw < minimumWidth) {
+            int targetHeight = calcContentHeight(minimumWidth, this.getStyledDocument());
+            this.setPreferredSize(new Dimension(minimumWidth, targetHeight));
         }
     }
 

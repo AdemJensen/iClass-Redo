@@ -9,7 +9,7 @@ import top.chorg.window.index.groupSidePanel.IndexGroupSidePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class IndexFrame extends IFrame {
+public class MasterFrame extends IFrame {
 
     public IndexUpperPanel upperPanel;
     public IPanel masterPanel;
@@ -18,7 +18,7 @@ public class IndexFrame extends IFrame {
     public IndexGroupSidePanel sidePanel;
     public boolean switcher = false;
 
-    public IndexFrame(UserInfo selfInfo) {
+    public MasterFrame(UserInfo selfInfo) {
         super(
                 1100, 680,
                 "iClass",
@@ -28,7 +28,7 @@ public class IndexFrame extends IFrame {
         layout.setVgap(0);
         layout.setHgap(0);
         this.setLayout(layout);
-        this.setLocation(150, 100);
+        this.setLocationCenter(1100, 680);
         this.setResizable(false);
 
         this.upperPanel = new IndexUpperPanel(selfInfo);
@@ -40,44 +40,38 @@ public class IndexFrame extends IFrame {
         );
 
         this.chatList = new IndexChatList();
-        this.chatPanel = new IndexChatPanel();
+        this.chatPanel = new IndexChatPanel(570);
         this.sidePanel = new IndexGroupSidePanel();
 
         masterPanel.add(chatList, BorderLayout.WEST);
         masterPanel.add(chatPanel, BorderLayout.CENTER);
         masterPanel.add(sidePanel, BorderLayout.EAST);
 
-        //Test code
-//        IPanel panel = new IPanel(200, 200);
-//        panel.setBackground(new Color(100, 200, 40));
-//        masterPanel.add(panel, BorderLayout.CENTER);
-//        IPanel panel2 = new IPanel(200, 200);
-//        panel.setBackground(new Color(100, 200, 40));
-//        masterPanel.add(panel2, BorderLayout.EAST);
-//        JButton button = new JButton("TEST");
-//        button.addActionListener(e -> {
-//            if (!switcher) {
-//                masterPanel.remove(panel2);
-//                switcher = true;
-//            } else {
-//                masterPanel.add(panel2, BorderLayout.EAST);
-//                switcher = false;
-//            }
-//            masterPanel.revalidate();
-//        });
-//        masterPanel.add(button, BorderLayout.NORTH);
-//        //masterPanel.remove(panel2);
+        chatPanel.voteButton.addActionListener(e -> {
+            if (!switcher) {
+                prepareSingleChatLayout();
+                switcher = true;
+            } else {
+                prepareGroupChatLayout();
+                switcher = false;
+            }
+
+        });
 
         this.addComp(upperPanel, masterPanel);
 
     }
 
     public void prepareGroupChatLayout() {
-
+        masterPanel.add(sidePanel, BorderLayout.EAST);
+        chatPanel.resetWidth(570);
+        masterPanel.revalidate();
     }
 
     public void prepareSingleChatLayout() {
-
+        masterPanel.remove(sidePanel);
+        chatPanel.resetWidth(840);
+        masterPanel.revalidate();
     }
 
 }
