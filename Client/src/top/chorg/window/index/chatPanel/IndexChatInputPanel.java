@@ -6,33 +6,31 @@ import top.chorg.window.foundation.button.IImageButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import static top.chorg.kernel.Variable.resource;
 
 public class IndexChatInputPanel extends IPanel {
 
-    IImageButton fontButton, imageButton, whiteBoardButton, fileButton;
+    IImageButton fontButton, imageButton, whiteBoardButton, fileButton, sendButton;
     IPanel toolPanel;
     ITextEditor editor;
 
     public void resetWidth(int width) {
         this.setPreferredSize(new Dimension(width, 420));
-        toolPanel.setPreferredSize(new Dimension(width, 35));
+        toolPanel.setPreferredSize(new Dimension(width - 40, 35));
         editor.setPreferredSize(new Dimension(width, 104));
     }
 
     public IndexChatInputPanel(int width) {
         super(width, 140);
         this.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(0xF5F5F5)));
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.WHITE);
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
         layout.setVgap(0);
         layout.setHgap(0);
         this.setLayout(layout);
 
-        toolPanel = new IPanel(width, 35, null, new FlowLayout(FlowLayout.LEFT));
+        toolPanel = new IPanel(width - 40, 35, null, new FlowLayout(FlowLayout.LEFT));
         toolPanel.setBackground(Color.WHITE);
 
         fontButton = new IImageButton(25, 25, resource("fontIcon.png"));
@@ -47,23 +45,20 @@ public class IndexChatInputPanel extends IPanel {
 
         fileButton = new IImageButton(25, 25, resource("fileIcon.png"));
 
+        sendButton = new IImageButton(25, 25, resource("sendIcon.png"));
+        sendButton.addActionListener(e -> {
+            System.out.println(editor.getTextPane().getCompiledText());
+            // TODO: send
+            editor.getTextPane().setText("");
+            editor.revalidate();
+            editor.repaint();
+        });
+
         toolPanel.addComp(fontButton, imageButton, whiteBoardButton, fileButton);
 
         editor = new ITextEditor(width, 104, null);
-        editor.getTextPane().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if(e.getExtendedKeyCode() == 0x0) {
-                    System.out.println(editor.getTextPane().getCompiledText());
-                    // TODO: send
-                    editor.getTextPane().setText("");
-                    editor.revalidate();
-                    editor.repaint();
-                }
-            }
-        });
 
-        this.addComp(toolPanel, editor);
+        this.addComp(toolPanel, sendButton, editor);
 
     }
 }
