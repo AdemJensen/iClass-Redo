@@ -29,8 +29,9 @@ public class ITextPane extends JTextPane {
     private int width, height;
 
     public void setPreferredSize(Dimension size) {
-        this.width = size.width;
-        this.height = size.height;
+        Insets insets = this.getBorder().getBorderInsets(this);
+        this.width = size.width - insets.left - insets.right;
+        this.height = size.height - insets.bottom - insets.bottom;
         super.setPreferredSize(size);
     }
 
@@ -75,13 +76,24 @@ public class ITextPane extends JTextPane {
         return testPane.getPreferredSize().height;
     }
 
+    public void trimWidth(int maximumWidth) {
+        trimWidth(maximumWidth, false);
+    }
+
     /**
      * 根据内容设置最大宽度，需要在内容确定时才能使用
      * @param maximumWidth 需要的最大宽度
+     * @param force 是否强制覆盖当前的宽度
      */
-    public void trimWidth(int maximumWidth) {
+    public void trimWidth(int maximumWidth, boolean force) {
         int curWidth = this.getPreferredSize().width;
-        if (curWidth < maximumWidth) return;
+        if (!force && curWidth < maximumWidth) {
+            this.setPreferredSize(new Dimension(
+                    curWidth,
+                    calcContentHeight(curWidth, this.getStyledDocument())
+            ));
+            return;
+        }
 
         var testPane = new ITextPane();
         testPane.setStyledDocument(this.getStyledDocument());
@@ -151,6 +163,12 @@ public class ITextPane extends JTextPane {
                 default:
                     System.out.println("WARNING: Unidentified element type(getCompiledText).");
             }
+        }
+        int size = arr.size();
+        if (arr.get(size - 2).equals("content")) {
+            ContentElementInfo temp = gson.fromJson(arr.get(size - 1), ContentElementInfo.class);
+            temp.content = temp.content.trim();
+            arr.set(size - 1, gson.toJson(temp));
         }
         String[] str = new String[arr.size()];
         return gson.toJson(arr.toArray(str));

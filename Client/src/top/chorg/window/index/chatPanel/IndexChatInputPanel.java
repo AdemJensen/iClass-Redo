@@ -95,6 +95,7 @@ public class IndexChatInputPanel extends IPanel {
         toolPanel.addComp(fontButton, imageButton, whiteBoardButton, fileButton);
 
         editor = new ITextEditor(width, 104, null);
+        //editor.getTextPane().setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":25,\\\"content\\\":\\\"This is an ord\ninaty test\\\\n\\\"}\"]\n");
 
         this.addComp(toolPanel, sendButton, editor);
 
