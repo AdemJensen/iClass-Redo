@@ -24,6 +24,8 @@ public class IndexGroupSideList extends JScrollPane {
         this.setBorder(null);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.setBackground(new Color(0xf6f6f6));
+        master.setBackground(new Color(0xf6f6f6));
         //master.add();
         this.addItem(new ChatListLabel(width - 10, 30,
                 new IImageIcon(resource("defaultUserIcon.png")),

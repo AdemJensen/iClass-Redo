@@ -12,6 +12,7 @@ public class IndexGroupSidePanel extends IPanel {
     public IndexGroupSidePanel() {
         super(270, 600, null);
         FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        this.setBackground(new Color(0xf6f6f6));
         layout.setVgap(0);
         layout.setHgap(0);
         this.setLayout(layout);

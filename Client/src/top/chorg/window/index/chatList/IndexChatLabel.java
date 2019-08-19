@@ -1,6 +1,6 @@
 package top.chorg.window.index.chatList;
 
-import top.chorg.window.foundation.IClickablePanel;
+import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 
@@ -14,7 +14,7 @@ import static top.chorg.kernel.Variable.getTimeDurText;
 /**
  * 首页的联系人标签基类
  */
-public abstract class IndexChatLabel extends IClickablePanel {
+public abstract class IndexChatLabel extends IPanel {
 
     public int width, height, labelHeight;
     public IPanel infoPanel;
@@ -36,6 +36,8 @@ public abstract class IndexChatLabel extends IClickablePanel {
         this.width = width;
         this.height = height;
         this.labelHeight = (height - 15) / 2;
+        this.setBackground(new Color(0xf6f6f6));
+        this.addMouseListener(new IClickableAdapter(this));
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
         layout.setVgap(0);
         layout.setHgap(0);

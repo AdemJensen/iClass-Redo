@@ -173,10 +173,12 @@ public class IImageIcon extends ImageIcon {
         int w = image.getWidth();
         int h = image.getHeight();
         if (w > width) {
-            h = (width / w) * h;
+            h = (int) (((double) width / w) * h);
+            w = width;
         }
         if (h > height) {
-            w = (height / h) * w;
+            w = (int) (((double) height / h) * w);
+            h = height;
         }
         this.setSize(w, h);
     }

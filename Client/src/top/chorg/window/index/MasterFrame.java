@@ -38,6 +38,7 @@ public class MasterFrame extends IFrame {
                 null,
                 new BorderLayout()
         );
+        masterPanel.setBackground(new Color(0xf6f6f6));
 
         this.chatList = new IndexChatList();
         this.chatPanel = new IndexChatPanel(570);

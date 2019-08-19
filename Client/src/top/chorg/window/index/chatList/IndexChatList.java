@@ -19,6 +19,8 @@ public class IndexChatList extends JScrollPane {
         );
         this.setBorder(null);
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.setBackground(new Color(0xf6f6f6));
+        master.setBackground(new Color(0xf6f6f6));
         //master.add();
         this.addItem(new UserIndexChatLabel(width - 20, 45, new UserInfo(
                 "TUN1", "TRN", "233333333333", "test@test.com", "12345678901", 2, 1

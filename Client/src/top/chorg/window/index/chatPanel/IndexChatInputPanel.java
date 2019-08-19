@@ -1,11 +1,15 @@
 package top.chorg.window.index.chatPanel;
 
+import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextEditor;
 import top.chorg.window.foundation.button.IImageButton;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
+import java.io.File;
+import java.io.FilenameFilter;
 
 import static top.chorg.kernel.Variable.resource;
 
@@ -40,6 +44,40 @@ public class IndexChatInputPanel extends IPanel {
         });
 
         imageButton = new IImageButton(25, 25, resource("imageIcon.png"));
+        imageButton.addActionListener(e -> {
+            FileDialog dialog = new FileDialog(new Frame(), "选择图片", FileDialog.LOAD);
+            dialog.setFilenameFilter(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    String process = name.toUpperCase();
+                    return process.endsWith("JPG") || process.endsWith("JPEG") ||
+                            process.endsWith("PNG") || process.endsWith("BMP");
+                }
+            });
+            dialog.setMultipleMode(true);
+            dialog.setVisible(true);
+            File[] list = dialog.getFiles();
+            int pos = 0;
+            try {
+                pos = editor.getTextPane().getSelectionStart();
+                editor.getTextPane().getStyledDocument().remove(
+                        pos,
+                        editor.getTextPane().getSelectionEnd() - pos
+                );
+            } catch (BadLocationException ex) {
+                System.out.println("WARNING: Bad location at IndexChatInputPanel.imageButton");
+            }
+            for (File file : list) {
+                editor.getTextPane().insertIcon(
+                        pos,
+                        new IImageIcon(file.getPath())
+                );
+                pos++;
+            }
+            editor.revalidate();
+            editor.repaint();
+        });
+
 
         whiteBoardButton = new IImageButton(25, 25, resource("whiteBoardIcon.png"));
 

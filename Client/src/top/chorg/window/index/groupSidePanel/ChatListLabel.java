@@ -1,8 +1,9 @@
 package top.chorg.window.index.groupSidePanel;
 
 import top.chorg.kernel.foundation.enumClass.UserLevel;
-import top.chorg.window.foundation.IClickablePanel;
+import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.IImageIcon;
+import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +11,7 @@ import java.awt.*;
 
 import static top.chorg.kernel.Variable.resource;
 
-public class ChatListLabel extends IClickablePanel {
+public class ChatListLabel extends IPanel {
 
     public int width, height;
     public JLabel avatarLabel, nameLabel, managerSignLabel;
@@ -32,6 +33,8 @@ public class ChatListLabel extends IClickablePanel {
         this.height = height;
         this.assignAvatar(avatar, isOnline);
         this.nameLabel = new JLabel(talker);
+        this.setBackground(new Color(0xf6f6f6));
+        this.addMouseListener(new IClickableAdapter(this));
         nameLabel.setPreferredSize(new Dimension(width - height * 2, height - 10));
         if (!isOnline) {
             this.nameLabel.setForeground(new Color(0x919191));
