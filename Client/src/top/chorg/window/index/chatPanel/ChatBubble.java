@@ -1,5 +1,6 @@
 package top.chorg.window.index.chatPanel;
 
+import top.chorg.support.RenderUtils;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextPane;
 
@@ -51,7 +52,7 @@ public class ChatBubble extends IPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        //RendererUtil.applyQualityRenderingHints(g2d);
+        RenderUtils.applyQualityRenderingHints(g2d);
         g2d.setPaint(getBackground());
         if (isLeft) {
             paintLeftBubble(g2d);

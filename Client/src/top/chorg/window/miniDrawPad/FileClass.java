@@ -1,5 +1,6 @@
 package top.chorg.window.miniDrawPad;
 
+import top.chorg.support.RenderUtils;
 import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.miniDrawPad.drawing.Drawing;
 
@@ -157,13 +158,9 @@ public class FileClass {
         Dimension dim = tool.getScreenSize();//得到屏幕的大小 （返回Dimension对象）
         BufferedImage image = new BufferedImage( dim.width - 70, dim.height - 100, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = image.createGraphics();
+        RenderUtils.applyQualityRenderingHints(graphics2D);
         graphics2D.setPaint(Color.WHITE);
         graphics2D.fillRect(0, 0, dim.width - 70, dim.height - 100);
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        graphics2D.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        graphics2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         for (int i = 0; i < drawarea.getIndex(); i++) {
             Drawing p = drawarea.itemList[i];
             p.draw(graphics2D);

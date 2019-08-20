@@ -1,6 +1,7 @@
 package top.chorg.window.foundation;
 
 import top.chorg.support.FileUtils;
+import top.chorg.support.RenderUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -88,6 +89,7 @@ public class IImageIcon extends ImageIcon {
         int h = image.getHeight();
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = output.createGraphics();
+        RenderUtils.applyQualityRenderingHints(g2);
         g2.setComposite(AlphaComposite.Src);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);

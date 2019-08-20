@@ -1,5 +1,7 @@
 package top.chorg.window.foundation;
 
+import top.chorg.support.RenderUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +39,7 @@ public class IColorChooserButton extends JButton {
     private IImageIcon getButtonIcon(int w, int h, Color color) {
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = output.createGraphics();
+        RenderUtils.applyQualityRenderingHints(g2);
         g2.setColor(color);
         g2.fillPolygon(new int[]{0, w, w, 0}, new int[]{0, 0, h, h}, 4); // TODO: justify
         g2.dispose();

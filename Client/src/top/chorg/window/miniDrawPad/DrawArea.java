@@ -1,5 +1,6 @@
 package top.chorg.window.miniDrawPad;
 
+import top.chorg.support.RenderUtils;
 import top.chorg.window.miniDrawPad.drawing.*;
 
 import javax.swing.*;
@@ -36,6 +37,7 @@ public class DrawArea extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;// 定义随笔画
+		RenderUtils.applyQualityRenderingHints(g2d);
 		int j = 0;
 		while (j <= index) {
 			draw(g2d, itemList[j]);
