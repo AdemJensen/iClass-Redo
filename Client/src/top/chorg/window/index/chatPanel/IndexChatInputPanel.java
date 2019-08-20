@@ -4,21 +4,19 @@ import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextEditor;
 import top.chorg.window.foundation.button.IImageButton;
+import top.chorg.window.miniDrawPad.DrawPad;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.Arrays;
 
 import static top.chorg.kernel.Variable.resource;
 
 public class IndexChatInputPanel extends IPanel {
 
-    IImageButton fontButton, imageButton, whiteBoardButton, fileButton, sendButton;
+    IImageButton fontButton, imageButton, drawPadButton, fileButton, sendButton;
     IPanel toolPanel;
     ITextEditor editor;
 
@@ -68,6 +66,7 @@ public class IndexChatInputPanel extends IPanel {
                 System.out.println("WARNING: Bad location at IndexChatInputPanel.imageButton");
             }
             for (File file : list) {
+                IImageIcon icon = new IImageIcon(file.getPath());
                 editor.getTextPane().insertIcon(
                         pos,
                         new IImageIcon(file.getPath())
@@ -79,7 +78,24 @@ public class IndexChatInputPanel extends IPanel {
         });
 
 
-        whiteBoardButton = new IImageButton(25, 25, resource("whiteBoardIcon.png"));
+        drawPadButton = new IImageButton(25, 25, resource("drawPadIcon.png"));
+        drawPadButton.addActionListener(e -> {
+            DrawPad drawPad = new DrawPad("MiniDrawPad", true);
+            drawPad.addInsertActionListener(f -> {
+                int pos = 0;
+                try {
+                    pos = editor.getTextPane().getSelectionStart();
+                    editor.getTextPane().getStyledDocument().remove(
+                            pos,
+                            editor.getTextPane().getSelectionEnd() - pos
+                    );
+                } catch (BadLocationException ex) {
+                    System.out.println("WARNING: Bad location at IndexChatInputPanel.imageButton");
+                }
+                editor.getTextPane().insertIcon(pos, drawPad.generateImageIcon());
+            });
+        });
+
 
         fileButton = new IImageButton(25, 25, resource("fileIcon.png"));
 
@@ -93,10 +109,9 @@ public class IndexChatInputPanel extends IPanel {
             editor.repaint();
         });
 
-        toolPanel.addComp(fontButton, imageButton, whiteBoardButton, fileButton);
+        toolPanel.addComp(fontButton, imageButton, drawPadButton, fileButton);
 
         editor = new ITextEditor(width, 104, null);
-        //editor.getTextPane().setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":25,\\\"content\\\":\\\"This is an ord\ninaty test\\\\n\\\"}\"]\n");
 
         this.addComp(toolPanel, sendButton, editor);
 

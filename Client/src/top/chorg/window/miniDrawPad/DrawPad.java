@@ -15,9 +15,10 @@ public class DrawPad extends JFrame implements ActionListener {
     private JToolBar buttonPanel;//定义按钮面板
     private JMenuBar bar;//定义菜单条
     private JMenu file, color, stroke, help;//定义菜单
-    private JMenuItem newFile, openFile, saveFile, exportFile, exit;//file 菜单中的菜单项
+    private JMenuItem insertItem, newFile, openFile, saveFile, exportFile, exit; //file 菜单中的菜单项
     private JMenuItem helpSubItem, helpItem, colorChoiceItem, strokeItem;//help 菜单中的菜单项
     private JLabel startBar;//状态栏
+    private JButton insertToolButton; // 插入编辑器按钮
 
     private DrawArea drawarea;//画布类的定义
     private Help helpObject; //定义一个帮助类对象
@@ -39,15 +40,26 @@ public class DrawPad extends JFrame implements ActionListener {
     private JCheckBox bold, italic;//工具条字体的风格（复选框）
     private JComboBox styles;//工具条中的字体的样式（下拉列表）
 
+    public void addInsertActionListener(ActionListener listener) {
+        insertItem.addActionListener(e -> {
+            listener.actionPerformed(e);
+            this.dispose();
+        });
+        insertToolButton.addActionListener(e -> {
+            listener.actionPerformed(e);
+            this.dispose();
+        });
+    }
+
     public IImageIcon generateImageIcon() {
         return fileclass.generateImageIcon();
     }
 
     public DrawPad(String title) {
-        this(title, null);
+        this(title, false);
     }
 
-    public DrawPad(String title, ActionListener insertAction) {
+    public DrawPad(String title, boolean insertAction) {
         // 主界面的构造方法
         super(title);
         // 菜单的初始化
@@ -73,12 +85,8 @@ public class DrawPad extends JFrame implements ActionListener {
         help.setMnemonic('H');  //既是ALT+“H”
 
         //File 菜单项的初始化
-        if (insertAction != null) {
-            JMenuItem insertItem = new JMenuItem("将内容插入编辑器");
-            insertItem.addActionListener(e -> {
-                insertAction.actionPerformed(e);
-                this.dispose();
-            });
+        if (insertAction) {
+            insertItem = new JMenuItem("将内容插入编辑器");
             insertItem.setAccelerator(KeyStroke.getKeyStroke(
                     KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK
             ));
@@ -102,7 +110,7 @@ public class DrawPad extends JFrame implements ActionListener {
         newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+        exportFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, InputEvent.CTRL_DOWN_MASK));
 
         //File 菜单项的注册监听
@@ -139,15 +147,11 @@ public class DrawPad extends JFrame implements ActionListener {
         buttonPanel = new JToolBar(JToolBar.HORIZONTAL);
         icons = new IImageIcon[names.length];
         button = new JButton[names.length];
-        if (insertAction != null) {     // 与编辑器联动
+        if (insertAction) {     // 与编辑器联动
             IImageIcon insertToolIcon = new IImageIcon(resource("miniDrawPad", "insert.png"));
             insertToolIcon.setSize(35, 35);
-            JButton insertToolButton = new JButton(insertToolIcon);
+            insertToolButton = new JButton(insertToolIcon);
             insertToolButton.setPreferredSize(new Dimension(35, 35));
-            insertToolButton.addActionListener(e -> {
-                insertAction.actionPerformed(e);
-                this.dispose();
-            });
             insertToolButton.setToolTipText("将画板内容插入编辑器");
             buttonPanel.add(insertToolButton);
         }
@@ -202,7 +206,7 @@ public class DrawPad extends JFrame implements ActionListener {
         setBounds(40, 40, dim.width - 70, dim.height - 100);
         setVisible(true);
         validate();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     //设置状态栏显示的字符

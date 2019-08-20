@@ -5,9 +5,9 @@ import top.chorg.window.miniDrawPad.DrawPad;
 
 public class DrawPadTest {
     public static void main(String[] args) {
-        DrawPad drawpad = new DrawPad("MiniDrawPad", e -> {
-
-            new IInformationFrame("SUCCESS", "SUCCESS").showWindow();
-        });
+        DrawPad drawpad = new DrawPad("MiniDrawPad", false);
+//        drawpad.addInsertActionListener(e -> {
+//            new IInformationFrame("SUCCESS", "SUCCESS").showWindow();
+//        });
     }
 }
