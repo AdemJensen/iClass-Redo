@@ -15,8 +15,8 @@ public class Variable {
     public static StyleContext styleContext = new StyleContext();
     public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
 
-    public static String resource(String...relativePath) {
-        StringBuilder builder = new StringBuilder("resource");
+    public static String getRelativePath(String root, String...relativePath) {
+        StringBuilder builder = new StringBuilder("root");
         for (String path : relativePath) {
             builder.append(File.separator);
             builder.append(path);
@@ -24,13 +24,16 @@ public class Variable {
         return builder.toString();
     }
 
+    public static String resource(String...relativePath) {
+        return getRelativePath("resource", relativePath);
+    }
+
     public static String temp(String...relativePath) {
-        StringBuilder builder = new StringBuilder("temp");
-        for (String path : relativePath) {
-            builder.append(File.separator);
-            builder.append(path);
-        }
-        return builder.toString();
+        return getRelativePath("temp", relativePath);
+    }
+
+    public static String download(String...relativePath) {
+        return getRelativePath("download", relativePath);
     }
 
     public static String getTimeDurText(Date date) {

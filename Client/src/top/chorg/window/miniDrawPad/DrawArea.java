@@ -11,7 +11,7 @@ import java.awt.event.MouseMotionAdapter;
 
 //绘图区类（各种图形的绘制和鼠标事件）
 public class DrawArea extends JPanel {
-	DrawPad drawpad;
+	MiniDrawPad drawpad;
 	Drawing[] itemList = new Drawing[5000]; // 绘制图形类
 	private int currentChoice = 3;// 设置默认基本图形状态为随笔画
 	int index = 0;// 当前已经绘制的图形数目
@@ -21,7 +21,7 @@ public class DrawArea extends JPanel {
 	String style;// 存放当前字体
 	float stroke = 1.0f;// 设置画笔的粗细 ，默认的是 1.0
     
-	DrawArea(DrawPad dp) {
+	DrawArea(MiniDrawPad dp) {
 		drawpad = dp;
 		// 把鼠标设置成十字形
 		setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));

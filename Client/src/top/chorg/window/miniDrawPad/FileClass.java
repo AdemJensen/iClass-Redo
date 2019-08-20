@@ -11,10 +11,10 @@ import java.io.*;
 
 //文件类 （文件的打开、新建、保存）
 public class FileClass {
-    private DrawPad drawpad;
+    private MiniDrawPad drawpad;
     DrawArea drawarea;
 
-    FileClass(DrawPad dp, DrawArea da) {
+    FileClass(MiniDrawPad dp, DrawArea da) {
         drawpad = dp;
         drawarea = da;
     }

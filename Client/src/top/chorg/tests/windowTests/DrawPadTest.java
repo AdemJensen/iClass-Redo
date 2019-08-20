@@ -1,11 +1,10 @@
 package top.chorg.tests.windowTests;
 
-import top.chorg.window.foundation.notice.IInformationFrame;
-import top.chorg.window.miniDrawPad.DrawPad;
+import top.chorg.window.miniDrawPad.MiniDrawPad;
 
 public class DrawPadTest {
     public static void main(String[] args) {
-        DrawPad drawpad = new DrawPad("MiniDrawPad", false);
+        MiniDrawPad drawpad = new MiniDrawPad("MiniDrawPad", false);
 //        drawpad.addInsertActionListener(e -> {
 //            new IInformationFrame("SUCCESS", "SUCCESS").showWindow();
 //        });

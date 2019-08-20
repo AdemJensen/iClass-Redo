@@ -9,9 +9,9 @@ import static top.chorg.kernel.Variable.resource;
 
 //帮助菜单功能的事项类
 public class Help extends JFrame {
-    private DrawPad drawpad;
+    private MiniDrawPad drawpad;
 
-    Help(DrawPad dp) {
+    Help(MiniDrawPad dp) {
         drawpad = dp;
     }
 

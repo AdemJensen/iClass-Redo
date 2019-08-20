@@ -4,7 +4,7 @@ import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextEditor;
 import top.chorg.window.foundation.button.IImageButton;
-import top.chorg.window.miniDrawPad.DrawPad;
+import top.chorg.window.miniDrawPad.MiniDrawPad;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -80,7 +80,7 @@ public class IndexChatInputPanel extends IPanel {
 
         drawPadButton = new IImageButton(25, 25, resource("drawPadIcon.png"));
         drawPadButton.addActionListener(e -> {
-            DrawPad drawPad = new DrawPad("MiniDrawPad", true);
+            MiniDrawPad drawPad = new MiniDrawPad("MiniDrawPad", true);
             drawPad.addInsertActionListener(f -> {
                 int pos = 0;
                 try {

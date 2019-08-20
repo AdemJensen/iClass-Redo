@@ -10,7 +10,7 @@ import java.awt.event.*;
 import static top.chorg.kernel.Variable.resource;
 
 // 主界面类
-public class DrawPad extends JFrame implements ActionListener {
+public class MiniDrawPad extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = -2551980583852173918L;
     private JToolBar buttonPanel;//定义按钮面板
@@ -57,11 +57,11 @@ public class DrawPad extends JFrame implements ActionListener {
         return fileclass.generateImageIcon();
     }
 
-    public DrawPad(String title) {
+    public MiniDrawPad(String title) {
         this(title, false);
     }
 
-    public DrawPad(String title, boolean insertAction) {
+    public MiniDrawPad(String title, boolean insertAction) {
         // 主界面的构造方法
         super(title);
         // 菜单的初始化
