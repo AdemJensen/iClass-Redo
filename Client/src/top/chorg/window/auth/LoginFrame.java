@@ -22,24 +22,27 @@ public class LoginFrame extends IFrame {
         super(
                 340, 180,
                 "登录 - iClass",
-                new FlowLayout(FlowLayout.CENTER),
                 JFrame.EXIT_ON_CLOSE
         );
         this.setLocationCenter(340, 180);
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        layout.setVgap(0);
+        layout.setHgap(0);
+        this.setLayout(layout);
         this.setResizable(false);
     }
 
     @Override
     public void addComponents() {
         usernamePanelBase = new IPanel(
-                340, 50,
+                340, 65,
                 new EmptyBorder(15, 20, 0, 20),
                 new FlowLayout(FlowLayout.CENTER)
         );
-        usernamePanel = new ITextFieldPanel(      // Area = 340 * 80
-                190, 30,
+        usernamePanel = new ITextFieldPanel(
+                190, 40,
                 null,
-                40, 140,
+                40, 130,
                 "用户名",
                 ""
         );
@@ -48,14 +51,14 @@ public class LoginFrame extends IFrame {
 
 
         passwordPanelBase = new IPanel(
-                340, 40,
-                new EmptyBorder(0, 20, 0, 20),
+                340, 55,
+                new EmptyBorder(0, 20, 5, 20),
                 new FlowLayout(FlowLayout.CENTER)
         );
-        passwordPanel = new IPasswordFieldPanel(      // Area = 340 * 80
-                190, 30,
+        passwordPanel = new IPasswordFieldPanel(
+                190, 40,
                 null,
-                40, 140,
+                40, 130,
                 "密码",
                 ""
         );
@@ -63,10 +66,14 @@ public class LoginFrame extends IFrame {
         passwordPanelBase.addComp(passwordPanel, forgotPasswordButton);
 
         buttonPanel = new IFormButtonPanel(
-                340, 30,
+                340, 35,
                 null,
                 "登录", "重置"
         );
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        layout.setVgap(0);
+        layout.setHgap(10);
+        buttonPanel.setLayout(layout);
 
         this.addComp(usernamePanelBase, passwordPanelBase, buttonPanel);
 
@@ -92,7 +99,7 @@ public class LoginFrame extends IFrame {
         });
 
         forgotPasswordButton.addActionListener(e -> {
-            //new ForgotPasswordFrame().showWindow();
+            new ForgotPasswordFrame().showWindow();
             this.dispose();
         });
     }
