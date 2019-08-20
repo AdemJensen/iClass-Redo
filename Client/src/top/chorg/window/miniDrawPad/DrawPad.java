@@ -165,7 +165,7 @@ public class DrawPad extends JFrame implements ActionListener {
             buttonPanel.add(button[i]);
             button[i].setBackground(Color.red);
             if (i < 3) button[i].addActionListener(this);
-            else if (i <= 16) button[i].addActionListener(this);
+            else if (i <= 17) button[i].addActionListener(this);
         }
         CheckBoxHandler CHandler = new CheckBoxHandler();    // 字体样式处理类
         bold = new JCheckBox("粗体");
@@ -238,9 +238,7 @@ public class DrawPad extends JFrame implements ActionListener {
         } else if (e.getSource() == button[16] || e.getSource() == strokeItem) { //画笔粗细
             drawarea.setStroke();//画笔粗细的调整
         } else if (e.getSource() == button[17]) { //添加文字
-            JOptionPane.showMessageDialog(null, "请单击画板以确定输入文字的位置", "提示"
-                    , JOptionPane.INFORMATION_MESSAGE);
-            drawarea.setCurrentChoice(15);
+            drawarea.setCurrentChoice(14);
             drawarea.createNewItem();
             drawarea.repaint();
         } else if (e.getSource() == helpSubItem) { //帮助信息
