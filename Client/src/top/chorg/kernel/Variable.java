@@ -19,7 +19,7 @@ public class Variable {
     public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
 
     public static String getRelativePath(String root, String...relativePath) {
-        StringBuilder builder = new StringBuilder("root");
+        StringBuilder builder = new StringBuilder(root);
         for (String path : relativePath) {
             builder.append(File.separator);
             builder.append(path);
