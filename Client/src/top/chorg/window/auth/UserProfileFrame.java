@@ -1,6 +1,7 @@
 package top.chorg.window.auth;
 
 import top.chorg.kernel.api.UserInfo;
+import top.chorg.support.TimeUtils;
 import top.chorg.window.foundation.IFrame;
 import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
@@ -12,7 +13,8 @@ import java.awt.event.ActionListener;
 public class UserProfileFrame extends IFrame {
 
     IImageIcon avatar;
-    JLabel avatarLabel, usernameLabel, realNameLabel, emailLabel, phoneLabel, qqLabel, stuNumLabel, sexLabel;
+    JLabel avatarLabel, usernameLabel, realNameLabel,
+            emailLabel, phoneLabel, qqLabel, stuNumLabel, sexLabel, regTimeLabel;
     IPanel leftPanel, rightPanel, lowerPanel;
     JButton editButton;
 
@@ -21,15 +23,15 @@ public class UserProfileFrame extends IFrame {
     }
 
     public UserProfileFrame(UserInfo user, ActionListener editButtonAction) {
-        super(380, editButtonAction == null ? 200 : 230,
+        super(380, editButtonAction == null ? 230 : 260,
                 user.realName + "的个人资料",
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
         this.setResizable(false);
 
-        leftPanel = new IPanel(170, 160, null, new FlowLayout(FlowLayout.LEFT));
-        rightPanel = new IPanel(190, 160, null);
+        leftPanel = new IPanel(170, 190, null, new FlowLayout(FlowLayout.LEFT));
+        rightPanel = new IPanel(190, 190, null);
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
         layout.setVgap(8);
         rightPanel.setLayout(layout);
@@ -60,7 +62,11 @@ public class UserProfileFrame extends IFrame {
         qqLabel = new JLabel("QQ号：" + user.qq);
         qqLabel.setPreferredSize(new Dimension(180, 15));
 
-        rightPanel.addComp(usernameLabel, realNameLabel, sexLabel, stuNumLabel, emailLabel, phoneLabel, qqLabel);
+        regTimeLabel = new JLabel("注册时间：" + TimeUtils.dateToStr(user.regTime));
+        regTimeLabel.setPreferredSize(new Dimension(180, 15));
+
+        rightPanel.addComp(usernameLabel, realNameLabel, sexLabel, stuNumLabel,
+                emailLabel, phoneLabel, qqLabel, regTimeLabel);
         leftPanel.addComp(avatarLabel);
 
         this.addComp(leftPanel, rightPanel);
@@ -73,7 +79,7 @@ public class UserProfileFrame extends IFrame {
             this.add(lowerPanel);
         }
 
-        this.setLocationCenter(380, editButtonAction == null ? 200 : 230);
+        this.setLocationCenter(380, editButtonAction == null ? 230 : 260);
 
         //rightPanel = new IPanel()
 
