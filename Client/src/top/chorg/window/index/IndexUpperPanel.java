@@ -34,7 +34,7 @@ public class IndexUpperPanel extends IPanel {
         this.userInfoPanel.setBackground(new Color(230, 230, 230));
         this.userInfoPanel.addMouseListener(new IClickableAdapter(this.userInfoPanel));
 
-        this.upperLocatorPanel1 = new IPanel(730, 45);
+        this.upperLocatorPanel1 = new IPanel(730 + 55, 45);
         this.upperLocatorPanel1.setBackground(new Color(230, 230, 230));
         this.refreshSelfAvatar(selfInfo);
 
@@ -42,10 +42,10 @@ public class IndexUpperPanel extends IPanel {
         userNameLabel.setPreferredSize(new Dimension(245, 40));
         userNameLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-        settingsButton = new IImageButton(50, 50, resource("settingsIcon.png"));
+        //settingsButton = new IImageButton(50, 50, resource("settingsIcon.png"));
 
         userInfoPanel.addComp(avatarLabel, userNameLabel);
-        this.addComp(userInfoPanel, upperLocatorPanel1, settingsButton);
+        this.addComp(userInfoPanel, upperLocatorPanel1/*, settingsButton*/);
 
     }
 

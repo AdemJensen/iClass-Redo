@@ -50,10 +50,10 @@ public class MasterFrame extends IFrame {
 
         chatPanel.voteButton.addActionListener(e -> {
             if (!switcher) {
-                prepareSingleChatLayout();
+                prepareSingleChat();
                 switcher = true;
             } else {
-                prepareGroupChatLayout();
+                prepareGroupChat();
                 switcher = false;
             }
 
@@ -63,13 +63,13 @@ public class MasterFrame extends IFrame {
 
     }
 
-    public void prepareGroupChatLayout() {
+    public void prepareGroupChat() {
         masterPanel.add(sidePanel, BorderLayout.EAST);
         chatPanel.resetWidth(570);
         masterPanel.revalidate();
     }
 
-    public void prepareSingleChatLayout() {
+    public void prepareSingleChat() {
         masterPanel.remove(sidePanel);
         chatPanel.resetWidth(840);
         masterPanel.revalidate();

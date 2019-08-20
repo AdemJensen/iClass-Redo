@@ -188,9 +188,7 @@ public class RegisterFrame extends IFrame {
                     "软件许可协议 - iClass",
                     content.toString(), true, "确认"
             );
-            agreementNoticeFrame.addActionListeners(f -> {
-                agreementNoticeFrame.dispose();
-            });
+            agreementNoticeFrame.addActionListeners(f -> agreementNoticeFrame.dispose());
             agreementNoticeFrame.showWindow();
         });
 

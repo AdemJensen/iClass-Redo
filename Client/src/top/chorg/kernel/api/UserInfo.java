@@ -7,16 +7,19 @@ import static top.chorg.kernel.Variable.temp;
 
 public class UserInfo {
 
-    public String username, realName, stuNum, email, phone;
+    // sex: 0 = boy, 1 = girl
+    public String username, realName, stuNum, email, phone, qq;
     public int id, sex;
     public IImageIcon avatar;
 
-    public UserInfo(String username, String realName, String stuNum, String email, String phone, int id, int sex) {
+    public UserInfo(String username, String realName, String stuNum,
+                    String email, String phone, String qq, int id, int sex) {
         this.username = username;
         this.realName = realName;
         this.stuNum = stuNum;
         this.email = email;
         this.phone = phone;
+        this.qq = qq;
         this.id = id;
         this.sex = sex;
         assignAvatar();

@@ -75,8 +75,7 @@ public class IImageIcon extends ImageIcon {
     public IImageIcon() { super(); }
 
     public IImageIcon(ImageIcon imageIcon) {
-        super();
-        loadImage(imageIcon.getImage());
+        super(imageIcon.getImage());
     }
 
     public void setSize(int width, int height) {
