@@ -17,6 +17,10 @@ public class IInformationFrame extends INoticeFrame {
         this(title, content, false, confirmListener);
     }
 
+    public IInformationFrame(String title, String content, boolean scrollable) {
+        this(title, content, scrollable, e -> { });
+    }
+
     public IInformationFrame(String title, String content) {
         this(title, content, e -> { });
     }

@@ -1,6 +1,7 @@
 package top.chorg.window.miniDrawPad;
 
 import top.chorg.window.foundation.IImageIcon;
+import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,23 +33,24 @@ public class DrawPad extends JFrame implements ActionListener {
     private IImageIcon[] icons;//定义图象数组
 
     private String[] tipText = {//这里是鼠标移到相应的按钮上给出相应的提示
-            "新建一个图片", "打开图片", "保存图片", "导出画布为图像", "铅笔", "直线"
+            "新建画布", "打开画布", "保存画布", "导出画布为图像", "铅笔", "直线"
             , "空心矩形", "填充矩形", "空心椭圆", "填充椭圆"
             , "空心圆", "填充圆", "圆角矩形", "填充圆角矩形"
-            , "橡皮擦", "颜色", "笔触粗细", "插入文字"};
+            , "橡皮擦", "颜色", "笔触大小", "插入文字"};
     JButton[] button;//定义工具条中的按钮组
     private JCheckBox bold, italic;//工具条字体的风格（复选框）
     private JComboBox styles;//工具条中的字体的样式（下拉列表）
 
     public void addInsertActionListener(ActionListener listener) {
-        insertItem.addActionListener(e -> {
-            listener.actionPerformed(e);
-            this.dispose();
-        });
-        insertToolButton.addActionListener(e -> {
-            listener.actionPerformed(e);
-            this.dispose();
-        });
+        ActionListener action = e -> new IConfirmNoticeFrame(
+                drawarea.index > 0 ? "结束绘图并将图片插入到编辑器中" : "将空画布插入编辑器中",
+                f -> {
+                    listener.actionPerformed(e);
+                    this.dispose();
+                }
+        ).showWindow();
+        insertItem.addActionListener(action);
+        insertToolButton.addActionListener(action);
     }
 
     public IImageIcon generateImageIcon() {
@@ -224,7 +226,16 @@ public class DrawPad extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == newFile || e.getSource() == button[0]) { //新建
-            fileclass.newFile();
+            if (drawarea.index > 0) {
+                new IConfirmNoticeFrame(
+                        "放弃现有更改",
+                        f -> {
+                            fileclass.newFile();
+                        }
+                ).showWindow();
+            } else {
+                fileclass.newFile();
+            }
         } else if (e.getSource() == openFile || e.getSource() == button[1]) { //打开
             fileclass.openFile();
         } else if (e.getSource() == saveFile || e.getSource() == button[2]) { //保存
@@ -232,7 +243,7 @@ public class DrawPad extends JFrame implements ActionListener {
         } else if (e.getSource() == exportFile || e.getSource() == button[3]) {
             fileclass.exportFile();
         } else if (e.getSource() == exit) { //退出程序
-            System.exit(0);
+            this.dispose();
         } else if (e.getSource() == colorChoiceItem || e.getSource() == button[15]) { //弹出颜色对话框
             drawarea.chooseColor();//颜色的选择
         } else if (e.getSource() == button[16] || e.getSource() == strokeItem) { //画笔粗细

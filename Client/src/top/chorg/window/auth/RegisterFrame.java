@@ -1,5 +1,6 @@
 package top.chorg.window.auth;
 
+import top.chorg.support.FileUtils;
 import top.chorg.window.foundation.*;
 import top.chorg.window.foundation.button.ILinkedButton;
 import top.chorg.window.foundation.form.IFormButtonPanel;
@@ -174,16 +175,8 @@ public class RegisterFrame extends IFrame {
         });
 
         agreementButton.addActionListener(e -> {
-            StringBuilder content = new StringBuilder();
-            try {
-                Scanner sc = new Scanner(new File(resource("agreement.txt")));
-                while (sc.hasNextLine()) {
-                    content.append(sc.nextLine());
-                    content.append('\n');
-                }
-            } catch (FileNotFoundException ex) {
-                content.append("错误：无法显示软件许可协议。\nError: Unable to display the user agreement file.");
-            }
+            String content = FileUtils.readFileContent(resource("agreement.txt"));
+            if (content == null) content = "错误：无法显示软件许可协议";
             INoticeFrame agreementNoticeFrame = new INoticeFrame(
                     "软件许可协议 - iClass",
                     content.toString(), true, "确认"

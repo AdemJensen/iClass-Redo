@@ -2,8 +2,31 @@ package top.chorg.support;
 
 import java.io.*;
 import java.security.MessageDigest;
+import java.util.Scanner;
+
+import static top.chorg.kernel.Variable.gson;
+import static top.chorg.kernel.Variable.resource;
 
 public class FileUtils {
+
+    public static String readFileContent(String path) {
+        StringBuilder content = new StringBuilder();
+        try {
+            Scanner sc = new Scanner(new File(path));
+            while (sc.hasNextLine()) {
+                content.append(sc.nextLine());
+                content.append('\n');
+            }
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
+        return content.toString();
+    }
+
+    public static <T> T readFileVar(String path, Class<T> classOfT) {
+        String variable = readFileContent(path);
+        return gson.fromJson(variable, classOfT);
+    }
 
     public static boolean copyFile(String sourcePath, String targetPath) {
         try {
