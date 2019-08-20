@@ -49,13 +49,10 @@ public class IndexChatInputPanel extends IPanel {
         imageButton = new IImageButton(25, 25, resource("imageIcon.png"));
         imageButton.addActionListener(e -> {
             FileDialog dialog = new FileDialog(new Frame(), "选择图片", FileDialog.LOAD);
-            dialog.setFilenameFilter(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    String process = name.toUpperCase();
-                    return process.endsWith("JPG") || process.endsWith("JPEG") ||
-                            process.endsWith("PNG") || process.endsWith("BMP");
-                }
+            dialog.setFilenameFilter((dir, name) -> {
+                String process = name.toUpperCase();
+                return process.endsWith("JPG") || process.endsWith("JPEG") ||
+                        process.endsWith("PNG") || process.endsWith("BMP");
             });
             dialog.setMultipleMode(true);
             dialog.setVisible(true);
