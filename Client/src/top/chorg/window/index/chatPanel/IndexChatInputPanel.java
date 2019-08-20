@@ -10,6 +10,7 @@ import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Arrays;
 
 import static top.chorg.kernel.Variable.resource;
 
@@ -85,7 +86,8 @@ public class IndexChatInputPanel extends IPanel {
 
         sendButton = new IImageButton(25, 25, resource("sendIcon.png"));
         sendButton.addActionListener(e -> {
-            System.out.println(editor.getTextPane().getCompiledText());
+            System.out.println(Arrays.toString(editor.getTextPane().getUploadImageHash()));
+            System.out.println(editor.getTextPane().getCompiledText(editor.getTextPane().getUploadImageHash()));
             // TODO: send
             editor.getTextPane().setText("");
             editor.revalidate();

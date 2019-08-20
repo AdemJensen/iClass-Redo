@@ -26,8 +26,9 @@ public class IImageIcon extends ImageIcon {
         } else {
             if (original == null) original = this.getImage();
             BufferedImage bufferedImage = toBufferedImage(this.getImage());
+            File temp = new File(path).getParentFile();
+            if (!temp.isDirectory() && !temp.mkdirs()) return false;
             File destination = new File(path);
-            if (!destination.mkdirs()) return false;
             try {
                 ImageIO.write(bufferedImage, "png", destination);
             } catch (IOException e) {

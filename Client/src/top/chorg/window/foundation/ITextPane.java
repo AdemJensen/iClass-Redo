@@ -119,30 +119,29 @@ public class ITextPane extends JTextPane {
      * 准备要上传的图片，将它们复制到temp目录中，并返回对应图片的Hash值
      * @return 图片的Hash值数组
      */
-    public String[] prepareUploadImage() {
+    public String[] getUploadImageHash() {
         refreshImageListCache();
         String[] result = new String[images.size()];
         for (int i = 0; i < result.length; i++) {
             String tempFileName = "temp@" + i;
-            images.get(i).saveImage(temp(tempFileName));
-            File temp = new File(temp(tempFileName));
             String hash;
-            try {
-                hash = FileUtils.md5HashCode32(temp.getPath());
-            } catch (FileNotFoundException e) {
-                hash = "0";
+            if (!images.get(i).saveImage(temp(tempFileName))) hash = "0";
+            else {
+                File temp = new File(temp(tempFileName));
+                try {
+                    hash = FileUtils.md5HashCode32(temp.getPath());
+                } catch (FileNotFoundException e) {
+                    hash = "0";
+                }
+                String destination = temp("img@" + hash + ".png");
+                if (!temp.renameTo(new File(destination))) hash = "0";
             }
-            String destination = temp("img@" + hash + ".png");
-            if (!temp.renameTo(new File(destination))) hash = "0";
             result[i] = hash;
         }
         return result;
     }
 
-    public String getCompiledText() {
-
-        String[] fileHashList = prepareUploadImage();
-
+    public String getCompiledText(String[] fileHashList) {
         ArrayList<String> arr = new ArrayList<>();
         var k = 0;
         for (
@@ -215,7 +214,8 @@ public class ITextPane extends JTextPane {
     }
 
     public void insertIcon(int position, IImageIcon icon) {
-        icon.setMaximumSize(width - 20, 1980);
+        Insets inset = this.getBorder().getBorderInsets(this);
+        icon.setMaximumSize(width - inset.left - inset.right, 1980);
         int caretPos = this.getCaretPosition();
         this.setCaretPosition(position);
         super.insertIcon(icon);

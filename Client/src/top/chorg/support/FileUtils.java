@@ -7,7 +7,8 @@ public class FileUtils {
 
     public static boolean copyFile(String sourcePath, String targetPath) {
         try {
-            if (!new File(targetPath).mkdirs()) return false;
+            File temp = new File(targetPath).getParentFile();
+            if (!temp.isDirectory() && !temp.mkdirs()) return false;
 
             File targetFile = new File(targetPath);
             File sourceFile = new File(sourcePath);
