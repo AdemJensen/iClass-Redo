@@ -161,7 +161,7 @@ public class ITextPane extends JTextPane {
             }
         }
         int size = arr.size();
-        if (arr.get(size - 2).equals("content")) {
+        if (size > 0 && arr.get(size - 2).equals("content")) {
             ContentElementInfo temp = gson.fromJson(arr.get(size - 1), ContentElementInfo.class);
             temp.content = temp.content.trim();
             arr.set(size - 1, gson.toJson(temp));

@@ -5,6 +5,7 @@ import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.button.ILinkedButton;
 import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
+import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class AnnounceListLabel extends IPanel {
         this.title.setPreferredSize(new Dimension(width - 100, 20));
         this.title.setFont(new Font("宋体", Font.PLAIN, 19));
 
-        this.info = new JLabel(info.getInfoStr());
+        this.info = new JLabel(info.getEditInfoStr());
         this.info.setPreferredSize(new Dimension(width - 10, 18));
         this.info.setFont(new Font("宋体", Font.PLAIN, 10));
         this.info.setForeground(Color.GRAY);
@@ -38,15 +39,17 @@ public class AnnounceListLabel extends IPanel {
             this.edit.addActionListener(e -> new EditAnnounceFrame(info.id, list).showWindow());
             this.delete = new ILinkedButton("删除");
             this.delete.setPreferredSize(new Dimension(35, 20));
-            this.delete.addActionListener(e -> {
-                new IConfirmNoticeFrame(
-                        "删除公告《" + info.title + "》",
-                        e1 -> {
-                            announceNet.removeAnnounce(info.id);
-                            list.reload();
-                        }
-                ).showWindow();
-            });
+            this.delete.addActionListener(e -> new IConfirmNoticeFrame(
+                    "删除公告《" + info.title + "》",
+                    e1 -> {
+                        String result = announceNet.removeAnnounce(info.id);
+                        checkResult(
+                                announceNet.removeAnnounce(info.id),
+                                "已成功删除公告《" + info.title + "》"
+                        );
+                        list.reload();
+                    }
+            ).showWindow());
             this.addComp(this.edit, this.delete);
         }
         this.addComp(this.info);

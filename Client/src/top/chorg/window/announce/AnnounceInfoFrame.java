@@ -22,7 +22,7 @@ public class AnnounceInfoFrame extends IFrame {
 
         this.titleLabel.setText(info.title);
         this.contentPane.setCompiledText(info.compiledContent);
-        this.infoLabel.setText(info.getInfoStr());
+        this.infoLabel.setText(info.getEditInfoStr());
 
         int height = Math.min(500, contentPane.getTargetHeight() + 100);
         height = Math.max(height, 350);
@@ -42,6 +42,7 @@ public class AnnounceInfoFrame extends IFrame {
 
         this.contentPane = new ITextPane(440, 1);
         this.contentPane.setOpaque(false);
+        this.contentPane.setEditable(false);
 
         this.scrollPane = new JScrollPane(contentPane);
         this.scrollPane.setPreferredSize(new Dimension(460, 250));

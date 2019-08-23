@@ -33,23 +33,23 @@ public class RegisterFrame extends IFrame {
 
     public RegisterFrame() {
         super(
-                420, 430,
+                420, 440,
                 "注册用户 - iClass",
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
-        this.setLocationCenter(420, 430);
+        this.setLocationCenter(420, 440);
     }
 
     @Override
     public void addComponents() {
         leftMasterPanel = new IPanel(
-                250, 290,
+                250, 300,
                 new EmptyBorder(5, 20, 0, 0),
                 new FlowLayout(FlowLayout.CENTER)
         );
         rightMasterPanel = new IPanel(
-                140, 290,
+                140, 300,
                 new EmptyBorder(5, 5, 0, 0),
                 new FlowLayout(FlowLayout.CENTER)
         );
@@ -92,9 +92,7 @@ public class RegisterFrame extends IFrame {
                 "*学号", ""
         );
         sexPanel = new IRadioBoxPanel(
-                210, 30,
-                null, 60, "*性别",
-                140, 25, new FlowLayout(FlowLayout.LEFT),
+                210, null, 60, "*性别", new FlowLayout(FlowLayout.LEFT),
                 "汉子", "妹子"
         );
         emailPanel = new ITextFieldPanel(
@@ -136,7 +134,6 @@ public class RegisterFrame extends IFrame {
         );
 
         this.addComp(headerHintLabel, leftMasterPanel, rightMasterPanel, footerPanel, buttonPanel);
-        this.setResizable(false);
     }
 
     public void resetInput() {

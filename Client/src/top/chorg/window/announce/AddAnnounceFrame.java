@@ -68,7 +68,7 @@ public class AddAnnounceFrame extends IFrame {
         this.dispose();
     }
 
-    private boolean isWritten() {
+    protected boolean isWritten() {
         return !titlePanel.val().equals("") ||
                 !editor.getTextPane().getCompiledText(editor.getTextPane().getUploadImageHash()).equals("[]");
     }

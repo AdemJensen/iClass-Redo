@@ -11,6 +11,7 @@ public class IFrame extends JFrame {
 
     public IFrame(int width, int height, String title, LayoutManager layout, int constant) {
         this.setSize(new Dimension(width, height));
+        this.setResizable(false);
         if (title == null) this.setTitle("NULL");
         else this.setTitle(title);
         this.setLayout(layout);

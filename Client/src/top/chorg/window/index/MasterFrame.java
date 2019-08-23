@@ -29,7 +29,6 @@ public class MasterFrame extends IFrame {
         layout.setHgap(0);
         this.setLayout(layout);
         this.setLocationCenter(1100, 680);
-        this.setResizable(false);
 
         this.upperPanel = new IndexUpperPanel(selfInfo);
 

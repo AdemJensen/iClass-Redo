@@ -28,7 +28,6 @@ public class UserProfileFrame extends IFrame {
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
-        this.setResizable(false);
 
         leftPanel = new IPanel(170, 190, null, new FlowLayout(FlowLayout.LEFT));
         rightPanel = new IPanel(190, 190, null);

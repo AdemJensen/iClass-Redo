@@ -5,6 +5,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class IPanel extends JPanel {
+    public IPanel() { }
+
     public IPanel(int width, int height, Border border, LayoutManager layout) {
         this.setPreferredSize(new Dimension(width, height));
         if (border != null) this.setBorder(border);

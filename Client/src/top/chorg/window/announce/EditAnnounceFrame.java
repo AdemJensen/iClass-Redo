@@ -9,6 +9,7 @@ import static top.chorg.kernel.Variable.announceNet;
 public class EditAnnounceFrame extends AddAnnounceFrame {
 
     AnnounceListFrame list;
+    AnnouncementInfo info;
 
     /**
      * 通过公告id获取到公告内容
@@ -16,8 +17,9 @@ public class EditAnnounceFrame extends AddAnnounceFrame {
      */
     public EditAnnounceFrame(int id, AnnounceListFrame list) {
         super();
+        this.setTitle("编辑公告《" + info.title + "》");
         this.list = list;
-        AnnouncementInfo info = announceNet.getAnnounceInfo(id);
+        info = announceNet.getAnnounceInfo(id);
         this.titlePanel.val(info.title);
         this.editor.getTextPane().setCompiledText(info.compiledContent);
     }
@@ -28,4 +30,13 @@ public class EditAnnounceFrame extends AddAnnounceFrame {
         this.dispose();
         EventQueue.invokeLater(() -> list.reload());
     }
+
+    @Override
+    protected boolean isWritten() {
+        return !titlePanel.val().equals(info.title) ||
+                !editor.getTextPane().getCompiledText(
+                        editor.getTextPane().getUploadImageHash()
+                ).equals(info.compiledContent);
+    }
+
 }

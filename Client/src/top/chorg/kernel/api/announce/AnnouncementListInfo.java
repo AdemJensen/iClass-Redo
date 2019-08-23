@@ -2,7 +2,7 @@ package top.chorg.kernel.api.announce;
 
 import java.util.Date;
 
-import static top.chorg.kernel.Variable.getAnnounceInfoStr;
+import static top.chorg.kernel.Variable.getAnnounceEditInfoStr;
 
 public class AnnouncementListInfo {
 
@@ -22,8 +22,8 @@ public class AnnouncementListInfo {
         this.uEdit = uEdit;
     }
 
-    public String getInfoStr() {
-        return getAnnounceInfoStr(publishDate, editDate, uPub, uEdit);
+    public String getEditInfoStr() {
+        return getAnnounceEditInfoStr(publishDate, editDate, uPub, uEdit);
     }
 
 }

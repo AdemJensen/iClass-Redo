@@ -29,7 +29,6 @@ public class LoginFrame extends IFrame {
         layout.setVgap(0);
         layout.setHgap(0);
         this.setLayout(layout);
-        this.setResizable(false);
     }
 
     @Override

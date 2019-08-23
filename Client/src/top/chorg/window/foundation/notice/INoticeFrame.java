@@ -1,15 +1,12 @@
 package top.chorg.window.foundation.notice;
 
 import top.chorg.window.foundation.IFrame;
-import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextPane;
 import top.chorg.window.foundation.form.IFormButtonPanel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class INoticeFrame extends IFrame {
     public int width, height;
@@ -29,7 +26,6 @@ public class INoticeFrame extends IFrame {
         layout.setVgap(10);
         layout.setHgap(10);
         this.setLayout(layout);
-        this.setResizable(false);
 
         this.scrollable = scrollable;
 

@@ -33,8 +33,9 @@ public class AnnounceNet {
         );
     }
 
-    public void removeAnnounce(int id) {
+    public String removeAnnounce(int id) {
         // TODO
+        return "";
     }
 
 }
