@@ -65,18 +65,6 @@ public class ITextEditor extends IPanel {
         prepareToolPanel();
 
 /*
-        try {
-            textPane.getStyledDocument().insertString(0, "Yarmulke's", defaultStyle);
-            textPane.insertIcon(5, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.insertIcon(7, new IImageIcon(resource("loadFailed.png")));
-            textPane.getStyledDocument().insertString(15, "alkalise", defaultStyle);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
         textPane.setCompiledText("[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falasha\\\":0.0}," +
                 "\\\"family\\\":\\\"Lucia Grade\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false," +
                 "\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":5,\\\"content\\\":\\\"Yahweh\\\"}\"," +

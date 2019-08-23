@@ -1,8 +1,12 @@
 package top.chorg.kernel;
 
 import com.google.gson.Gson;
+import top.chorg.kernel.api.UserInfo;
 import top.chorg.kernel.foundation.Network;
+import top.chorg.kernel.network.AnnounceNet;
+import top.chorg.kernel.network.AuthNet;
 import top.chorg.kernel.network.NetDispatcher;
+import top.chorg.support.TimeUtils;
 
 import javax.swing.text.Style;
 import javax.swing.text.StyleContext;
@@ -17,6 +21,11 @@ public class Variable {
     public static Network masterNet = new Network("127.0.0.1", 8888);
     public static Network fileNet = new Network("127.0.0.1", 8889);
     public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
+
+    public static UserInfo self = null;
+
+    public static AuthNet authNet = new AuthNet();
+    public static AnnounceNet announceNet = new AnnounceNet();
 
     public static String getRelativePath(String root, String...relativePath) {
         StringBuilder builder = new StringBuilder(root);
@@ -37,6 +46,18 @@ public class Variable {
 
     public static String download(String...relativePath) {
         return getRelativePath("download", relativePath);
+    }
+
+    public static String getAnnounceInfoStr(Date publishDate, Date editDate, int uPub, int uEdit) {
+        String inf;
+        String[] realNames = authNet.getRealName(uPub, uEdit);
+        inf = "由 " + realNames[0] + " 于 " + TimeUtils.dateToStrLong(publishDate) + " 发表";
+        if (uEdit == uPub && editDate != publishDate) {
+            inf += "，最后编辑于 " + TimeUtils.dateToStrLong(editDate);
+        } else if (uEdit != uPub) {
+            inf += "，由 " + realNames[1] + " 于 " + TimeUtils.dateToStrLong(editDate) + " 最后编辑";
+        }
+        return inf;
     }
 
 }

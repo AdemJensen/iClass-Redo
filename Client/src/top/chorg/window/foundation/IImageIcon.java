@@ -22,19 +22,28 @@ public class IImageIcon extends ImageIcon {
     }
 
     public boolean saveImage(String path) {
+        BufferedImage bufferedImage = toBufferedImage(this.getImage());
+        return saveBufferedImage(path, bufferedImage);
+    }
+
+    public boolean saveOriginalImage(String path) {
         if (fileName != null) {
             return FileUtils.copyFile(fileName, path);
         } else {
             if (original == null) original = this.getImage();
-            BufferedImage bufferedImage = toBufferedImage(this.getImage());
-            File temp = new File(path).getParentFile();
-            if (!temp.isDirectory() && !temp.mkdirs()) return false;
-            File destination = new File(path);
-            try {
-                ImageIO.write(bufferedImage, "png", destination);
-            } catch (IOException e) {
-                return false;
-            }
+            BufferedImage bufferedImage = toBufferedImage(original);
+            return saveBufferedImage(path, bufferedImage);
+        }
+    }
+
+    private boolean saveBufferedImage(String path, BufferedImage bufferedImage) {
+        File temp = new File(path).getParentFile();
+        if (!temp.isDirectory() && !temp.mkdirs()) return false;
+        File destination = new File(path);
+        try {
+            ImageIO.write(bufferedImage, "png", destination);
+        } catch (IOException e) {
+            return false;
         }
         return true;
     }

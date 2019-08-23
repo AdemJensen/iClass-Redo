@@ -13,9 +13,6 @@ import top.chorg.window.foundation.notice.INoticeFrame;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 import static top.chorg.kernel.Variable.resource;
 
@@ -171,7 +168,7 @@ public class RegisterFrame extends IFrame {
         addSubmitListener();
 
         avatarButton.addActionListener(e -> {
-
+            // TODO 添加头像
         });
 
         agreementButton.addActionListener(e -> {
@@ -179,7 +176,7 @@ public class RegisterFrame extends IFrame {
             if (content == null) content = "错误：无法显示软件许可协议";
             INoticeFrame agreementNoticeFrame = new INoticeFrame(
                     "软件许可协议 - iClass",
-                    content.toString(), true, "确认"
+                    content, true, "确认"
             );
             agreementNoticeFrame.addActionListeners(f -> agreementNoticeFrame.dispose());
             agreementNoticeFrame.showWindow();
@@ -192,12 +189,10 @@ public class RegisterFrame extends IFrame {
         buttonPanel.addActionListeners(
                 e -> new IConfirmNoticeFrame(
                         "提交注册请求",
-                        f -> {
-                            // TODO: 提交注册请求
-                        }
+                        f -> submitAction()
                 ).showWindow(),
                 e -> new IConfirmNoticeFrame(
-                        "清空已填写的内容",
+                        "放弃已填写的内容",
                         f -> resetInput()
                 ).showWindow(),
                 e -> {      // 退出前二次确认，确保用户手滑不会造成资料丢失
@@ -211,6 +206,12 @@ public class RegisterFrame extends IFrame {
                     }
                 }
         );
+    }
+
+    public void submitAction() {
+        // TODO: 提交注册请求
+
+        this.dispose();
     }
 
     public String[] preValidate() {     // TODO: pre validation

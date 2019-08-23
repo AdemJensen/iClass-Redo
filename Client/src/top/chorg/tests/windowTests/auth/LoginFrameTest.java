@@ -1,4 +1,4 @@
-package top.chorg.tests.windowTests;
+package top.chorg.tests.windowTests.auth;
 
 import top.chorg.window.auth.LoginFrame;
 

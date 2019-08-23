@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Date;
 
-import static top.chorg.kernel.Variable.getTimeDurText;
+import static top.chorg.support.TimeUtils.getTimeDurText;
 
 /**
  * 首页的联系人标签基类

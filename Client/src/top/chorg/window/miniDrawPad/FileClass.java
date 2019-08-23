@@ -130,7 +130,7 @@ public class FileClass {
         try {
             if (fileName.exists() && !fileName.delete()) throw new Exception("无法覆盖已有文件");
             IImageIcon imageIcon = generateImageIcon();
-            imageIcon.saveImage(fileName.getPath());
+            imageIcon.saveOriginalImage(fileName.getPath());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     drawpad, "错误",

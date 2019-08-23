@@ -29,9 +29,8 @@ public class ITextPane extends JTextPane {
     private int width, height;
 
     public void setPreferredSize(Dimension size) {
-        Insets insets = this.getBorder().getBorderInsets(this);
-        this.width = size.width - insets.left - insets.right;
-        this.height = size.height - insets.bottom - insets.bottom;
+        this.width = size.width;
+        this.height = size.height;
         super.setPreferredSize(size);
     }
 
@@ -44,8 +43,6 @@ public class ITextPane extends JTextPane {
         this();
         this.setPreferredSize(new Dimension(width, height));
         this.setSize(new Dimension(width, height));
-        this.width = width;
-        this.height = height;
     }
 
     public void refreshImageListCache() {
@@ -125,7 +122,7 @@ public class ITextPane extends JTextPane {
         for (int i = 0; i < result.length; i++) {
             String tempFileName = "temp@" + i;
             String hash;
-            if (!images.get(i).saveImage(temp(tempFileName))) hash = "0";
+            if (!images.get(i).saveOriginalImage(temp(tempFileName))) hash = "0";
             else {
                 File temp = new File(temp(tempFileName));
                 try {
@@ -211,16 +208,25 @@ public class ITextPane extends JTextPane {
                 type = null;
             }
         }
+        this.setPreferredSize(new Dimension(width, calcContentHeight(width, getStyledDocument())));
+        this.revalidate();
+        this.repaint();
     }
 
-    public void insertIcon(int position, IImageIcon icon) {
+    public void insertIcon(int position, IImageIcon...iconList) {
         Insets inset = this.getBorder().getBorderInsets(this);
-        icon.setMaximumSize(width - inset.left - inset.right, 1980);
         int caretPos = this.getCaretPosition();
-        this.setCaretPosition(position);
-        super.insertIcon(icon);
-        if (caretPos > position) caretPos++;
+        for (IImageIcon icon : iconList) {
+            icon.setMaximumSize(width - inset.left - inset.right, 1980);
+            this.setCaretPosition(position);
+            super.insertIcon(icon);
+            if (caretPos > position) caretPos++;
+            position++;
+        }
         this.setCaretPosition(caretPos);
+        this.setPreferredSize(new Dimension(width, calcContentHeight(width, getStyledDocument())));
+        this.revalidate();
+        this.repaint();
     }
 
     private class WarpEditorKit extends StyledEditorKit {

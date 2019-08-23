@@ -5,6 +5,7 @@ import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 public class IndexChatList extends JScrollPane {
 
@@ -23,10 +24,10 @@ public class IndexChatList extends JScrollPane {
         master.setBackground(new Color(0xf6f6f6));
         //master.add();
         this.addItem(new UserIndexChatLabel(width - 20, 45, new UserInfo(
-                "TUN1", "TRN", "233333333333", "test@test.com", "12345678901", "1000000000",  2, 1
+                "TUN1", new Date(), "TRN", "233333333333", "test@test.com", "12345678901", "1000000000",  2, 1
         )));
         this.addItem(new UserIndexChatLabel(240, 45, new UserInfo(
-                "TUN", "TRN", "233333333333", "test@test.com", "12345678901", "1000000000", 22, 1
+                "TUN", new Date(), "TRN", "233333333333", "test@test.com", "12345678901", "1000000000", 22, 1
         )));
 
         this.setViewportView(master);

@@ -1,8 +1,12 @@
 package top.chorg.window.auth;
 
+import top.chorg.kernel.api.UserInfo;
 import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
 
 import java.awt.*;
+
+import static top.chorg.kernel.Variable.authNet;
+import static top.chorg.kernel.Variable.self;
 
 public class EditProfileFrame extends RegisterFrame {
 
@@ -18,33 +22,22 @@ public class EditProfileFrame extends RegisterFrame {
         this.setLocationCenter(420, 400);
     }
 
-    public void assignData() {  // TODO: 获取用户的信息
-
+    public void assignData() {
+        UserInfo info = authNet.getUserInfo(self.id);
+        this.usernamePanel.val(info.username);
+        this.realNamePanel.val(info.realName);
+        this.avatarIcon.setImage(info.avatar.getImage());
+        this.emailPanel.val(info.email);
+        this.phonePanel.val(info.phone);
+        this.qqPanel.val(info.qq);
+        this.stuNumPanel.val(info.stuNum);
+        this.sexPanel.val(info.sex);
     }
 
-    protected void addSubmitListener() {
-        buttonPanel.addActionListeners(
-                e -> new IConfirmNoticeFrame(
-                        "提交修改请求",
-                        f -> {
-                            // TODO: 提交修改请求
-                        }
-                ).showWindow(),
-                e -> new IConfirmNoticeFrame(
-                        "复原已填写的内容",
-                        f -> resetInput()
-                ).showWindow(),
-                e -> {      // 退出前二次确认，确保用户手滑不会造成资料丢失
-                    if (isWritten()) {
-                        new IConfirmNoticeFrame(
-                                "放弃已编辑的内容",
-                                f -> this.dispose()
-                        ).showWindow();
-                    } else {
-                        this.dispose();
-                    }
-                }
-        );
+    public void submitAction() {
+        // TODO: 提交修改请求
+
+        this.dispose();
     }
 
     public void resetInput() {
