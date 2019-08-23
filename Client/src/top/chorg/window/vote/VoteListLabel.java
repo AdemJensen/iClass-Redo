@@ -5,6 +5,7 @@ import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.button.ILinkedButton;
 import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
+import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,10 +40,22 @@ public class VoteListLabel extends IPanel {
         if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
             this.statistic = new ILinkedButton("数据");
             this.statistic.setPreferredSize(new Dimension(35, 20));
-            this.statistic.addActionListener(e -> new VoteStatisticFrame(info.id).showWindow());
+            this.statistic.addActionListener(e -> {
+                try {
+                    new VoteStatisticFrame(info.id).showWindow();
+                } catch (Exception e1) {
+                    new IInformationFrame("错误", "数据加载失败！").showWindow();
+                }
+            });
             this.edit = new ILinkedButton("编辑");
             this.edit.setPreferredSize(new Dimension(35, 20));
-            this.edit.addActionListener(e -> new EditVoteFrame(info.id, list).showWindow());
+            this.edit.addActionListener(e -> {
+                try {
+                    new EditVoteFrame(info.id, list).showWindow();
+                } catch (Exception e1) {
+                    new IInformationFrame("错误", "数据加载失败！").showWindow();
+                }
+            });
             this.delete = new ILinkedButton("删除");
             this.delete.setPreferredSize(new Dimension(35, 20));
             this.delete.addActionListener(e -> new IConfirmNoticeFrame(
@@ -64,7 +77,11 @@ public class VoteListLabel extends IPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new VoteInfoFrame(voteNet.getVoteInfo(info.id)).showWindow();
+                try {
+                    new VoteInfoFrame(voteNet.getVoteInfo(info.id)).showWindow();
+                } catch (Exception e1) {
+                    new IInformationFrame("错误", "数据加载失败！").showWindow();
+                }
             }
         });
 

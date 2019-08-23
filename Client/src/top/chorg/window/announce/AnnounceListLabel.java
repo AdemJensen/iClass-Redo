@@ -36,7 +36,13 @@ public class AnnounceListLabel extends IPanel {
         if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
             this.edit = new ILinkedButton("编辑");
             this.edit.setPreferredSize(new Dimension(35, 20));
-            this.edit.addActionListener(e -> new EditAnnounceFrame(info.id, list).showWindow());
+            this.edit.addActionListener(e -> {
+                try {
+                    new EditAnnounceFrame(info.id, list).showWindow();
+                } catch (Exception e1) {
+                    new IInformationFrame("错误", "数据加载失败！").showWindow();
+                }
+            });
             this.delete = new ILinkedButton("删除");
             this.delete.setPreferredSize(new Dimension(35, 20));
             this.delete.addActionListener(e -> new IConfirmNoticeFrame(
@@ -59,7 +65,11 @@ public class AnnounceListLabel extends IPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new AnnounceInfoFrame(announceNet.getAnnounceInfo(info.id)).showWindow();
+                try {
+                    new AnnounceInfoFrame(announceNet.getAnnounceInfo(info.id)).showWindow();
+                } catch (Exception e1) {
+                    new IInformationFrame("错误", "数据加载失败！").showWindow();
+                }
             }
         });
 

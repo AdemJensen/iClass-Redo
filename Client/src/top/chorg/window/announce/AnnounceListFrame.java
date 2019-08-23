@@ -3,6 +3,7 @@ package top.chorg.window.announce;
 import top.chorg.kernel.api.announce.AnnounceListQueryInfo;
 import top.chorg.kernel.api.announce.AnnouncementListInfo;
 import top.chorg.window.foundation.IPagedListFrame;
+import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,13 @@ public class AnnounceListFrame extends IPagedListFrame {
         this.classId = classId;
         addAnnounce = new JButton("添加新公告");
         addAnnounce.setPreferredSize(new Dimension(510, 40));
-        addAnnounce.addActionListener(e -> new AddAnnounceFrame().showWindow());
+        addAnnounce.addActionListener(e -> {
+            try {
+                new AddAnnounceFrame().showWindow();
+            } catch (Exception e1) {
+                new IInformationFrame("错误", "因为某些原因，无法显示窗口！").showWindow();
+            }
+        });
 
         setTotalPage(99999999);
         setPageNum(1);

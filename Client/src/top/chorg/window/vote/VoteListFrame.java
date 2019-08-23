@@ -3,6 +3,7 @@ package top.chorg.window.vote;
 import top.chorg.kernel.api.vote.VoteListInfo;
 import top.chorg.kernel.api.vote.VoteListQueryInfo;
 import top.chorg.window.foundation.IPagedListFrame;
+import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,13 @@ public class VoteListFrame extends IPagedListFrame {
         this.classId = classId;
         addVote = new JButton("添加新投票");
         addVote.setPreferredSize(new Dimension(510, 40));
-        addVote.addActionListener(e -> new AddVoteFrame().showWindow());
+        addVote.addActionListener(e -> {
+            try {
+                new AddVoteFrame().showWindow();
+            } catch (Exception e1) {
+                new IInformationFrame("错误", "因为某些错误，无法显示窗口！").showWindow();
+            }
+        });
 
         setTotalPage(99999999);
         setPageNum(1);
