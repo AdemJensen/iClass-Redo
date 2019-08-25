@@ -5,9 +5,23 @@ import java.security.MessageDigest;
 import java.util.Scanner;
 
 import static top.chorg.kernel.Variable.gson;
-import static top.chorg.kernel.Variable.resource;
 
 public class FileUtils {
+
+    public static String convertFileSize(long size) {
+        long kb = 1024;
+        long mb = kb * 1024;
+        long gb = mb * 1024;
+
+        if (size >= gb) return String.format("%.1f GB", (float) size / gb);
+        else if (size >= mb) {
+            float f = (float) size / mb;
+            return String.format(f > 100 ? "%.0f MB" : "%.1f MB", f);
+        } else if (size >= kb) {
+            float f = (float) size / kb;
+            return String.format(f > 100 ? "%.0f KB" : "%.1f KB", f);
+        } else return String.format("%d B", size);
+    }
 
     public static String readFileContent(String path) {
         StringBuilder content = new StringBuilder();
@@ -94,17 +108,19 @@ public class FileUtils {
 
     /**
      * 保证文件的MD5值为32位
-     * @param filePath  文件路径
+     *
+     * @param filePath 文件路径
      * @return Hash
      * @throws FileNotFoundException 文件未找到
      */
-    public static String md5HashCode32(String filePath) throws FileNotFoundException{
+    public static String md5HashCode32(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(filePath);
         return md5HashCode32(fis);
     }
 
     /**
      * java计算文件32位md5值
+     *
      * @param fis 输入流
      * @return Hash
      */
@@ -122,7 +138,7 @@ public class FileUtils {
             fis.close();
 
             //转换并返回包含16个元素字节数组,返回数值范围为-128到127
-            byte[] md5Bytes  = md.digest();
+            byte[] md5Bytes = md.digest();
             StringBuilder hexValue = new StringBuilder();
             for (byte md5Byte : md5Bytes) {
                 int val = ((int) md5Byte) & 0xff;//解释参见最下方

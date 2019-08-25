@@ -3,11 +3,9 @@ package top.chorg.kernel;
 import com.google.gson.Gson;
 import top.chorg.kernel.api.UserInfo;
 import top.chorg.kernel.foundation.Network;
-import top.chorg.kernel.network.AnnounceNet;
-import top.chorg.kernel.network.AuthNet;
-import top.chorg.kernel.network.NetDispatcher;
-import top.chorg.kernel.network.VoteNet;
+import top.chorg.kernel.network.*;
 import top.chorg.support.TimeUtils;
+import top.chorg.window.file.FileTaskFrame;
 import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.text.Style;
@@ -20,15 +18,17 @@ public class Variable {
     public static Gson gson = new Gson();
     public static NetDispatcher netDispatcher = new NetDispatcher();
     public static StyleContext styleContext = new StyleContext();
-    public static Network masterNet = new Network("127.0.0.1", 8888);
-    public static Network fileNet = new Network("127.0.0.1", 8889);
+    public static Network masterCon = new Network("127.0.0.1", 8888);
     public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
 
     public static UserInfo self = null;
 
     public static AuthNet authNet = new AuthNet();
     public static VoteNet voteNet = new VoteNet();
+    public static FileNet fileNet = new FileNet();
     public static AnnounceNet announceNet = new AnnounceNet();
+
+    public static FileTaskFrame fileTaskFrame = new FileTaskFrame();
 
     public static String getRelativePath(String root, String...relativePath) {
         StringBuilder builder = new StringBuilder(root);
@@ -89,6 +89,31 @@ public class Variable {
                     "失败", "错误：" + str
             ).showWindow();
         }
+    }
+
+    public static String getFileIconName(String name) {
+        name = name.toLowerCase();
+        if (name.endsWith(".xls") || name.endsWith(".xlsx")) return "excel";
+        if (name.endsWith(".bmp") || name.endsWith(".png") || name.endsWith(".jpg") ||
+                name.endsWith(".jpeg") || name.endsWith(".gif")) return "img";
+        if (name.endsWith(".wav") || name.endsWith(".mp3") || name.endsWith(".ogg") || name.endsWith(".cda") ||
+                name.endsWith(".ra") || name.endsWith(".midi") || name.endsWith(".ape") || name.endsWith(".flac") ||
+                name.endsWith(".aac") || name.endsWith(".mkv")) return "music";
+        if (name.endsWith(".pdf")) return "pdf";
+        if (name.endsWith(".ppt") || name.endsWith(".pptx")) return "ppt";
+        if (name.endsWith(".doc") || name.endsWith(".docx")) return "word";
+        if (name.endsWith(".mp4") || name.endsWith(".avi") || name.endsWith(".wma") || name.endsWith(".rmvb") ||
+                name.endsWith(".rm") || name.endsWith(".flash") || name.endsWith(".mid") || name.endsWith(".3gp"))
+            return "video";
+        if (name.endsWith(".apk")) return "apk";
+        if (name.endsWith(".exe")) return "exe";
+        if (name.endsWith(".txt")) return "txt";
+        if (name.endsWith(".java") || name.endsWith(".php") || name.endsWith(".html") || name.endsWith(".htm") ||
+                name.endsWith(".cpp") || name.endsWith(".c") || name.endsWith(".obj") || name.endsWith(".h") ||
+                name.endsWith(".hpp") || name.endsWith(".perl") || name.endsWith(".py") || name.endsWith(".kt") ||
+                name.endsWith(".cs") || name.endsWith(".qt") || name.endsWith(".ini") || name.endsWith(".conf") ||
+                name.endsWith(".jar")) return "code";
+        return "unknown";
     }
 
 }

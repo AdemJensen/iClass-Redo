@@ -18,25 +18,25 @@ public class VoteListLabel extends IPanel {
 
     public VoteListFrame list;
     public ILinkedButton statistic, edit, delete;
-    public JLabel title, editInfo, timeInfo;
+    public JLabel titleLabel, editInfoLabel, timeInfoLabel;
 
     public VoteListLabel(int width, VoteListFrame list, VoteListInfo info) {
         super(width, 70, null, new FlowLayout(FlowLayout.LEFT));
         this.list = list;
-        this.title = new JLabel(info.title);
-        this.title.setPreferredSize(new Dimension(width - 140, 20));
-        this.title.setFont(new Font("宋体", Font.PLAIN, 19));
+        this.titleLabel = new JLabel(info.title);
+        this.titleLabel.setPreferredSize(new Dimension(width - 140, 20));
+        this.titleLabel.setFont(new Font("宋体", Font.PLAIN, 19));
 
-        this.timeInfo = new JLabel(info.getTimeInfoStr());
-        this.timeInfo.setPreferredSize(new Dimension(width - 10, 18));
-        this.timeInfo.setFont(new Font("宋体", Font.PLAIN, 10));
+        this.timeInfoLabel = new JLabel(info.getTimeInfoStr());
+        this.timeInfoLabel.setPreferredSize(new Dimension(width - 10, 18));
+        this.timeInfoLabel.setFont(new Font("宋体", Font.PLAIN, 10));
 
-        this.editInfo = new JLabel(info.getEditInfoStr());
-        this.editInfo.setPreferredSize(new Dimension(width - 10, 18));
-        this.editInfo.setFont(new Font("宋体", Font.PLAIN, 10));
-        this.editInfo.setForeground(Color.GRAY);
+        this.editInfoLabel = new JLabel(info.getEditInfoStr());
+        this.editInfoLabel.setPreferredSize(new Dimension(width - 10, 18));
+        this.editInfoLabel.setFont(new Font("宋体", Font.PLAIN, 10));
+        this.editInfoLabel.setForeground(Color.GRAY);
 
-        this.addComp(this.title);
+        this.addComp(this.titleLabel);
         if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
             this.statistic = new ILinkedButton("数据");
             this.statistic.setPreferredSize(new Dimension(35, 20));
@@ -70,7 +70,7 @@ public class VoteListLabel extends IPanel {
             ).showWindow());
             this.addComp(this.statistic, this.edit, this.delete);
         }
-        this.addComp(this.timeInfo, this.editInfo);
+        this.addComp(this.timeInfoLabel, this.editInfoLabel);
 
         this.addMouseListener(new IClickableAdapter(this));
 

@@ -18,21 +18,21 @@ public class AnnounceListLabel extends IPanel {
 
     public AnnounceListFrame list;
     public ILinkedButton edit, delete;
-    public JLabel title, info;
+    public JLabel titleLabel, infoLabel;
 
     public AnnounceListLabel(int width, AnnounceListFrame list, AnnouncementListInfo info) {
         super(width, 50, null, new FlowLayout(FlowLayout.LEFT));
         this.list = list;
-        this.title = new JLabel(info.title);
-        this.title.setPreferredSize(new Dimension(width - 100, 20));
-        this.title.setFont(new Font("宋体", Font.PLAIN, 19));
+        this.titleLabel = new JLabel(info.title);
+        this.titleLabel.setPreferredSize(new Dimension(width - 100, 20));
+        this.titleLabel.setFont(new Font("宋体", Font.PLAIN, 19));
 
-        this.info = new JLabel(info.getEditInfoStr());
-        this.info.setPreferredSize(new Dimension(width - 10, 18));
-        this.info.setFont(new Font("宋体", Font.PLAIN, 10));
-        this.info.setForeground(Color.GRAY);
+        this.infoLabel = new JLabel(info.getEditInfoStr());
+        this.infoLabel.setPreferredSize(new Dimension(width - 10, 18));
+        this.infoLabel.setFont(new Font("宋体", Font.PLAIN, 10));
+        this.infoLabel.setForeground(Color.GRAY);
 
-        this.addComp(this.title);
+        this.addComp(this.titleLabel);
         if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
             this.edit = new ILinkedButton("编辑");
             this.edit.setPreferredSize(new Dimension(35, 20));
@@ -58,7 +58,7 @@ public class AnnounceListLabel extends IPanel {
             ).showWindow());
             this.addComp(this.edit, this.delete);
         }
-        this.addComp(this.info);
+        this.addComp(this.infoLabel);
 
         this.addMouseListener(new IClickableAdapter(this));
 

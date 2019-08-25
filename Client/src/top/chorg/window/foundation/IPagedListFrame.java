@@ -80,8 +80,8 @@ public class IPagedListFrame extends IFrame {
     public void setPageNum(int page) {
         this.page = page;
         this.pageNum.setNumber(page);
-        nextBtn.setEnabled(page != total);
-        prevBtn.setEnabled(page != 1);
+        nextBtn.setEnabled(page < total);
+        prevBtn.setEnabled(page > 1);
     }
 
     public int getPageNum() {
@@ -91,4 +91,8 @@ public class IPagedListFrame extends IFrame {
         return this.masterPanel;
     }
 
+    @Override
+    public void setDefaultCloseOperation(int operation) {
+        super.setDefaultCloseOperation(operation);
+    }
 }

@@ -86,6 +86,14 @@ public class Network {
          }
     }
 
+    public PrintWriter getPrintWriter() {
+        return printWriter;
+    }
+
+    public BufferedReader getBufferedReader() {
+        return bufferedReader;
+    }
+
     /*
      * 自动建立连接，发送消息并获得回应
      * 与send不同点，一个是自动建立连接，另一个是发送后自动断开连接。
@@ -106,7 +114,7 @@ public class Network {
         return post(serverIp, port, msg, typeOfReturn);
     }
 
-    public void closeSocket() {
+    private void closeSocket() {
         try {
             socket.close();
             printWriter = null;
