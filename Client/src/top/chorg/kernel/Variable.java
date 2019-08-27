@@ -6,7 +6,9 @@ import top.chorg.kernel.foundation.Network;
 import top.chorg.kernel.network.*;
 import top.chorg.support.TimeUtils;
 import top.chorg.window.file.FileTaskFrame;
+import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.notice.IInformationFrame;
+import top.chorg.window.index.MasterFrame;
 
 import javax.swing.text.Style;
 import javax.swing.text.StyleContext;
@@ -26,9 +28,11 @@ public class Variable {
     public static AuthNet authNet = new AuthNet();
     public static VoteNet voteNet = new VoteNet();
     public static FileNet fileNet = new FileNet();
+    public static ChatNet chatNet = new ChatNet();
     public static AnnounceNet announceNet = new AnnounceNet();
 
     public static FileTaskFrame fileTaskFrame = new FileTaskFrame();
+    public static MasterFrame masterFrame;
 
     public static String getRelativePath(String root, String...relativePath) {
         StringBuilder builder = new StringBuilder(root);
@@ -49,6 +53,14 @@ public class Variable {
 
     public static String download(String...relativePath) {
         return getRelativePath("download", relativePath);
+    }
+
+    public static IImageIcon getAvatar(int type, int targetId) {
+        IImageIcon avatar = new IImageIcon(temp(String.format((type == 1 ? "ua@%d.png" : "ga@%d.png"), targetId)));
+        if (!avatar.isValid()) {
+            avatar = new IImageIcon(resource("defaultUserIcon.png"));
+        }
+        return avatar;
     }
 
     public static String getAnnounceEditInfoStr(Date publishDate, Date editDate, int uPub, int uEdit) {

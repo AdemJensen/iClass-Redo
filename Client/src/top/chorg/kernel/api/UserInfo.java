@@ -4,8 +4,7 @@ import top.chorg.window.foundation.IImageIcon;
 
 import java.util.Date;
 
-import static top.chorg.kernel.Variable.resource;
-import static top.chorg.kernel.Variable.temp;
+import static top.chorg.kernel.Variable.*;
 
 public class UserInfo {
 
@@ -26,18 +25,11 @@ public class UserInfo {
         this.qq = qq;
         this.id = id;
         this.sex = sex;
-        assignAvatar();
+        this.assignAvatar();
     }
 
     private void assignAvatar() {
-        avatar = new IImageIcon(temp(String.format("avatar@%d.png", id)));
-        if (!avatar.isValid()) {
-            avatar = new IImageIcon(resource("defaultUserIcon.png"));
-        }
-    }
-
-    public String getUserNameDisplay() {
-        return String.format("%s [%s]", this.username, this.realName);
+        avatar = getAvatar(1, id);
     }
 
 }

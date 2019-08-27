@@ -1,10 +1,12 @@
 package top.chorg.tests.moduleTests;
 
 import top.chorg.kernel.api.UserInfo;
+import top.chorg.window.index.MasterFrame;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import static top.chorg.kernel.Variable.masterFrame;
 import static top.chorg.kernel.Variable.self;
 import static top.chorg.support.TimeUtils.getTimeDurText;
 
@@ -22,6 +24,7 @@ public class VariableTests {
                 "simulation" + id, new Date(), "测试账号", "000000000000",
                 "simulation@test.nemo", "15555555555", "1000000000", id, 1
         );
+        masterFrame = new MasterFrame(self);
     }
 
 }

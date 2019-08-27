@@ -1,11 +1,9 @@
 package top.chorg.window.index.chatList;
 
-import top.chorg.kernel.api.UserInfo;
 import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 
 public class IndexChatList extends JScrollPane {
 
@@ -22,35 +20,34 @@ public class IndexChatList extends JScrollPane {
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setBackground(new Color(0xf6f6f6));
         master.setBackground(new Color(0xf6f6f6));
-        //master.add();
-        this.addItem(new UserIndexChatLabel(width - 20, 45, new UserInfo(
-                "TUN1", new Date(), "TRN", "233333333333", "test@test.com", "12345678901", "1000000000",  2, 1
-        )));
-        this.addItem(new UserIndexChatLabel(240, 45, new UserInfo(
-                "TUN", new Date(), "TRN", "233333333333", "test@test.com", "12345678901", "1000000000", 22, 1
-        )));
 
         this.setViewportView(master);
     }
-//
-//    public Component addImpl(Component comp, int index) {
-//        master.add(comp, index);
-//        height += 55;
-//        master.setPreferredSize(new Dimension(width, height));
-//        return comp;
-//    }
+
+    public void resetHeight() {
+        height = 5;
+        for (Component component : master.getComponents()) {
+            height += component.getPreferredSize().height + 5;
+        }
+        master.setPreferredSize(new Dimension(width, height));
+    }
 
     public void addItem(IndexChatLabel comp) {
         this.addItem(comp, -1);
     }
 
     public void addItem(IndexChatLabel comp, int index) {
-        master.add(comp);
-        // height += 50;
-
+        master.add(comp, index);
         height += comp.getPreferredSize().height;
-        // System.out.println("PREFER:" + comp.getPreferredSize().height);
         master.setPreferredSize(new Dimension(width, height));
+    }
+
+    public void remove(IndexChatLabel comp) {
+        if (!this.master.isAncestorOf(comp)) return;
+        master.remove(comp);
+        height -= comp.getPreferredSize().height;
+        master.setPreferredSize(new Dimension(width, height));
+        this.revalidate();
     }
 
 }

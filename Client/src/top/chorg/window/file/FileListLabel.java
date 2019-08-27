@@ -64,7 +64,7 @@ public class FileListLabel extends IPanel {
         });
 
         rightPanel.addComp(fileNameLabel, download);
-        if ((listType == 0 && authNet.getLevelInClass(targetId, self.id)[0] > 1) || self.id == info.owner) {
+        if ((listType == 0 && authNet.getLevelInGroup(targetId, self.id)[0] > 1) || self.id == info.owner) {
             this.delete = new ILinkedButton("删除");
             this.delete.setPreferredSize(new Dimension(35, 20));
             this.delete.addActionListener(e -> new IConfirmNoticeFrame(

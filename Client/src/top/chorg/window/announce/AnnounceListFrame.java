@@ -13,12 +13,12 @@ import static top.chorg.kernel.Variable.*;
 public class AnnounceListFrame extends IPagedListFrame {
 
     boolean isManager;
-    public int classId;
+    public int groupId;
     public JButton addAnnounce;
 
-    public AnnounceListFrame(int classId) {
+    public AnnounceListFrame(int groupId) {
         super(520, 640, "公告列表");
-        this.classId = classId;
+        this.groupId = groupId;
         addAnnounce = new JButton("添加新公告");
         addAnnounce.setPreferredSize(new Dimension(510, 40));
         addAnnounce.addActionListener(e -> {
@@ -46,13 +46,13 @@ public class AnnounceListFrame extends IPagedListFrame {
     @Override
     public void setPageNum(int page) {
         super.setPageNum(page);
-        boolean newIsManager = authNet.getLevelInClass(classId, self.id)[0] > 1;
+        boolean newIsManager = authNet.getLevelInGroup(groupId, self.id)[0] > 1;
         if (isManager != newIsManager) {
             isManager = newIsManager;
             if (isManager) prepareManageView();
             else prepareNormalView();
         }
-        AnnounceListQueryInfo newInfo = announceNet.getAnnounceList(classId, page);
+        AnnounceListQueryInfo newInfo = announceNet.getAnnounceList(groupId, page);
         this.setTotalPage(newInfo.totalPage);
         this.clearList();
         for (AnnouncementListInfo listInfo : newInfo.infos) {

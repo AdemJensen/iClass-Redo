@@ -16,7 +16,15 @@ public class AnnounceNet {
         );
     }
 
-    public AnnounceListQueryInfo getAnnounceList(int classId, int page) {
+    public AnnouncementInfo getLastAnnounce(int groupId) {
+        // TODO
+        return new AnnouncementInfo(2, "TEST2",
+                "[\"icon\",\"fd6746802ea93b5ea345515a91c1a3f1\",\"icon\",\"d131400f9debda3e071b591e326503c9\",\"icon\",\"0b7d24d850104d14cb21e2049e7a1c52\",\"icon\",\"be4db0e91d0fe56d0394b5b4615e33ea\",\"icon\",\"d1fda401566fd58238447599cbac6ad2\",\"icon\",\"4fc86e9a8a4cccda0c047ea58b6a19af\"]",
+                new Date(), new Date(), 1, 1
+        );
+    }
+
+    public AnnounceListQueryInfo getAnnounceList(int groupId, int page) {
         // TODO
         System.out.println("Loaded announce list page " + page);
         return new AnnounceListQueryInfo(page, 3,

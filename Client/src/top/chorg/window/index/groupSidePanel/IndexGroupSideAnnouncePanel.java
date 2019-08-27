@@ -1,9 +1,10 @@
 package top.chorg.window.index.groupSidePanel;
 
+import top.chorg.kernel.api.announce.AnnouncementInfo;
+import top.chorg.window.announce.AnnounceListFrame;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextPane;
 import top.chorg.window.foundation.button.IImageButton;
-import top.chorg.window.foundation.notice.INoticeFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,10 +16,12 @@ import static top.chorg.kernel.Variable.resource;
 
 public class IndexGroupSideAnnouncePanel extends IPanel {
 
-    JLabel announceName;
-    IImageButton expandButton;
-    ITextPane content;
-    JScrollPane scrollPane;
+    public JLabel announceName;
+    public IImageButton expandButton;
+    public ITextPane content;
+    public JScrollPane scrollPane;
+
+    public int groupId;
 
     public IndexGroupSideAnnouncePanel() {
         super(270, 200);
@@ -58,12 +61,22 @@ public class IndexGroupSideAnnouncePanel extends IPanel {
         scrollPane.setPreferredSize(new Dimension(270, 175));
         scrollPane.setBackground(new Color(0xf6f6f6));
         scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.addComp(announceName, expandButton, scrollPane);
     }
 
     public void expandAction() {
-        new INoticeFrame("TEST", "This is a test area.", true, "OK").showWindow();
+        new AnnounceListFrame(groupId).showWindow();
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public void setAnnounce(AnnouncementInfo info) {
+        this.announceName.setText(info.title);
+        this.content.setCompiledText(info.compiledContent);
     }
 
 }

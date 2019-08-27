@@ -18,6 +18,7 @@ public class FileNet {
      * @return 获取到的用户列表
      */
     public FileListQueryInfo getFileList(int type, int targetId, int page) {
+        System.out.printf("type=%d, targetId=%d, page=%d\n", type, targetId, page);
         return new FileListQueryInfo(page, 3, new FileInfo[] {
                 new FileInfo(1, 1, "file1.png", "01", 100000000, new Date()),
                 new FileInfo(2, 2, "file2.cpp", "02", 100000000, new Date()),

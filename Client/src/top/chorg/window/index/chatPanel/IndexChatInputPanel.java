@@ -1,7 +1,6 @@
 package top.chorg.window.index.chatPanel;
 
 import top.chorg.window.foundation.IEditorExtensionToolBar;
-import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.ITextEditor;
 import top.chorg.window.foundation.button.IImageButton;
@@ -14,9 +13,9 @@ import static top.chorg.kernel.Variable.resource;
 
 public class IndexChatInputPanel extends IPanel {
 
-    IEditorExtensionToolBar extensionToolBar;
-    IImageButton sendButton;
-    ITextEditor editor;
+    public IEditorExtensionToolBar extensionToolBar;
+    public IImageButton sendButton;
+    public ITextEditor editor;
 
     public void resetWidth(int width) {
         this.setPreferredSize(new Dimension(width, 420));
@@ -40,6 +39,7 @@ public class IndexChatInputPanel extends IPanel {
                 // TODO
             }
         };
+        extensionToolBar.setFileEnabled(true);
 
         sendButton = new IImageButton(25, 25, resource("sendIcon.png"));
         sendButton.addActionListener(e -> {

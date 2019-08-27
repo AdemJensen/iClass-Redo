@@ -1,10 +1,12 @@
 package top.chorg.window.index.chatPanel;
 
+import top.chorg.support.TimeUtils;
 import top.chorg.window.foundation.IImageIcon;
 import top.chorg.window.foundation.IPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 import static top.chorg.kernel.Variable.resource;
 
@@ -14,7 +16,7 @@ public class IndexChatDisplayPanel extends JScrollPane {
     public int width, height;
 
     public IndexChatDisplayPanel(int width) {
-        master = new IPanel(width - 20, 1, null, new FlowLayout(FlowLayout.LEFT));
+        master = new IPanel(width - 20, 1, null, new FlowLayout(FlowLayout.CENTER));
         master.setBackground(Color.WHITE);
         this.setViewportView(master);
         this.setPreferredSize(new Dimension(width, 420));
@@ -26,6 +28,8 @@ public class IndexChatDisplayPanel extends JScrollPane {
                 ChatBubble.BUBBLE_LEFT, new IImageIcon(resource("defaultUserIcon.png")), "TEST USER",
                 "[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":423,\\\"content\\\":\\\"这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试\\\"}\"]\n"
         );
+
+        this.addTimeLabel(new Date());
 
         this.addBubble(
                 ChatBubble.BUBBLE_RIGHT, new IImageIcon(resource("defaultUserIcon.png")), "TEST USER",
@@ -57,8 +61,18 @@ public class IndexChatDisplayPanel extends JScrollPane {
         this.repaint();
     }
 
+    public void resetDisplayArea() {
+        this.master.removeAll();
+    }
+
     public void addBubble(int direction, IImageIcon avatar, String name, String compiledDoc) {
         master.add(new ChatMessagePane(width - 30, direction, avatar, name, compiledDoc));
+    }
+
+    public void addTimeLabel(Date date) {
+        JLabel label = new JLabel(TimeUtils.dateToStrLong(date));
+        label.setForeground(Color.LIGHT_GRAY);
+        master.add(label);
     }
 
 }

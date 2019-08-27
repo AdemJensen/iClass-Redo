@@ -33,7 +33,7 @@ public class AnnounceListLabel extends IPanel {
         this.infoLabel.setForeground(Color.GRAY);
 
         this.addComp(this.titleLabel);
-        if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
+        if (authNet.getLevelInGroup(info.groupId, self.id)[0] > 1) {
             this.edit = new ILinkedButton("编辑");
             this.edit.setPreferredSize(new Dimension(35, 20));
             this.edit.addActionListener(e -> {

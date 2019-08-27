@@ -38,7 +38,7 @@ public class IndexUpperPanel extends IPanel {
         this.upperLocatorPanel1.setBackground(new Color(230, 230, 230));
         this.refreshSelfAvatar(selfInfo);
 
-        userNameLabel = new JLabel(selfInfo.getUserNameDisplay());
+        userNameLabel = new JLabel(selfInfo.realName);
         userNameLabel.setPreferredSize(new Dimension(245, 40));
         userNameLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 

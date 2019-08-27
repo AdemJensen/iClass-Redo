@@ -37,7 +37,7 @@ public class VoteListLabel extends IPanel {
         this.editInfoLabel.setForeground(Color.GRAY);
 
         this.addComp(this.titleLabel);
-        if (authNet.getLevelInClass(info.classId, self.id)[0] > 1) {
+        if (authNet.getLevelInGroup(info.groupId, self.id)[0] > 1) {
             this.statistic = new ILinkedButton("数据");
             this.statistic.setPreferredSize(new Dimension(35, 20));
             this.statistic.addActionListener(e -> {

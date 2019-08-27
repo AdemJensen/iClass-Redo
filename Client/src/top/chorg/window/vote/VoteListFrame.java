@@ -13,12 +13,12 @@ import static top.chorg.kernel.Variable.*;
 public class VoteListFrame extends IPagedListFrame {
 
     boolean isManager;
-    public int classId;
+    public int groupId;
     public JButton addVote;
 
-    public VoteListFrame(int classId) {
+    public VoteListFrame(int groupId) {
         super(520, 630, "投票列表");
-        this.classId = classId;
+        this.groupId = groupId;
         addVote = new JButton("添加新投票");
         addVote.setPreferredSize(new Dimension(510, 40));
         addVote.addActionListener(e -> {
@@ -46,13 +46,13 @@ public class VoteListFrame extends IPagedListFrame {
     @Override
     public void setPageNum(int page) {
         super.setPageNum(page);
-        boolean newIsManager = authNet.getLevelInClass(classId, self.id)[0] > 1;
+        boolean newIsManager = authNet.getLevelInGroup(groupId, self.id)[0] > 1;
         if (isManager != newIsManager) {
             isManager = newIsManager;
             if (isManager) prepareManageView();
             else prepareNormalView();
         }
-        VoteListQueryInfo newInfo = voteNet.getVoteList(classId, page);
+        VoteListQueryInfo newInfo = voteNet.getVoteList(groupId, page);
         this.setTotalPage(newInfo.totalPage);
         this.clearList();
         for (VoteListInfo listInfo : newInfo.infos) {

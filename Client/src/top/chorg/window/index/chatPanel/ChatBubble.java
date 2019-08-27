@@ -10,8 +10,8 @@ import java.awt.geom.GeneralPath;
 
 public class ChatBubble extends IPanel {
 
-    final static int BUBBLE_LEFT = 0;
-    final static int BUBBLE_RIGHT = 1;
+    final public static int BUBBLE_LEFT = 0;
+    final public static int BUBBLE_RIGHT = 1;
 
     ITextPane textPane;
     boolean isLeft;

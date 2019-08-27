@@ -17,7 +17,7 @@ public class VoteNet {
         );
     }
 
-    public VoteListQueryInfo getVoteList(int classId, int page) {
+    public VoteListQueryInfo getVoteList(int groupId, int page) {
         // TODO
         System.out.println("Loaded announce list page " + page);
         return new VoteListQueryInfo(page, 3,
