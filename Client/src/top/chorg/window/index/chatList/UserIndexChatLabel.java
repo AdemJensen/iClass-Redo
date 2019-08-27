@@ -1,6 +1,6 @@
 package top.chorg.window.index.chatList;
 
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.kernel.api.chat.ChatMsg;
 import top.chorg.kernel.api.chat.UnreadChatQueryInfo;
 import top.chorg.window.index.chatPanel.ChatBubble;

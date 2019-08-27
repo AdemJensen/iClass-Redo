@@ -1,6 +1,6 @@
 package top.chorg.window.auth;
 
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.support.TimeUtils;
 import top.chorg.window.foundation.IFrame;
 import top.chorg.window.foundation.IImageIcon;

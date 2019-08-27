@@ -1,6 +1,6 @@
 package top.chorg.window.index;
 
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.button.IImageButton;
 import top.chorg.window.foundation.IImageIcon;
@@ -9,8 +9,6 @@ import top.chorg.window.foundation.IPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
-import static top.chorg.kernel.Variable.resource;
 
 public class IndexUpperPanel extends IPanel {
 

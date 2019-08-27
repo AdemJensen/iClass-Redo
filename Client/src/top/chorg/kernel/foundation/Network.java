@@ -42,6 +42,7 @@ public class Network {
                         String msg = bufferedReader.readLine();
                         if (msg == null) {
                             this.closeSocket();
+                            break;
                         }
                         Message msgObj = new Message(msg);
                         if (requestQueue.contains(msgObj.getToken()) &&

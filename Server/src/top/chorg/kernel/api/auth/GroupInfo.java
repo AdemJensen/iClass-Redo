@@ -1,15 +1,10 @@
-package top.chorg.kernel.api;
-
-import top.chorg.window.foundation.IImageIcon;
+package top.chorg.kernel.api.auth;
 
 import java.util.Date;
-
-import static top.chorg.kernel.Variable.*;
 
 public class GroupInfo {
 
     public int id;
-    public IImageIcon avatar;
     public String name, introduction;
     public Date date;
     public int[] classmates;
@@ -20,11 +15,6 @@ public class GroupInfo {
         this.introduction = introduction;
         this.date = date;
         this.classmates = classmates;
-        this.assignAvatar();
-    }
-
-    private void assignAvatar() {
-        avatar = getAvatar(0, id);
     }
 
 }

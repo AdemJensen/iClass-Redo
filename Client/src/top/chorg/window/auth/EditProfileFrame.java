@@ -1,7 +1,6 @@
 package top.chorg.window.auth;
 
-import top.chorg.kernel.api.UserInfo;
-import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
+import top.chorg.kernel.api.auth.UserInfo;
 
 import java.awt.*;
 

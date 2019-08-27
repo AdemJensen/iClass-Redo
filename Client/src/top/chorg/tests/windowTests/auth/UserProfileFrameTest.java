@@ -1,6 +1,6 @@
 package top.chorg.tests.windowTests.auth;
 
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.window.auth.UserProfileFrame;
 import top.chorg.window.foundation.notice.IInformationFrame;
 

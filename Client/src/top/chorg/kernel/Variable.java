@@ -1,7 +1,7 @@
 package top.chorg.kernel;
 
 import com.google.gson.Gson;
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.kernel.foundation.Network;
 import top.chorg.kernel.network.*;
 import top.chorg.support.TimeUtils;

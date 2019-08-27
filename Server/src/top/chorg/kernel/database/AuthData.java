@@ -1,11 +1,11 @@
-package top.chorg.kernel.network;
+package top.chorg.kernel.database;
 
 import top.chorg.kernel.api.auth.GroupInfo;
 import top.chorg.kernel.api.auth.UserInfo;
 
 import java.util.Date;
 
-public class AuthNet {
+public class AuthData {
 
     public String[] getRealName(int...id) {
         // TODO

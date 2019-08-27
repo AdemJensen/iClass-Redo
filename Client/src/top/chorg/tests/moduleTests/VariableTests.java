@@ -1,6 +1,6 @@
 package top.chorg.tests.moduleTests;
 
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.window.index.MasterFrame;
 
 import java.util.Calendar;

@@ -1,7 +1,7 @@
 package top.chorg.window.index;
 
-import top.chorg.kernel.api.GroupInfo;
-import top.chorg.kernel.api.UserInfo;
+import top.chorg.kernel.api.auth.GroupInfo;
+import top.chorg.kernel.api.auth.UserInfo;
 import top.chorg.kernel.api.chat.UnreadChatQueryInfo;
 import top.chorg.window.foundation.*;
 import top.chorg.window.index.chatList.GroupIndexChatLabel;
