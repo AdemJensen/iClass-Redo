@@ -28,6 +28,7 @@ public class ChatBubble extends IPanel {
         textPane = new ITextPane(width - 33, 1);
         textPane.setBackground(background);
         textPane.setCompiledText(compiledDoc);
+        textPane.setEditable(false);
 
         this.setBackground(background);
 

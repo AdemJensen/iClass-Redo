@@ -80,8 +80,5 @@ public class UserProfileFrame extends IFrame {
 
         this.setLocationCenter(380, editButtonAction == null ? 230 : 260);
 
-        //rightPanel = new IPanel()
-
-
     }
 }

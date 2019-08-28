@@ -94,7 +94,7 @@ public class MasterFrame extends IFrame {
         }
         chatPanel.prepareGroupView(displayName, groupId);
         chatPanel.resetWidth(570);
-        chatPanel.displayPanel.removeAll();
+        chatPanel.displayPanel.resetDisplayArea();
         masterPanel.revalidate();
     }
 

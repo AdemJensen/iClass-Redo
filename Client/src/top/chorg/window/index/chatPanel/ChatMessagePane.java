@@ -46,7 +46,7 @@ public class ChatMessagePane extends IPanel {
 
         this.name.setFont(new Font("宋体", Font.PLAIN, 12));
         this.name.setForeground(Color.GRAY);
-        this.name.setBorder(new EmptyBorder(0, 15, 0, 15));
+        this.name.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         this.bubble = new ChatBubble(
                 width - 90, direction,
@@ -54,11 +54,11 @@ public class ChatMessagePane extends IPanel {
                 compiledDoc
         );
 
-        this.name.setPreferredSize(new Dimension(width - 90, 10));
-        this.msgPanel.setPreferredSize(new Dimension(width - 90, bubble.getTargetHeight() + 35));
+        this.name.setPreferredSize(new Dimension(width - 90, 15));
+        this.msgPanel.setPreferredSize(new Dimension(width - 90, bubble.getTargetHeight() + 40));
         this.avatarPanel.setPreferredSize(new Dimension(35, bubble.getTargetHeight() + 25));
 
-        this.setPreferredSize(new Dimension(width, bubble.getTargetHeight() + 35));
+        this.setPreferredSize(new Dimension(width, bubble.getTargetHeight() + 40));
 
         msgPanel.addComp(this.name, this.bubble);
         avatarPanel.addComp(this.avatarLabel);

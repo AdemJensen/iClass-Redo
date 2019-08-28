@@ -229,7 +229,7 @@ public class ITextPane extends JTextPane {
         this.repaint();
     }
 
-    private class WarpEditorKit extends StyledEditorKit {
+    private static class WarpEditorKit extends StyledEditorKit {
 
         private ViewFactory defaultFactory = new WarpColumnFactory();
 
@@ -239,7 +239,7 @@ public class ITextPane extends JTextPane {
         }
     }
 
-    private class WarpColumnFactory implements ViewFactory {
+    private static class WarpColumnFactory implements ViewFactory {
 
         public View create(Element elem) {
             String kind = elem.getName();
@@ -263,7 +263,7 @@ public class ITextPane extends JTextPane {
         }
     }
 
-    private class WarpIconView extends IconView {
+    private static class WarpIconView extends IconView {
 
         public WarpIconView(Element elem) {
             super(elem);
@@ -282,7 +282,7 @@ public class ITextPane extends JTextPane {
         }
     }
 
-    private class WarpLabelView extends LabelView {
+    private static class WarpLabelView extends LabelView {
 
         public WarpLabelView(Element elem) {
             super(elem);

@@ -89,6 +89,7 @@ public class IndexChatPanel extends IPanel {
 
     public void refreshBubbleAreaHeight() {
         this.displayPanel.resetHeight();
+        this.revalidate();
     }
 
     public void prepareSingleView(String displayName, int userId) {

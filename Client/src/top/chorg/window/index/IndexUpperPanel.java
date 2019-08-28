@@ -1,6 +1,8 @@
 package top.chorg.window.index;
 
 import top.chorg.kernel.api.auth.UserInfo;
+import top.chorg.window.auth.EditProfileFrame;
+import top.chorg.window.auth.UserProfileFrame;
 import top.chorg.window.foundation.IClickableAdapter;
 import top.chorg.window.foundation.button.IImageButton;
 import top.chorg.window.foundation.IImageIcon;
@@ -9,6 +11,11 @@ import top.chorg.window.foundation.IPanel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import static top.chorg.kernel.Variable.authNet;
+import static top.chorg.kernel.Variable.self;
 
 public class IndexUpperPanel extends IPanel {
 
@@ -31,6 +38,13 @@ public class IndexUpperPanel extends IPanel {
         );
         this.userInfoPanel.setBackground(new Color(230, 230, 230));
         this.userInfoPanel.addMouseListener(new IClickableAdapter(this.userInfoPanel));
+        this.userInfoPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                self = authNet.getUserInfo(self.id);
+                new UserProfileFrame(self, e1 -> new EditProfileFrame().showWindow()).showWindow();
+            }
+        });
 
         this.upperLocatorPanel1 = new IPanel(730 + 55, 45);
         this.upperLocatorPanel1.setBackground(new Color(230, 230, 230));

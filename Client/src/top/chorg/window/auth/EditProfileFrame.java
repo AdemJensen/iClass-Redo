@@ -1,7 +1,5 @@
 package top.chorg.window.auth;
 
-import top.chorg.kernel.api.auth.UserInfo;
-
 import java.awt.*;
 
 import static top.chorg.kernel.Variable.authNet;
@@ -18,19 +16,24 @@ public class EditProfileFrame extends RegisterFrame {
         usernamePanel.textField.setEditable(false);
         usernamePanel.textField.setBackground(new Color(0, 0, 0, 0));
 
+        this.assignData();
+
         this.setLocationCenter(420, 400);
     }
 
     public void assignData() {
-        UserInfo info = authNet.getUserInfo(self.id);
-        this.usernamePanel.val(info.username);
-        this.realNamePanel.val(info.realName);
-        this.avatarIcon.setImage(info.avatar.getImage());
-        this.emailPanel.val(info.email);
-        this.phonePanel.val(info.phone);
-        this.qqPanel.val(info.qq);
-        this.stuNumPanel.val(info.stuNum);
-        this.sexPanel.val(info.sex);
+        self = authNet.getUserInfo(self.id);
+        this.usernamePanel.val(self.username);
+        this.realNamePanel.val(self.realName);
+        this.avatarIcon.setImage(self.avatar.getImage());
+        this.avatarIcon.setSize(120, 120);
+        this.avatarIcon.setRadius(120);
+        this.emailPanel.val(self.email);
+        this.phonePanel.val(self.phone);
+        this.qqPanel.val(self.qq);
+        this.stuNumPanel.val(self.stuNum);
+        this.sexPanel.val(self.sex);
+        this.repaint();
     }
 
     public void submitAction() {
@@ -44,7 +47,14 @@ public class EditProfileFrame extends RegisterFrame {
     }
 
     public boolean isWritten() {
-        return true;    // TODO: 检查是否被修改
+        return !realNamePanel.val().equals(self.realName) ||
+                !emailPanel.val().equals(self.email) ||
+                !phonePanel.val().equals(self.phone) ||
+                !qqPanel.val().equals(self.qq) ||
+                !stuNumPanel.val().equals(self.stuNum) ||
+                passwordPanel.val().length() > 0 ||
+                confirmPanel.val().length() > 0 ||
+                sexPanel.val() != self.sex;
     }
 
     public void dispose() {

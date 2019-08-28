@@ -8,7 +8,7 @@ import java.util.Date;
 public class ChatNet {
 
     public ChatMsg[] getChatHistory(int type, int fromId) {
-        return new ChatMsg[0];
+        return new ChatMsg[] {new ChatMsg(1, 1, type, fromId, new Date(), "[\"icon\",\"34e05d90aaace4799167ce368dc2c650\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":1,\\\"len\\\":1,\\\"content\\\":\\\" \\\"}\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":2,\\\"len\\\":1,\\\"content\\\":\\\" \\\"}\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":3,\\\"len\\\":1,\\\"content\\\":\\\" \\\"}\",\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":4,\\\"len\\\":1,\\\"content\\\":\\\"\\\"}\"]")};
     }
 
     public UnreadChatQueryInfo[] getUnreadChat() {

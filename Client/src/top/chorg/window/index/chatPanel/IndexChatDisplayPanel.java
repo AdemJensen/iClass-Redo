@@ -24,20 +24,6 @@ public class IndexChatDisplayPanel extends JScrollPane {
         this.setBackground(Color.WHITE);
         this.setBorder(null);
 
-        this.addBubble(
-                ChatBubble.BUBBLE_LEFT, new IImageIcon(resource("defaultUserIcon.png")), "TEST USER",
-                "[\"content\",\"{\\\"color\\\":{\\\"value\\\":-16777216,\\\"falpha\\\":0.0},\\\"family\\\":\\\"Lucida Grande\\\",\\\"size\\\":13,\\\"isItalic\\\":false,\\\"isBold\\\":false,\\\"isUnderline\\\":false,\\\"startOff\\\":0,\\\"len\\\":423,\\\"content\\\":\\\"这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试这里是超长消息测试\\\"}\"]\n"
-        );
-
-        this.addTimeLabel(new Date());
-
-        this.addBubble(
-                ChatBubble.BUBBLE_RIGHT, new IImageIcon(resource("defaultUserIcon.png")), "TEST USER",
-                "[\"icon\",\"fd6746802ea93b5ea345515a91c1a3f1\",\"icon\",\"d131400f9debda3e071b591e326503c9\",\"icon\",\"0b7d24d850104d14cb21e2049e7a1c52\",\"icon\",\"be4db0e91d0fe56d0394b5b4615e33ea\",\"icon\",\"d1fda401566fd58238447599cbac6ad2\",\"icon\",\"4fc86e9a8a4cccda0c047ea58b6a19af\"]"
-        );
-
-        resetHeight();
-
         this.setBackground(Color.WHITE);
     }
 
@@ -63,6 +49,7 @@ public class IndexChatDisplayPanel extends JScrollPane {
 
     public void resetDisplayArea() {
         this.master.removeAll();
+        this.master.revalidate();
     }
 
     public void addBubble(int direction, IImageIcon avatar, String name, String compiledDoc) {
