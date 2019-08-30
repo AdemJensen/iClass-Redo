@@ -7,6 +7,10 @@ import java.util.Date;
 
 public class AuthNet {
 
+    public String login(String username, String password) {
+        return "用户名或密码错误";
+    }
+
     public String[] getRealName(int...id) {
         // TODO
         String[] str = new String[id.length];

@@ -1,5 +1,8 @@
 package top.chorg.window.auth;
 
+import top.chorg.support.validator.auth.*;
+import top.chorg.window.foundation.notice.IInformationFrame;
+
 import java.awt.*;
 
 import static top.chorg.kernel.Variable.authNet;
@@ -36,7 +39,37 @@ public class EditProfileFrame extends RegisterFrame {
         this.repaint();
     }
 
+    @Override
+    public String validateData() {
+        String[] errors = new UsernameValidator(usernamePanel.val()).validate("用户名");
+        if (errors.length > 0) return errors[0];
+        if (passwordPanel.val().length() > 0) {
+            errors = new PasswordValidator(passwordPanel.val()).validate("密码");
+            if (errors.length > 0) return errors[0];
+            if (!passwordPanel.val().equals(confirmPanel.val())) return "两次密码输入不一致";
+        }
+        if (sexPanel.val() < 0) return "请选择您的性别";
+        errors = new RealNameValidator(realNamePanel.val()).validate("真实姓名");
+        if (errors.length > 0) return errors[0];
+        errors = new StuNumberValidator(stuNumPanel.val()).validate("学号");
+        if (errors.length > 0) return errors[0];
+        if (phonePanel.val().length() > 0) {
+            errors = new PhoneValidator(phonePanel.val()).validate("手机");
+            if (errors.length > 0) return errors[0];
+        }
+        if (emailPanel.val().length() > 0) {
+            errors = new EmailValidator(emailPanel.val()).validate("电子邮箱");
+            if (errors.length > 0) return errors[0];
+        }
+        return "";
+    }
+
     public void submitAction() {
+        String validation = validateData();
+        if (validation.length() > 0) {
+            new IInformationFrame("修改失败", validation).showWindow();
+            return;
+        }
         // TODO: 提交修改请求
 
         this.dispose();

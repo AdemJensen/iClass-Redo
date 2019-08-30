@@ -132,7 +132,7 @@ public abstract class Validator {
         if (ascii && !validateAscii()) result.add(displayName + "只能包含英文字母和数字");
         if (digit && !validateDigit()) result.add(displayName + "只能包含数字");
         if (custom && this.validateCustomRequirement(displayName).length > 0) {
-            result.addAll(Arrays.asList(this.echoCustomRequirement(displayName)));
+            result.addAll(Arrays.asList(this.validateCustomRequirement(displayName)));
         }
         return result.toArray(new String[0]);
     }

@@ -5,20 +5,18 @@ import top.chorg.support.validator.foundation.Validator;
 public class StuNumberValidator extends Validator {
     public StuNumberValidator(String str) {
         super(str);
-        requireMinLen(12);
-        requireMaxLen(12);
         requireDigit();
+        requireCustomValidation();
+    }
+
+    @Override
+    protected String[] validateCustomRequirement(String displayName) {
+        if (str.length() != 12) return new String[] {displayName + "必须为有效的12位号码"};
+        return new String[0];
     }
 
     @Override
     public String[] echoRequirements(String displayName) {
         return new String[]{displayName + "必须为有效的12位号码"};
-    }
-
-    @Override
-    public String[] validate(String displayName) {
-        String [] res = super.validate();
-        if (res.length > 0) return new String[]{displayName + "必须为有效的12位号码"};
-        else return new String[0];
     }
 }

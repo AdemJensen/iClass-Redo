@@ -1,14 +1,23 @@
 package top.chorg.window.auth;
 
+import com.google.gson.JsonParseException;
+import top.chorg.kernel.api.auth.UserInfo;
+import top.chorg.support.MD5;
+import top.chorg.support.validator.auth.PasswordValidator;
+import top.chorg.support.validator.auth.UsernameValidator;
 import top.chorg.window.foundation.form.IFormButtonPanel;
 import top.chorg.window.foundation.IFrame;
 import top.chorg.window.foundation.IPanel;
 import top.chorg.window.foundation.form.IPasswordFieldPanel;
 import top.chorg.window.foundation.form.ITextFieldPanel;
+import top.chorg.window.foundation.notice.IInformationFrame;
+import top.chorg.window.index.MasterFrame;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+
+import static top.chorg.kernel.Variable.*;
 
 public class LoginFrame extends IFrame {
 
@@ -84,7 +93,27 @@ public class LoginFrame extends IFrame {
         buttonPanel.addActionListeners(
                 e -> {
                     buttonPanel.buttonSet[0].setText("登录中...");
-
+                    String[] errors = new UsernameValidator(usernamePanel.val()).validate("用户名");
+                    if (errors.length > 0) {
+                        new IInformationFrame("登录失败", errors[0], false).showWindow();
+                        buttonPanel.buttonSet[0].setText("登录");
+                        return;
+                    }
+                    errors = new PasswordValidator(passwordPanel.val()).validate("密码");
+                    if (errors.length > 0) {
+                        new IInformationFrame("登录失败", errors[0], false).showWindow();
+                        buttonPanel.buttonSet[0].setText("登录");
+                        return;
+                    }
+                    String res = authNet.login(usernamePanel.val(), MD5.encode(passwordPanel.val()));
+                    try {
+                        self = gson.fromJson(res, UserInfo.class);
+                        masterFrame = new MasterFrame(self);
+                        this.dispose();
+                    } catch (JsonParseException e1) {
+                        buttonPanel.buttonSet[0].setText("登录");
+                        new IInformationFrame("登录失败", "登录失败：" + res, false).showWindow();
+                    }
                 },
                 e -> {
                     usernamePanel.val("");

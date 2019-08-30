@@ -1,6 +1,7 @@
 package top.chorg.window.auth;
 
 import top.chorg.support.FileUtils;
+import top.chorg.support.validator.auth.*;
 import top.chorg.window.foundation.*;
 import top.chorg.window.foundation.button.ILinkedButton;
 import top.chorg.window.foundation.form.IFormButtonPanel;
@@ -8,6 +9,7 @@ import top.chorg.window.foundation.form.IPasswordFieldPanel;
 import top.chorg.window.foundation.form.IRadioBoxPanel;
 import top.chorg.window.foundation.form.ITextFieldPanel;
 import top.chorg.window.foundation.notice.IConfirmNoticeFrame;
+import top.chorg.window.foundation.notice.IInformationFrame;
 import top.chorg.window.foundation.notice.INoticeFrame;
 
 import javax.swing.*;
@@ -148,6 +150,28 @@ public class RegisterFrame extends IFrame {
         sexPanel.val(-1);
     }
 
+    public String validateData() {
+        String[] errors = new UsernameValidator(usernamePanel.val()).validate("用户名");
+        if (errors.length > 0) return errors[0];
+        errors = new PasswordValidator(passwordPanel.val()).validate("密码");
+        if (errors.length > 0) return errors[0];
+        if (!passwordPanel.val().equals(confirmPanel.val())) return "两次密码输入不一致";
+        errors = new RealNameValidator(realNamePanel.val()).validate("真实姓名");
+        if (errors.length > 0) return errors[0];
+        errors = new StuNumberValidator(stuNumPanel.val()).validate("学号");
+        if (errors.length > 0) return errors[0];
+        if (sexPanel.val() < 0) return "请选择您的性别";
+        if (emailPanel.val().length() > 0) {
+            errors = new EmailValidator(emailPanel.val()).validate("电子邮箱");
+            if (errors.length > 0) return errors[0];
+        }
+        if (phonePanel.val().length() > 0) {
+            errors = new PhoneValidator(phonePanel.val()).validate("手机");
+            if (errors.length > 0) return errors[0];
+        }
+        return "";
+    }
+
     public boolean isWritten() {
         return usernamePanel.val().length() > 0 ||
                 realNamePanel.val().length() > 0 ||
@@ -206,6 +230,11 @@ public class RegisterFrame extends IFrame {
     }
 
     public void submitAction() {
+        String validation = validateData();
+        if (validation.length() > 0) {
+            new IInformationFrame("注册失败", validation).showWindow();
+            return;
+        }
         // TODO: 提交注册请求
 
         this.dispose();
