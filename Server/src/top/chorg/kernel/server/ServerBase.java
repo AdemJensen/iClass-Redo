@@ -23,6 +23,7 @@ public abstract class ServerBase {
                 serverSocket = new ServerSocket(port);// 监听客户端的连接
                 while (isRunning) {
                     Socket clientSocket = serverSocket.accept(); // 阻塞
+                    System.out.println("[Master] New connection: " + clientSocket.hashCode());
                     PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     onNewConnection(clientSocket, printWriter, bufferedReader);
@@ -32,6 +33,7 @@ public abstract class ServerBase {
                 isRunning = false;
             }
         });
+        listenerThread.start();
         return true;
     }
 

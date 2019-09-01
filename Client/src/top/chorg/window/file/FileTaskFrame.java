@@ -33,8 +33,10 @@ public class FileTaskFrame extends IPagedListFrame {
         }
     }
 
-    public void addItem(String name, long size, int taskType) {
-        list.add(new FileTaskLabel(470, name, this, new FileNetwork(name, size, taskType)));
+    public void addItem(String displayName, int taskType, FileNetwork con) {
+        FileTaskLabel label = new FileTaskLabel(470, displayName, this, con);
+        con.setDisplay(label);
+        list.add(label);
     }
 
     public void reload() {

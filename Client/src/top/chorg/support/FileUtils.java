@@ -97,9 +97,9 @@ public class FileUtils {
             }
             if (value.isDirectory()) {
                 // 准备复制的源文件夹
-                String dir1 = sourceDir + "/" + value.getName();
+                String dir1 = sourceDir + File.separator + value.getName();
                 // 准备复制的目标文件夹
-                String dir2 = targetDir + "/" + value.getName();
+                String dir2 = targetDir + File.separator + value.getName();
                 if (!copyDirectory(dir1, dir2)) return false;
             }
         }

@@ -14,12 +14,7 @@ import java.net.URL;
 
 public class IImageIcon extends ImageIcon {
 
-    private String fileName;
     private Image original;
-
-    public String getFileName() {
-        return fileName;
-    }
 
     public boolean saveImage(String path) {
         BufferedImage bufferedImage = toBufferedImage(this.getImage());
@@ -27,13 +22,9 @@ public class IImageIcon extends ImageIcon {
     }
 
     public boolean saveOriginalImage(String path) {
-        if (fileName != null) {
-            return FileUtils.copyFile(fileName, path);
-        } else {
-            if (original == null) original = this.getImage();
-            BufferedImage bufferedImage = toBufferedImage(original);
-            return saveBufferedImage(path, bufferedImage);
-        }
+        if (original == null) original = this.getImage();
+        BufferedImage bufferedImage = toBufferedImage(original);
+        return saveBufferedImage(path, bufferedImage);
     }
 
     private boolean saveBufferedImage(String path, BufferedImage bufferedImage) {
@@ -48,44 +39,56 @@ public class IImageIcon extends ImageIcon {
         return true;
     }
 
+    public void resetImage(Image img) {
+        this.setImage(img);
+        this.original = img;
+    }
+
     public IImageIcon(String filename, String description) {
         super(filename, description);
-        this.fileName = filename;
+        original = this.getImage();
     }
 
     public IImageIcon(String filename) {
         super(filename);
-        this.fileName = filename;
+        original = this.getImage();
     }
 
     public IImageIcon(URL location, String description) {
         super(location, description);
+        original = this.getImage();
     }
 
     public IImageIcon(URL location) {
         super(location);
+        original = this.getImage();
     }
 
     public IImageIcon(Image image, String description) {
         super(image, description);
+        original = this.getImage();
     }
 
     public IImageIcon(Image image) {
         super(image);
+        original = this.getImage();
     }
 
     public IImageIcon(byte[] imageData, String description) {
         super(imageData, description);
+        original = this.getImage();
     }
 
     public IImageIcon(byte[] imageData) {
         super(imageData);
+        original = this.getImage();
     }
 
     public IImageIcon() { super(); }
 
     public IImageIcon(ImageIcon imageIcon) {
         super(imageIcon.getImage());
+        original = this.getImage();
     }
 
     public void setSize(int width, int height) {
@@ -157,26 +160,26 @@ public class IImageIcon extends ImageIcon {
             return (BufferedImage)image;
         }
         image = new ImageIcon(image).getImage();
-        BufferedImage bimage = null;
+        BufferedImage bImage = null;
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         try {
             int transparency = Transparency.OPAQUE;
             GraphicsDevice gs = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gs.getDefaultConfiguration();
-            bimage = gc.createCompatibleImage(
+            bImage = gc.createCompatibleImage(
                     image.getWidth(null), image.getHeight(null), transparency);
         } catch (HeadlessException ignored) { }
 
-        if (bimage == null) {
+        if (bImage == null) {
             int type = BufferedImage.TYPE_INT_RGB;
-            bimage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
+            bImage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
         }
-        Graphics g = bimage.createGraphics();
+        Graphics g = bImage.createGraphics();
 
         g.drawImage(image, 0, 0, null);
         g.dispose();
 
-        return bimage;
+        return bImage;
     }
 
     public void setMaximumSize(int width, int height) {

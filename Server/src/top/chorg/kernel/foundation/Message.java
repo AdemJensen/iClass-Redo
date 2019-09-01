@@ -2,7 +2,6 @@ package top.chorg.kernel.foundation;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.internal.Primitives;
-import top.chorg.support.MD5;
 
 import static top.chorg.kernel.Variable.gson;
 
@@ -15,14 +14,9 @@ public class Message {
 
     public Message(int opsId, Object obj, String token) {
         this.opsId = opsId;
-        this.obj = gson.toJson(obj);
+        if (obj != null && obj.getClass().equals(String.class)) this.obj = (String) obj;
+        else this.obj = gson.toJson(obj);
         this.token = token;
-    }
-
-    public Message(int opsId, Object obj) {
-        this.opsId = opsId;
-        this.obj = gson.toJson(obj);
-        this.token = generateToken();
     }
 
     public Message(Message alter) {
@@ -53,11 +47,6 @@ public class Message {
 
     public String prepareContent() {
         return gson.toJson(this);
-    }
-
-    private String generateToken() {
-        messageNum = (messageNum + 1) % 2147480000;
-        return MD5.encode(Integer.toString(messageNum));
     }
 
 }

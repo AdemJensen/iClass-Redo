@@ -1,9 +1,16 @@
 package top.chorg.kernel.network;
 
+import top.chorg.kernel.api.file.FileDownloadRequest;
 import top.chorg.kernel.api.file.FileInfo;
 import top.chorg.kernel.api.file.FileListQueryInfo;
+import top.chorg.kernel.api.file.FileUploadRequest;
+import top.chorg.kernel.foundation.FileNetwork;
+import top.chorg.kernel.foundation.Message;
+import top.chorg.kernel.foundation.enumClass.FileTask;
 
 import java.util.Date;
+
+import static top.chorg.kernel.Variable.*;
 
 public class FileNet {
 
@@ -36,7 +43,7 @@ public class FileNet {
     }
 
     public String downloadFile(int id, String localPath) {
-        // TODO
+        // TODO 将此方法写入新线程中
         return "";
     }
 
@@ -50,24 +57,51 @@ public class FileNet {
         return "";
     }
 
+    public String uploadAvatar(int type, int id) {
+        return uploadFile(
+                getStorageAvatarName(type, id),
+                temp(getStorageAvatarName(type, id))
+        );
+    }
+
+    public String downloadAvatar(int type, int id) {
+        return downloadFile(
+                getStorageAvatarName(type, id),
+                temp(getStorageAvatarName(type, id))
+        );
+    }
+
     /**
      * 从服务器下载文件，基准操作
-     * @param hash 文件的hash值
+     * @param fileName 文件的服务端存储名称
      * @param localPath 存储在本地的位置
-     * @return 若为空字符串，则下载成功加入队列，否则是有问题
+     * @return 若为空字符串，则下载成功，否则是有问题
      */
-    private String downloadFile(String hash, String localPath) {
-        return "";
+    private String downloadFile(String fileName, String localPath) {
+        try {
+            String code = masterCon.send(new Message(22, new FileDownloadRequest(fileName)), String.class);
+            return new FileNetwork(fileName, code, localPath, FileTask.FT_DOWNLOAD).startMission();
+        } catch (Exception e) {
+            System.err.println(e.getMessage() == null ? "null" : e.getMessage());
+            return "文件下载失败";
+        }
     }
 
     /**
      * 向服务器上传文件，基准操作
-     * @param hash 文件的hash值
+     * @param fileName 文件的服务端存储名称
      * @param localPath 存储在本地的位置
-     * @return 若为空字符串，则下载成功加入队列，否则是有问题
+     * @return 若为空字符串，则上传成功，否则是有问题
      */
-    private String uploadFile(String hash, String localPath) {
-        return "";
+    private String uploadFile(String fileName, String localPath) {
+        try {
+            String code = masterCon.send(new Message(21, new FileUploadRequest(fileName)), String.class);
+            System.out.println("[DEBUG] Code received: " + code);
+            return new FileNetwork(fileName, code, localPath, FileTask.FT_UPLOAD).startMission();
+        } catch (Exception e) {
+            System.err.println(e.getMessage() == null ? "null" : e.getMessage());
+            return "文件上传失败";
+        }
     }
 
     public String removeFileFromList(int fileId) {

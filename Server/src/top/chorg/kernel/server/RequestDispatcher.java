@@ -1,39 +1,58 @@
 package top.chorg.kernel.server;
 
+import com.google.gson.JsonParseException;
 import top.chorg.kernel.foundation.Message;
+
+import static top.chorg.kernel.Variable.*;
 
 public class RequestDispatcher {
 
-    /*
-     * 本方法用于分发来自客户端的数据查询请求
+    /**
+     * 本方法用于调度来自客户端的请求
+     *
+     * @param userId 发出请求的用户id
+     * @param opsId 请求类型
+     * @param obj 请求所使用的参数
+     * @return 返回请求结果
+     * @throws JsonParseException 处理可能出现的数据无效
+     * 需要所有dispatch方法都抛出JsonParseException异常
      */
-    public Message dispatch(Message msg) {
-        switch(msg.getOpsId()) {
+    private Object dispatch(int userId, int opsId, String obj) throws JsonParseException {
+        switch(opsId) {
             case 1:
-
-                break;
+                return authDispatch.login(obj);
             case 2:
-
-                break;
+                return authDispatch.getRealName(obj);
             case 3:
-
-                break;
+                return authDispatch.register(obj);
             case 4:
 
-                break;
             case 5:
 
-                break;
             case 6:
 
-                break;
-            case 7:
+            case 21:
+                return fileDispatch.upload(userId, obj);
+            case 22:
+                return fileDispatch.download(obj);
+            case 23:
 
-                break;
+            case 24:
+
             default:
-                // 无效来信
+                return "无效操作";
         }
-        return null;
+    }
+
+    public Message doDispatch(int userId, Message msg) {
+        System.out.println("[DEBUG] Received: " + gson.toJson(msg));
+        try {
+            Object res = dispatch(userId, msg.getOpsId(), msg.getObj());
+            if (res == null) return null;
+            return new Message(msg.getOpsId(), res, msg.getToken());
+        } catch (JsonParseException e) {
+            return new Message(msg.getOpsId(), "服务数据格式错误", msg.getToken());
+        }
     }
 
 }

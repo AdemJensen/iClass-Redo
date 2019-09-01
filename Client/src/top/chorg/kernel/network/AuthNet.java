@@ -1,14 +1,55 @@
 package top.chorg.kernel.network;
 
 import top.chorg.kernel.api.auth.GroupInfo;
+import top.chorg.kernel.api.auth.LoginRequest;
+import top.chorg.kernel.api.auth.RegisterRequest;
 import top.chorg.kernel.api.auth.UserInfo;
+import top.chorg.kernel.api.file.FileDownloadRequest;
+import top.chorg.kernel.foundation.Message;
+import top.chorg.window.foundation.IImageIcon;
 
 import java.util.Date;
+
+import static top.chorg.kernel.Variable.*;
 
 public class AuthNet {
 
     public String login(String username, String password) {
-        return "用户名或密码错误";
+        if (self != null) return "已有用户在线";
+        if (!masterCon.connect()) return "无法连接到服务器";
+        try {
+            self = masterCon.send(
+                    new Message(1, new LoginRequest(username, password)), UserInfo.class
+            );
+            fileNet.downloadAvatar(1, self.id);
+            self.assignAvatar();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return "";
+    }
+
+    public String register(String username, String password, String realName, String stuNum,
+                           int sex, String email, String phone, String qq, IImageIcon avatar) {
+        try {
+            int res = masterCon.post(
+                    new Message(
+                            3, new RegisterRequest(username, password, realName, stuNum, email, phone, qq, sex)
+                    ), int.class
+            );
+            if (res < 0) return "服务器出现错误";
+            if (login(username, password) == null) return "注册成功，但头像上传失败，请稍后在个人主页面重新上传头像";
+            avatar.saveImage(temp(getStorageAvatarName(1, res)));
+            String uploadRes = fileNet.uploadAvatar(1, res);
+            masterCon.disconnect();
+            if (uploadRes.length() > 0) {
+                return "注册成功，但头像上传失败，请稍后在个人主页面重新上传头像";
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage() == null ? "null" : e.getMessage());
+            return "无法连接到服务器";
+        }
+        return "";
     }
 
     public String[] getRealName(int...id) {

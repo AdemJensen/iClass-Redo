@@ -106,14 +106,14 @@ public class LoginFrame extends IFrame {
                         return;
                     }
                     String res = authNet.login(usernamePanel.val(), MD5.encode(passwordPanel.val()));
-                    try {
-                        self = gson.fromJson(res, UserInfo.class);
-                        masterFrame = new MasterFrame(self);
-                        this.dispose();
-                    } catch (JsonParseException e1) {
+                    if (res.length() > 0) {
                         buttonPanel.buttonSet[0].setText("登录");
                         new IInformationFrame("登录失败", "登录失败：" + res, false).showWindow();
+                        return;
                     }
+                    masterFrame = new MasterFrame(self);
+                    masterFrame.showWindow();
+                    this.dispose();
                 },
                 e -> {
                     usernamePanel.val("");

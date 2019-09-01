@@ -10,6 +10,7 @@ import top.chorg.window.foundation.notice.IInformationFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 import static top.chorg.kernel.Variable.*;
 
@@ -57,7 +58,7 @@ public class FileListLabel extends IPanel {
                 dialog.setFile(info.name);
                 dialog.setMultipleMode(false);
                 dialog.setVisible(true);
-                fileNet.downloadFile(info.id, dialog.getDirectory() + "/" + info.name);
+                fileNet.downloadFile(info.id, dialog.getDirectory() + File.separator + info.name);
             } catch (Exception e1) {
                 new IInformationFrame("错误", "数据加载失败！").showWindow();
             }

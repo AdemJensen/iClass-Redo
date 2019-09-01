@@ -28,7 +28,7 @@ public class UserInfo {
         this.assignAvatar();
     }
 
-    private void assignAvatar() {
+    public void assignAvatar() {
         avatar = getAvatar(1, id);
     }
 

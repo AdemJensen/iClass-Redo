@@ -1,11 +1,92 @@
 package top.chorg.kernel.database;
 
 import top.chorg.kernel.api.auth.GroupInfo;
+import top.chorg.kernel.api.auth.RegisterRequest;
 import top.chorg.kernel.api.auth.UserInfo;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
+import static top.chorg.kernel.Variable.database;
+
 public class AuthData {
+
+    public UserInfo login(String username, String password) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "SELECT id, username, realName, sex, stuNum, email, phone, qq, regTime" +
+                            " FROM iClass.users WHERE username=? AND password=?"
+            );
+            state.setString(1, username);
+            state.setString(2, password);
+            return assignUserInfo(state);
+        } catch (SQLException e) {
+            System.err.printf("Error while validating user (%s)\n", e.getMessage());
+            return null;
+        }
+    }
+
+    private static UserInfo assignUserInfo(PreparedStatement state) throws SQLException {
+        var res = state.executeQuery();
+        if (!res.next()) return null;
+        int userId = res.getInt("id");
+        return new UserInfo(
+                res.getString("username"),
+                new Date(res.getTimestamp("regTime").getTime()),
+                res.getString("realName"),
+                res.getString("stuNum"),
+                res.getString("email"),
+                res.getString("phone"),
+                res.getString("qq"),
+                res.getInt("id"),
+                res.getInt("sex")
+        );
+    }
+
+    public boolean checkUsernameAvail(String username) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "SELECT username FROM iClass.users WHERE username=?"
+            );
+            state.setString(1, username);
+            var res = state.executeQuery();
+            if (!res.next()) return true;
+        } catch (SQLException e) {
+            System.err.printf("Error while checking username (%s)\n", e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+    public int register(RegisterRequest request) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "INSERT INTO iClass.users (username, password, realName, sex, stuNum, email, phone, " +
+                            "qq, regTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp())",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            state.setString(1, request.username);
+            state.setString(2, request.password);
+            state.setString(3, request.realName);
+            state.setInt(4, request.sex);
+            state.setString(5, request.stuNum);
+            state.setString(6, request.email);
+            state.setString(7, request.phone);
+            state.setString(8, request.qq);
+            if (state.executeUpdate() <= 0) throw new SQLException("Invalid action");
+            var rs = state.getGeneratedKeys(); //获取结果
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                throw new SQLException("Invalid userID");
+            }
+        } catch (SQLException e) {
+            System.err.printf("Error while creating user (%s)\n", e.getMessage());
+            return -1;
+        }
+    }
 
     public String[] getRealName(int...id) {
         // TODO
@@ -47,11 +128,17 @@ public class AuthData {
     }
 
     public UserInfo getUserInfo(int id) {
-        // TODO
-        return new UserInfo(
-                "tester" + id, new Date(), "测试账号" + id, "000000000000",
-                "simulation@test.nemo", "15555555555", "1000000000", id, 1
-        );
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "SELECT id, username, realName, sex, stuNum, email, phone, qq, regTime" +
+                            " FROM iClass.users WHERE id=?"
+            );
+            state.setInt(1, id);
+            return assignUserInfo(state);
+        } catch (SQLException e) {
+            System.err.printf("Error while getting user info (%s)\n", e.getMessage());
+            return null;
+        }
     }
 
     public GroupInfo getGroupInfo(int id) {

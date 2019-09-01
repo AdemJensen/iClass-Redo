@@ -1,6 +1,7 @@
 package top.chorg.window.auth;
 
 import top.chorg.support.FileUtils;
+import top.chorg.support.MD5;
 import top.chorg.support.validator.auth.*;
 import top.chorg.window.foundation.*;
 import top.chorg.window.foundation.button.ILinkedButton;
@@ -15,8 +16,9 @@ import top.chorg.window.foundation.notice.INoticeFrame;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
 
-import static top.chorg.kernel.Variable.resource;
+import static top.chorg.kernel.Variable.*;
 
 public class RegisterFrame extends IFrame {
 
@@ -35,23 +37,23 @@ public class RegisterFrame extends IFrame {
 
     public RegisterFrame() {
         super(
-                420, 440,
+                420, 480,
                 "注册用户 - iClass",
                 new FlowLayout(FlowLayout.CENTER),
                 JFrame.DISPOSE_ON_CLOSE
         );
-        this.setLocationCenter(420, 440);
+        this.setLocationCenter(420, 480);
     }
 
     @Override
     public void addComponents() {
         leftMasterPanel = new IPanel(
-                250, 300,
+                250, 340,
                 new EmptyBorder(5, 20, 0, 0),
                 new FlowLayout(FlowLayout.CENTER)
         );
         rightMasterPanel = new IPanel(
-                140, 300,
+                140, 340,
                 new EmptyBorder(5, 5, 0, 0),
                 new FlowLayout(FlowLayout.CENTER)
         );
@@ -151,11 +153,11 @@ public class RegisterFrame extends IFrame {
     }
 
     public String validateData() {
-        String[] errors = new UsernameValidator(usernamePanel.val()).validate("用户名");
-        if (errors.length > 0) return errors[0];
-        errors = new PasswordValidator(passwordPanel.val()).validate("密码");
+        String[] errors = new PasswordValidator(passwordPanel.val()).validate("密码");
         if (errors.length > 0) return errors[0];
         if (!passwordPanel.val().equals(confirmPanel.val())) return "两次密码输入不一致";
+        errors = new UsernameValidator(usernamePanel.val()).validate("用户名");
+        if (errors.length > 0) return errors[0];
         errors = new RealNameValidator(realNamePanel.val()).validate("真实姓名");
         if (errors.length > 0) return errors[0];
         errors = new StuNumberValidator(stuNumPanel.val()).validate("学号");
@@ -167,6 +169,10 @@ public class RegisterFrame extends IFrame {
         }
         if (phonePanel.val().length() > 0) {
             errors = new PhoneValidator(phonePanel.val()).validate("手机");
+            if (errors.length > 0) return errors[0];
+        }
+        if (qqPanel.val().length() > 0) {
+            errors = new QQValidator(qqPanel.val()).validate("QQ号");
             if (errors.length > 0) return errors[0];
         }
         return "";
@@ -189,7 +195,20 @@ public class RegisterFrame extends IFrame {
         addSubmitListener();
 
         avatarButton.addActionListener(e -> {
-            // TODO 添加头像
+            FileDialog dialog = new FileDialog(new Frame(), "选择图片", FileDialog.LOAD);
+            dialog.setMultipleMode(false);
+            dialog.setFilenameFilter((dir, name) -> {
+                String process = name.toUpperCase();
+                return process.endsWith("JPG") || process.endsWith("JPEG") ||
+                        process.endsWith("PNG") || process.endsWith("BMP");
+            });
+            dialog.setVisible(true);
+            String filePath = dialog.getDirectory() + File.separator + dialog.getFile();
+            IImageIcon icon = new IImageIcon(filePath);
+            avatarIcon.resetImage(icon.getImage());
+            avatarIcon.setSize(120, 120);
+            avatarIcon.setRadius(120);
+            this.repaint();
         });
 
         agreementButton.addActionListener(e -> {
@@ -205,8 +224,7 @@ public class RegisterFrame extends IFrame {
 
     }
 
-    // TODO: pack critical data process methods.
-    protected void addSubmitListener() {
+    private void addSubmitListener() {
         buttonPanel.addActionListeners(
                 e -> new IConfirmNoticeFrame(
                         "提交注册请求",
@@ -235,9 +253,19 @@ public class RegisterFrame extends IFrame {
             new IInformationFrame("注册失败", validation).showWindow();
             return;
         }
-        // TODO: 提交注册请求
-
-        this.dispose();
+        String res = authNet.register(
+                usernamePanel.val(),
+                MD5.encode(passwordPanel.val()),
+                realNamePanel.val(),
+                stuNumPanel.val(),
+                sexPanel.val(),
+                emailPanel.val(),
+                phonePanel.val(),
+                qqPanel.val(),
+                avatarIcon
+        );
+        checkResult(res, "注册成功，现在就去登录吧！");
+        if (res.length() == 0 || res.equals("注册成功，但头像上传失败，请稍后在个人主页面重新上传头像")) this.dispose();
     }
 
     public String[] preValidate() {     // TODO: pre validation

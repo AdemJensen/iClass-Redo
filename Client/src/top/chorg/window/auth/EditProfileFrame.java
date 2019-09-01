@@ -13,7 +13,7 @@ public class EditProfileFrame extends RegisterFrame {
     public EditProfileFrame() {
         super();
         this.setTitle("编辑用户信息 - iClass");
-        this.setSize(420, 400);
+        this.setSize(420, 440);
         this.headerHintLabel.setText("请按需修改下列内容（带有*的字段不能留空）");
         this.remove(footerPanel);
         usernamePanel.textField.setEditable(false);
@@ -21,7 +21,7 @@ public class EditProfileFrame extends RegisterFrame {
 
         this.assignData();
 
-        this.setLocationCenter(420, 400);
+        this.setLocationCenter(420, 440);
     }
 
     public void assignData() {
@@ -59,6 +59,10 @@ public class EditProfileFrame extends RegisterFrame {
         }
         if (emailPanel.val().length() > 0) {
             errors = new EmailValidator(emailPanel.val()).validate("电子邮箱");
+            if (errors.length > 0) return errors[0];
+        }
+        if (qqPanel.val().length() > 0) {
+            errors = new QQValidator(qqPanel.val()).validate("QQ号");
             if (errors.length > 0) return errors[0];
         }
         return "";

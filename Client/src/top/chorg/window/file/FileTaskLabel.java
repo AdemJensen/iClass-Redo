@@ -22,6 +22,8 @@ public class FileTaskLabel extends IPanel {
     public JLabel iconLabel, fileNameLabel, statusLabel;
     public JProgressBar bar;
 
+    private boolean curDisplayLabel = true;
+
     public FileTaskLabel(int width, String fileName, FileTaskFrame list, FileNetwork fileCon) {
         super(width, 50, null, new FlowLayout(FlowLayout.LEFT));
         this.list = list;
@@ -70,16 +72,24 @@ public class FileTaskLabel extends IPanel {
     }
 
     public void showStatusLabel(String label) {
-        this.rightPanel.remove(bar);
-        this.rightPanel.add(statusLabel);
+        if (!curDisplayLabel) {
+            this.rightPanel.remove(bar);
+            this.rightPanel.add(statusLabel);
+            this.revalidate();
+            curDisplayLabel = true;
+        }
         this.statusLabel.setText(label);
-        this.revalidate();
     }
 
-    public void showProgressBar() {
-        this.rightPanel.remove(statusLabel);
-        this.rightPanel.add(bar);
-        this.revalidate();
+    public void showProgressBar(int progress, String text) {
+        if (curDisplayLabel) {
+            this.rightPanel.remove(statusLabel);
+            this.rightPanel.add(bar);
+            this.revalidate();
+            curDisplayLabel = false;
+        }
+        bar.setValue(progress);
+        bar.setString(text);
     }
 
     public void setCancelButtonVisibility(boolean visibility) {

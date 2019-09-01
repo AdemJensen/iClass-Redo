@@ -2,6 +2,7 @@ package top.chorg.kernel;
 
 import com.google.gson.Gson;
 import top.chorg.kernel.api.auth.UserInfo;
+import top.chorg.kernel.foundation.MasterNetwork;
 import top.chorg.kernel.foundation.Network;
 import top.chorg.kernel.network.*;
 import top.chorg.support.TimeUtils;
@@ -20,7 +21,7 @@ public class Variable {
     public static Gson gson = new Gson();
     public static NetDispatcher netDispatcher = new NetDispatcher();
     public static StyleContext styleContext = new StyleContext();
-    public static Network masterCon = new Network("127.0.0.1", 8888);
+    public static MasterNetwork masterCon = new MasterNetwork();
     public static Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
 
     public static UserInfo self = null;
@@ -40,6 +41,8 @@ public class Variable {
             builder.append(File.separator);
             builder.append(path);
         }
+        File temp = new File(builder.toString()).getParentFile();
+        if (!temp.isDirectory()) temp.mkdirs();
         return builder.toString();
     }
 
@@ -55,10 +58,15 @@ public class Variable {
         return getRelativePath("download", relativePath);
     }
 
+    public static String getStorageAvatarName(int type, int targetId) {
+        return String.format((type == 1 ? "ua@%d.png" : "ga@%d.png"), targetId);
+    }
+
     public static IImageIcon getAvatar(int type, int targetId) {
-        IImageIcon avatar = new IImageIcon(temp(String.format((type == 1 ? "ua@%d.png" : "ga@%d.png"), targetId)));
+        IImageIcon avatar = new IImageIcon(temp(getStorageAvatarName(type, targetId)));
         if (!avatar.isValid()) {
-            avatar = new IImageIcon(resource("defaultUserIcon.png"));
+            if (type == 1) avatar = new IImageIcon(resource("defaultUserIcon.png"));
+            else avatar = new IImageIcon(resource("defaultGroupIcon.png"));
         }
         return avatar;
     }

@@ -1,9 +1,12 @@
 package top.chorg.kernel.database;
 
-import top.chorg.kernel.api.file.FileInfo;
 import top.chorg.kernel.api.file.FileListQueryInfo;
 
-import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import static top.chorg.kernel.Variable.database;
 
 public class FileData {
 
@@ -18,60 +21,74 @@ public class FileData {
      * @return 获取到的用户列表
      */
     public FileListQueryInfo getFileList(int type, int targetId, int page) {
-        System.out.printf("type=%d, targetId=%d, page=%d\n", type, targetId, page);
-        return new FileListQueryInfo(page, 3, new FileInfo[] {
-                new FileInfo(1, 1, "file1.png", "01", 100000000, new Date()),
-                new FileInfo(2, 2, "file2.cpp", "02", 100000000, new Date()),
-                new FileInfo(3, 3, "file3.py", "03", 100000000, new Date()),
-                new FileInfo(4, 4, "file4.mp4", "04", 100000000, new Date()),
-                new FileInfo(5, 5, "file5.obj", "05", 100000000, new Date()),
-                new FileInfo(6, 6, "file6.flash", "06", 100000000, new Date()),
-                new FileInfo(7, 6, "file7.flash", "06", 100000000, new Date())
-        });
-    }
-
-    public String uploadFile(String path) {
-        // TODO
-        return "";
-    }
-
-    public String downloadFile(int id, String localPath) {
-        // TODO
-        return "";
-    }
-
-    public String uploadImage(String path) {
-        // TODO
-        return "";
-    }
-
-    public String downloadImage(String hash) {
-        // TODO
-        return "";
+        return null;
     }
 
     /**
-     * 从服务器下载文件，基准操作
+     * 用于向服务器中注册文件信息，不要被Dispatcher调用
+     *
+     * @param owner 文件拥有者
+     *              若type = 0，则targetId为班级编号
+     *              若type = 1，则targetId为目标用户编号
+     * @param targetId 文件发送的对象id
+     *                 0 = 班级列表
+     *                 1 = 用户列表
+     * @param storageType 文件发送的对象类型
+     * @param name 上传的文件原本文件名
      * @param hash 文件的hash值
-     * @param localPath 存储在本地的位置
-     * @return 若为空字符串，则下载成功加入队列，否则是有问题
+     * @return 文件在数据库中的id
      */
-    private String downloadFile(String hash, String localPath) {
-        return "";
+    public int registerFile(int owner, int targetId, int storageType, String name, String hash) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "INSERT INTO iClass.files (owner, targetId, storageType, name, hash, size, uploadDate)" +
+                            " VALUES (?, ?, ?, ?, ?, -1, current_timestamp())",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            state.setInt(1, owner);
+            state.setInt(2, targetId);
+            state.setInt(3, storageType);
+            state.setString(4, name);
+            state.setString(5, hash);
+            if (state.executeUpdate() <= 0) throw new SQLException("Invalid action");
+            var rs = state.getGeneratedKeys(); //获取结果
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                throw new SQLException("Invalid fileID");
+            }
+        } catch (SQLException e) {
+            System.err.printf("Error while creating file record (%s)\n", e.getMessage());
+            return -1;
+        }
     }
 
-    /**
-     * 向服务器上传文件，基准操作
-     * @param hash 文件的hash值
-     * @param localPath 存储在本地的位置
-     * @return 若为空字符串，则下载成功加入队列，否则是有问题
-     */
-    private String uploadFile(String hash, String localPath) {
-        return "";
+    public void completeRegFile(int fileId, long size) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "UPDATE iClass.files SET size=? WHERE id=?"
+            );
+            state.setLong(1, size);
+            state.setInt(2, fileId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            System.err.printf("Error while completing file record (%s)\n", e.getMessage());
+        }
     }
 
-    public String removeFileFromList(int fileId) {
-        return "";
+    public String getFileHash(int id) {
+        try {
+            PreparedStatement state = database.prepareStatement(
+                    "SELECT hash FROM iClass.files WHERE id=?"
+            );
+            state.setInt(1, id);
+            var res = state.executeQuery();
+            if (!res.next()) return null;
+            return res.getString("hash");
+        } catch (SQLException e) {
+            System.err.printf("Error while completing file record (%s)\n", e.getMessage());
+            return null;
+        }
     }
 
 }
